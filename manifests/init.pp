@@ -15,7 +15,10 @@ class tor {
 
   file { "/etc/polipo/config":
     ensure  => present,
-    source  => "puppet://$server/modules/polipo/files/polipo.conf",
+    owner   => root,
+    group   => root,
+    mode    => 0644,
+    source  => "puppet://$server/modules/polipo/polipo.conf",
     notify  => Service["polipo"],
   }
 }
