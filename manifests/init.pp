@@ -18,7 +18,7 @@ class tor {
     owner   => root,
     group   => root,
     mode    => 0644,
-    source  => "puppet://$server/modules/polipo/polipo.conf",
+    source  => "puppet://$server/modules/tor/polipo.conf",
     notify  => Service["polipo"],
   }
 }
