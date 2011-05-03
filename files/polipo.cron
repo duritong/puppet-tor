@@ -1,0 +1,22 @@
+#!/bin/sh        
+set -e
+
+FORBIDDEN_FILE=/etc/polipo/forbidden
+CONFIG_FILE=/etc/polipo/config
+
+if [ ! -x /usr/bin/polipo ]; then
+  exit 0
+fi
+
+if [ ! -f $FORBIDDEN_FILE ]; then
+  FORBIDDEN_FILE=/dev/null
+fi  
+
+PIDFILE=/var/run/polipo/polipo.pid
+[ -f "$PIDFILE" ] && kill -USR1 $(cat "$PIDFILE")
+# TODO: remove redirect stderr to /dev/null after the following bug is solved:
+# http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=580434
+su -c \
+	"nice polipo -x -c $CONFIG_FILE forbiddenFile=$FORBIDDEN_FILE &> /dev/null" \
+	proxy
+[ -f "$PIDFILE" ] && kill -USR2 $(cat "$PIDFILE")
