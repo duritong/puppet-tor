@@ -17,6 +17,6 @@ PIDFILE=/var/run/polipo/polipo.pid
 # TODO: remove redirect stderr to /dev/null after the following bug is solved:
 # http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=580434
 su -c \
-	"nice polipo -x -c $CONFIG_FILE forbiddenFile=$FORBIDDEN_FILE &> /dev/null" \
-	proxy
+	"nice polipo -x -c $CONFIG_FILE forbiddenFile=$FORBIDDEN_FILE > /dev/null" \
+	proxy &> /dev/null
 [ -f "$PIDFILE" ] && kill -USR2 $(cat "$PIDFILE")
