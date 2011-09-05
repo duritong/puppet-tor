@@ -3,7 +3,7 @@ class tor {
     ensure => absent,
   }
 
-  package { [ "tor", "polipo" ]:
+  package { [ "tor", "polipo", "torsocks" ]:
     ensure => installed,
   }
 
