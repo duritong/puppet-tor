@@ -29,7 +29,7 @@ class tor {
     owner   => root,
     group   => root,
     mode    => 0644,
-    source  => "puppet://$server/modules/tor/polipo.conf",
+    source  => "puppet:///modules/tor/polipo.conf",
     notify  => Service["polipo"],
     require => File["/etc/polipo"],
   }
@@ -41,6 +41,6 @@ class tor {
     owner   => root,
     group   => root,
     mode    => 0755,
-    source  => "puppet://$server/modules/tor/polipo.cron",
+    source  => "puppet:///modules/tor/polipo.cron",
   }
 }
