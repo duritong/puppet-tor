@@ -6,6 +6,7 @@ class tor::polipo inherits tor {
 
   service { "polipo":
     ensure  => running,
+    enable  => true,
     require => [ Package["polipo"], Service["tor"] ],
   }
 
