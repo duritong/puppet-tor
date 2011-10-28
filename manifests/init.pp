@@ -5,7 +5,7 @@ class tor {
 
   service { "tor":
     ensure  => running,
-    require => [ Package['tor'], Service["polipo"] ],
+    require => Package['tor'],
   }
 
   service { "polipo":
@@ -20,6 +20,7 @@ class tor {
     source  => "puppet:///modules/tor/polipo.conf",
     require => Package["polipo"],
     notify  => Service["polipo"],
+    before  => Service["tor"],
   }
 
   # TODO: restore file to original state after the following bug is solved:
