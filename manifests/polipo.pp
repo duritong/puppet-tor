@@ -1,9 +1,5 @@
 class tor::polipo inherits tor {
 
-  package { "privoxy":
-    ensure => absent,
-  }
-
   package { "polipo":
     ensure => installed,
   }
