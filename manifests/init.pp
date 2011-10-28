@@ -29,6 +29,7 @@ class tor {
     owner   => root,
     group   => root,
     mode    => 0755,
+    require => Package["polipo"],
     source  => "puppet:///modules/tor/polipo.cron",
   }
 }
