@@ -5,11 +5,13 @@ class tor {
 
   service { "tor":
     ensure  => running,
+    enable  => true,
     require => Package['tor'],
   }
 
   service { "polipo":
     ensure  => running,
+    enable  => true,
   }
 
   file { "/etc/polipo/config":
