@@ -1,8 +1,4 @@
 class tor {
-  package { "privoxy":
-    ensure => absent,
-  }
-
   package { [ "tor", "polipo", "torsocks" ]:
     ensure => installed,
   }
