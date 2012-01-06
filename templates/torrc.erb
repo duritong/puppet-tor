@@ -1,0 +1,84 @@
+## This file is managed by puppet.
+
+## socks
+<%- if socks_port then %>
+SocksPort <%= socks_port %>
+<%- end %>
+<%- for address in socks_listen_address %>
+SocksListenAddress <%= address %>
+<%- end %>
+<%- for policy in socks_policies %>
+SocksPolicy <%= policy %>
+<%- end %>
+
+## log
+<%- if log_file then %>
+Log notice file <%= log_file %>
+<%- else %>
+Log notice syslog
+<%- end %>
+
+## runtime
+RunAsDaemon 1
+DataDirectory <%= tor_data_directory %>
+
+## tor controller
+<%- if control_port %>
+ControlPort <%= control_port %>
+HashedControlPassword <%= hashed_control_password %>
+<%- end %>
+
+## hidden services
+<%- for service in hidden_services %>
+HiddenServiceDir /var/tor/<%= service[:name] %>/<%= service[:dir] %>
+<%-   for port in service[:ports] %>
+HiddenServicePort <%= port %>
+<%-   end %>
+<%-  end %>
+
+## relay
+<%- if or_port %>
+ORPort <%= or_port %>
+<%- end %>
+<%- if or_listen_address %>
+ORListenAddress <%= or_listen_address %>
+<%- end %>
+Nickname <%= nickname %>
+Address <%= hostname %>
+<%- if relay_bandwidth_limit then %>
+RelayBandwidthRate <% relay_bandwith_rate %> KB
+<%- end %>
+<%- if relay_bandwidth_burst then %>
+RelayBandwidthBurst <% relay_bandwith_burst %> KB
+<%- end %>
+<%- if accounting_max then %>
+AccountingMax <%= accounting_max %> GB
+<%- end %>
+<%- if accounting_start then %>
+AccountingStart <%= accounting_start %>
+<%- end %>
+<%- if contact_info then %>
+ContactInfo <%= contact_info %>
+<%- end %>
+
+## directory listing
+<%- if dir_port then %>
+DirPort <%= dir_port %>
+<%- end %>
+<%- if dir_listen_address then %>
+DirListenAddress 0.0.0.0:9091
+<%- end %>
+<%- if dir_port_front_page then %>
+DirPortFrontPage /etc/tor/tor-exit-notice.html
+<%- end %>
+
+## relay family
+<%- if my_family then %>
+MyFamily <%= my_family %>
+<%- end %>
+
+## exit policies
+<%- for policy in exit_policies %>
+ExitPolicy <%= policy %>
+<%- end %>
+

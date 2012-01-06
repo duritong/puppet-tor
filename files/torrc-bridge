@@ -1,0 +1,4 @@
+SocksPort 0
+ORPort 443
+BridgeRelay 1
+Exitpolicy reject *:*
