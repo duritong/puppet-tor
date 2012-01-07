@@ -81,8 +81,12 @@ DirPortFrontPage <%= dir_port_front_page %>
 MyFamily <%= my_family %>
 <%- end %>
 
+## bridge relay
+<%- if bridge_relay != 0 then %>
+BridgeRelay <%= bridge_relay %>
+<%- end %>
+
 ## exit policies
 <%- for policy in exit_policies %>
 ExitPolicy <%= policy %>
 <%- end %>
-
