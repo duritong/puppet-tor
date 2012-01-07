@@ -1,10 +1,8 @@
 ## This file is managed by puppet.
 
 ## socks
-<%- if socks_port then %>
 SocksPort <%= socks_port %>
-<%- end %>
-<%- for address in socks_listen_address %>
+<%- for address in socks_listen_addresses %>
 SocksListenAddress <%= address %>
 <%- end %>
 <%- for policy in socks_policies %>
@@ -12,18 +10,20 @@ SocksPolicy <%= policy %>
 <%- end %>
 
 ## log
-<%- if log_file then %>
-Log notice file <%= log_file %>
+<%- if log_rules != [] then %>
+<%-   for log_rule in log_rules %>
+Log <%= log_rule %>
+<%-   end %>
 <%- else %>
 Log notice syslog
 <%- end %>
 
 ## runtime
 RunAsDaemon 1
-DataDirectory <%= tor_data_directory %>
+DataDirectory <%= data_directory %>
 
 ## tor controller
-<%- if control_port %>
+<%- if control_port != '' then %>
 ControlPort <%= control_port %>
 HashedControlPassword <%= hashed_control_password %>
 <%- end %>
@@ -37,43 +37,47 @@ HiddenServicePort <%= port %>
 <%-  end %>
 
 ## relay
-<%- if or_port %>
+<%- if or_port != 0 then %>
 ORPort <%= or_port %>
 <%- end %>
-<%- if or_listen_address %>
+<%- if or_listen_address != '' then %>
 ORListenAddress <%= or_listen_address %>
 <%- end %>
+<%- if nickname != '' then %>
 Nickname <%= nickname %>
-Address <%= hostname %>
-<%- if relay_bandwidth_limit then %>
+<%- end %>
+<%- if address != '' then %>
+Address <%= address %>
+<%- end %>
+<%- if relay_bandwidth_limit != 0 then %>
 RelayBandwidthRate <% relay_bandwith_rate %> KB
 <%- end %>
-<%- if relay_bandwidth_burst then %>
+<%- if relay_bandwidth_burst != 0 then %>
 RelayBandwidthBurst <% relay_bandwith_burst %> KB
 <%- end %>
-<%- if accounting_max then %>
+<%- if accounting_max != 0 then %>
 AccountingMax <%= accounting_max %> GB
 <%- end %>
-<%- if accounting_start then %>
+<%- for accounting in accounting_start %>
 AccountingStart <%= accounting_start %>
 <%- end %>
-<%- if contact_info then %>
+<%- if contact_info != '' then %>
 ContactInfo <%= contact_info %>
 <%- end %>
 
 ## directory listing
-<%- if dir_port then %>
+<%- if dir_port != 0 then %>
 DirPort <%= dir_port %>
 <%- end %>
-<%- if dir_listen_address then %>
-DirListenAddress 0.0.0.0:9091
+<%- if dir_listen_address != '' then %>
+DirListenAddress <%= dir_listen_address %>
 <%- end %>
-<%- if dir_port_front_page then %>
-DirPortFrontPage /etc/tor/tor-exit-notice.html
+<%- if dir_port_front_page != '' then %>
+DirPortFrontPage <%= dir_port_front_page %>
 <%- end %>
 
 ## relay family
-<%- if my_family then %>
+<%- if my_family != '' then %>
 MyFamily <%= my_family %>
 <%- end %>
 
