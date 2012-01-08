@@ -37,6 +37,7 @@ class tor::daemon inherits tor {
       owner   => root,
       group   => root,
       mode    => 0644,
+      notify  => Service["tor"],
     }
   }
 
