@@ -8,7 +8,7 @@ class tor {
     ensure => installed,
   }
 
-  service { "tor": {
+  service { "tor":
     ensure  => running,
     require => Package['tor'],
   }
