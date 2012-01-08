@@ -26,7 +26,7 @@ class tor::daemon inherits tor {
                  $contact_info = '',
                  $dir_port = 0,
                  $dir_listen_address = '',
-                 $dir_front_page = '',
+                 $dir_port_front_page = '',
                  $my_family = '',
                  $exit_policies = [],
                  $bridge_relay = 0) {
