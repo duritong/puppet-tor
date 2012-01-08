@@ -12,7 +12,7 @@ class tor::daemon inherits tor {
                  $socks_policies = [ 'accept 127.0.0.1/16', 'reject *' ],
                  $log_rules = [ 'notice file /var/log/tor/notices.log' ],
                  $data_directory = '/var/tor',
-                 $control_port = false,
+                 $control_port = 0,
                  $hashed_control_password = '',
                  $hidden_services = [],
                  $or_port = 0,
