@@ -23,7 +23,7 @@ RunAsDaemon 1
 DataDirectory <%= data_directory %>
 
 ## tor controller
-<%- if control_port != 0 then -%>
+<%- if control_port != '0' then -%>
 ControlPort <%= control_port %>
 HashedControlPassword <%= hashed_control_password %>
 <%- end -%>

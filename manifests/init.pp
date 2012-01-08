@@ -10,6 +10,7 @@ class tor {
 
   package { [ "tor", "torsocks" ]:
     ensure => installed,
+    require => File["/var/tor"],
   }
 
   group { "debian-tor":
@@ -25,7 +26,7 @@ class tor {
     home      => "/var/tor",
     shell     => "/bin/sh",
     gid       => "debian-tor",
-    require   => Group["debian-tor"],
+    require   => Group["debian-tor"], 
   }
 
   file { "/var/tor":
