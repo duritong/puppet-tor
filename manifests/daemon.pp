@@ -19,8 +19,8 @@ class tor::daemon inherits tor {
                  $or_listen_address = '',
                  $nickname = '',
                  $address = $hostname,
-                 $relay_bandwith_rate = 0,  # KB/s, 0 for no limit.
-                 $relay_bandwith_burst = 0, # KB/s, 0 for no limit.
+                 $relay_bandwidth_rate = 0,  # KB/s, 0 for no limit.
+                 $relay_bandwidth_burst = 0, # KB/s, 0 for no limit.
                  $accounting_max = 0,       # GB, 0 for no limit.
                  $accounting_start = [],
                  $contact_info = '',
