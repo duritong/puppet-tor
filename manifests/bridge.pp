@@ -8,8 +8,8 @@ class tor::bridge inherits tor::daemon {
                         hidden_services        => [],
                         or_port                => 443,
                         address                => '',
-                        relay_bandwith_rate    => 0,
-                        relay_bandwith_burst   => 0,
+                        relay_bandwidth_rate    => 0,
+                        relay_bandwidth_burst   => 0,
                         exit_policies          => 'reject *:*',
                         bridge_relay           => 1,
                       }
