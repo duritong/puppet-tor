@@ -1,5 +1,9 @@
 class polipo {
 
+  package { "polipo":
+    ensure => installed,
+  }
+
   service { "polipo":
     ensure  => running,
     require => Package["polipo"],

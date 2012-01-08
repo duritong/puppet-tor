@@ -1,6 +1,6 @@
 class tor::relay inherits tor::daemon {
 
-  tor::daemon::config { "tor-relay-$name":
+  tor::daemon::config { "tor-relay":
                         socks_port             => 0,
                         socks_listen_addresses => [],
                         or_port                => 9001,

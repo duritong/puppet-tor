@@ -7,7 +7,7 @@ class tor::daemon inherits tor {
     require => [ Package['tor'], Service["polipo"] ],
   }
 
-  define config( $socks_port = 9001,
+  define config( $socks_port = 9050,
                  $socks_listen_addresses = [ '127.0.0.1' ],
                  $socks_policies = [ 'accept 127.0.0.1/16', 'reject *' ],
                  $log_rules = [ 'notice file /var/log/tor/notices.log' ],
