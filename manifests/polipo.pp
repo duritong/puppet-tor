@@ -1,4 +1,8 @@
-class polipo {
+class tor::polipo inherits tor {
+
+  package { "privoxy":
+    ensure => absent,
+  }
 
   package { "polipo":
     ensure => installed,
@@ -6,7 +10,7 @@ class polipo {
 
   service { "polipo":
     ensure  => running,
-    require => Package["polipo"],
+    require => [ Package["polipo"], Service["tor"] ],
   }
 
   file { "/etc/polipo":
