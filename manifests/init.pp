@@ -16,7 +16,6 @@ class tor {
   group { "debian-tor":
     ensure    => present,
     allowdupe => false,
-    require   => Package["tor"],
   }
 
   user { "debian-tor":
