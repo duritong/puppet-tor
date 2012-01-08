@@ -17,7 +17,7 @@ class tor::relay inherits tor::daemon {
                         dir_listen_address     => '',
                         dir_port_front_page    => '',
                         my_family              => '',
-                        exit_policies          => [],
+                        exit_policies          => [ 'reject *:*' ],
                       }
 
 } 
