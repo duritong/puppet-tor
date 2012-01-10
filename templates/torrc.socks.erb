@@ -1,0 +1,10 @@
+# socks
+
+SocksPort <%= socks_port %>
+<%- for listen_address in socks_listen_addresses -%>
+SocksListenAddress <%= listen_address %>
+<%- end -%>
+<%- for policy in socks_policies -%>
+SocksPolicy <%= policy %>
+<%- end -%>
+

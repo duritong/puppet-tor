@@ -1,0 +1,7 @@
+# hidden service <%= name %>
+
+HiddenServiceDir /var/tor/<%= name %>
+<%- for port in ports -%>
+HiddenServicePort <%= port %>
+<%- end -%>
+

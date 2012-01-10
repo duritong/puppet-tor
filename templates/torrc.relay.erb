@@ -1,0 +1,36 @@
+# relay
+
+<%- if port != 0 then -%>
+ORPort <%= port %>
+<%-   for listen_address in listen_addresses -%>
+ORListenAddress <%= listen_address %>
+<%-   end -%>
+<%-   if nickname != '' then -%>
+Nickname <%= nickname %>
+<%-   end -%>
+<%-   if address != '' then -%>
+Address <%= address %>
+<%-   end -%>
+<%-   if relay_bandwidth_rate != '0' then -%>
+RelayBandwidthRate <%= relay_bandwidth_rate %> KB
+<%-   end -%>
+<%-   if relay_bandwidth_burst != '0' then -%>
+RelayBandwidthBurst <%= relay_bandwidth_burst %> KB
+<%-   end -%>
+<%-   if accounting_max != '0' then -%>
+AccountingMax <%= accounting_max %> GB
+<%-   end -%>
+<%-   for accounting in accounting_start -%>
+AccountingStart <%= accounting_start %>
+<%-   end -%>
+<%-   if contact_info != '' then -%>
+ContactInfo <%= contact_info %>
+<%-   end -%>
+<%- end -%>
+<%- if my_family != '' then -%>
+MyFamily <%= my_family %>
+<%- end -%>
+<%- if bridge_relay != '0' then -%>
+BridgeRelay <%= bridge_relay %>
+<%- end -%>
+

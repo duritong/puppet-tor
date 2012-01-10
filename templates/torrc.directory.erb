@@ -1,0 +1,12 @@
+# directory listing
+
+<%- if dir_port != '0' then -%>
+DirPort <%= dir_port %>
+<%- end -%>
+<%- if dir_listen_address != '' then -%>
+DirListenAddress <%= dir_listen_address %>
+<%- end -%>
+<%- if dir_port_front_page != '' then -%>
+DirPortFrontPage <%= dir_port_front_page %>
+<%- end -%>
+

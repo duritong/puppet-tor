@@ -1,0 +1,10 @@
+# exit policies: <%= name %>
+
+<%- for policy in accept -%>
+ExitPolicy accept <%= policy %>
+<%- end -%>
+
+<%- for policy in reject -%>
+ExitPolicy reject <%= policy %>
+<%- end -%>
+
