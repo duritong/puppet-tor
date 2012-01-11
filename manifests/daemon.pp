@@ -68,7 +68,7 @@ class tor::daemon inherits tor {
   }
 
   # global configurations
-  define tor::global_opts( $log_rules = [ 'notice file /var/log/tor/notices.log' ],
+  define tor::daemon::global_opts( $log_rules = [ 'notice file /var/log/tor/notices.log' ],
                            $ensure = present ) {
     file { "${spool_dir}/01.global":
       content => template('tor/torrc.global.erb'),
@@ -80,7 +80,7 @@ class tor::daemon inherits tor {
   }
 
   # socks definition
-  define tor::socks( $socks_port = 0,
+  define tor::daemon::socks( $socks_port = 0,
                      $socks_listen_addresses = [],
                      $socks_policies = [] ) {
     file { "${spool_dir}/02.socks":
@@ -93,7 +93,7 @@ class tor::daemon inherits tor {
   }
 
   # relay definition
-  define tor::relay( $port                  = 0,
+  define tor::daemon::relay( $port                  = 0,
                      $listen_addresses      = [],
                      $relay_bandwidth_rate  = 0,  # KB/s, 0 for no limit.
                      $relay_bandwidth_burst = 0,  # KB/s, 0 for no limit.
@@ -116,7 +116,7 @@ class tor::daemon inherits tor {
   } 
 
   # control definition
-  define tor::control( $port                    = 0,
+  define tor::daemon::control( $port                    = 0,
                        $hashed_control_password = '',
                        $ensure                  = present ) {
     file { "${spool_dir}/04.control":
@@ -129,7 +129,7 @@ class tor::daemon inherits tor {
   } 
 
   # hidden services definition
-  define tor::hidden_service( $ports = [],
+  define tor::daemon::hidden_service( $ports = [],
                               $ensure = present ) {
     file { "${spool_dir}/05.hidden_service.${name}":
       content => template('tor/torrc.hidden_service.erb'),
@@ -141,7 +141,7 @@ class tor::daemon inherits tor {
   } 
   
   # directory advertising
-  define tor::directory ( $port = 0,
+  define tor::daemon::directory ( $port = 0,
                           $listen_addresses = [],
                           $port_front_page = '',
                           $ensure = present ) {
@@ -161,7 +161,7 @@ class tor::daemon inherits tor {
   } 
 
   # exit policies
-  define tor::exit_policy( $accept = [],
+  define tor::daemon::exit_policy( $accept = [],
                            $reject = [],
                            $ensure = present ) {
     file { "${spool_dir}/07.exit_policy.${name}":
