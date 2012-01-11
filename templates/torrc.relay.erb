@@ -19,9 +19,9 @@ RelayBandwidthBurst <%= relay_bandwidth_burst %> KB
 <%-   end -%>
 <%-   if accounting_max != '0' then -%>
 AccountingMax <%= accounting_max %> GB
-<%-   end -%>
-<%-   for accounting in accounting_start -%>
+<%-     for accounting in accounting_start -%>
 AccountingStart <%= accounting_start %>
+<%-     end -%>
 <%-   end -%>
 <%-   if contact_info != '' then -%>
 ContactInfo <%= contact_info %>

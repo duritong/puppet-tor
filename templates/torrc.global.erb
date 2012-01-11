@@ -1,0 +1,15 @@
+# runtime
+
+RunAsDaemon 1
+DataDirectory <%= data_dir %>
+
+# log
+
+<%- if log_rules != [] then -%>
+<%-   for log_rule in log_rules -%>
+Log <%= log_rule %>
+<%-   end -%>
+<%- else -%>
+Log notice syslog
+<%- end -%>
+

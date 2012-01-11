@@ -1,86 +1,100 @@
 # tor::daemon
-class tor::daemon inherits tor::polipo {
+class tor::daemon inherits tor {
 
-  group { "debian-tor":
+  # config variables
+  $data_dir = '/var/tor'
+  $config_file = '/etc/tor/torrc'
+  $spool_dir = '/var/lib/puppet/modules/tor/torrc.d'
+
+  # packages, user, group
+  group { 'debian-tor':
     ensure    => present,
     allowdupe => false,
   }
 
-  Package[ "tor", "torsocks" ] {
-    require => File["/var/tor"],
+  Package[ 'tor', 'torsocks' ] {
+    require => File[$data_dir],
   }
 
-  user { "debian-tor":
+  user { 'debian-tor':
     allowdupe => false,
-    comment   => "tor user,,,",
+    comment   => 'tor user,,,',
     ensure    => present,
-    home      => "/var/tor",
-    shell     => "/bin/sh",
-    gid       => "debian-tor",
-    require   => Group["debian-tor"], 
+    home      => $data_dir,
+    shell     => '/bin/sh',
+    gid       => 'debian-tor',
+    require   => Group['debian-tor'], 
   }
 
-  file { "/var/tor":
+  # directories
+  file { "${data_dir}":
     ensure  => directory,
     mode    => 0755,
-    owner   => debian-tor,
-    group   => debian-tor,
-    require => User["debian-tor"],
+    owner   => 'debian-tor',
+    group   => 'debian-tor',
+    require => User['debian-tor'],
   }
 
-  file { "/etc/tor":
+  file { '/etc/tor':
     ensure  => directory,
     mode    => 0755,
-    owner   => debian-tor,
-    group   => debian-tor,
-    require => User["debian-tor"],
+    owner   => 'debian-tor',
+    group   => 'debian-tor',
+    require => User['debian-tor'],
   }
 
-  file { "/etc/tor.d":
-    ensure  => directory,
-    mode    => 0755,
-    owner   => debian-tor,
-    group   => debian-tor,
-    require => User["debian-tor"],
+  file {"${spool_dir}":
+    ensure => directory,
+    force => true,
+    owner => 'debian-tor', group => 'debian-tor', mode => 0755, 
   }
 
-  # configuration file
-  define config(                 $log_rules = [ 'notice file /var/log/tor/notices.log' ],
-                 $data_directory = '/var/tor',
-                 $hidden_services = [],
-                 $dir_port = 0,
-                 $dir_listen_address = '',
-                 $dir_port_front_page = '',
-                 $exit_policies = [],
-                 $bridge_relay = 0) {
-
-  }
-
-  concatenated_file { "/etc/tor/torrc":
-    dir    => '/etc/tor.d',
+  # tor configuration file
+  concatenated_file { '${config_file}':
+    dir    => $spool_dir,
+    header => "${spool_dir}/00.header"
     mode   => 0600,
-    notify => Service["tor"],
+    notify => Service['tor'],
+    owner => 'debian-tor', group => 'debian-tor', mode => 0755, 
   }
 
-  exec { "rm -f /etc/tor.d/*":
-      alias => 'clean-tor.d',
+  # config file headers
+  file { '${spool_dir}/00.header':
+    content => template('tor/header.erb'),
+    require => File['${spool_dir}'],
+    notify  => Exec['concat_${config_file}'],
+    ensure  => present,
+    owner => 'debian-tor', group => 'debian-tor', mode => 0755, 
+  }
+
+  # global configurations
+  define tor::global_opts( $log_rules = [ 'notice file /var/log/tor/notices.log' ],
+                           $ensure = present ) {
+    file { '${spool_dir}/01.global':
+      content => template('tor/global.erb'),
+      require => File['${spool_dir}'],
+      notify  => Exec['concat_${config_file}'],
+      ensure  => $ensure,
+      owner => 'debian-tor', group => 'debian-tor', mode => 0755, 
+    }
   }
 
   # socks definition
-  define tor::socks( $socks_port = 9050,
-                     $socks_listen_addresses = [ '127.0.0.1' ],
-                     $socks_policies = [ 'accept 127.0.0.1/16', 'reject *' ], ) {
-    file { "/etc/tor.d/01.socks":
-      require => File['/etc/tor.d'],
-      notify  => Exec['concat_/etc/tor/torrc'],
+  define tor::socks( $socks_port = 0,
+                     $socks_listen_addresses = [],
+                     $socks_policies = [] ) {
+    file { '${spool_dir}/02.socks':
+      content => template('tor/socks.erb'),
+      require => File['${spool_dir}'],
+      notify  => Exec['concat_${config_file}'],
       ensure  => $ensure,
-      require => Exec['clean-tor.d'],
+      owner => 'debian-tor', group => 'debian-tor', mode => 0755, 
     }
   }
 
   # relay definition
   define tor::relay( $port                  = 0,
-                     $listen_address        = '',
+                     $listen_addresses      = [],
                      $nickname              = '',
                      $address               = $hostname,
                      $relay_bandwidth_rate  = 0,  # KB/s, 0 for no limit.
@@ -89,60 +103,67 @@ class tor::daemon inherits tor::polipo {
                      $accounting_start      = [],
                      $contact_info          = '',
                      $my_family             = '',
-                     $ensure                = absent, ) {
+                     $bridge_reay           = 0,
+                     $ensure                = present ) {
 
-    file { "/etc/tor.d/02.relay":
-      require => File['/etc/tor.d'],
-      notify  => Exec['concat_/etc/tor/torrc'],
+    file { '${spool_dir}/03.relay':
+      content => template('tor/relay.erb'),
+      require => File['${spool_dir}'],
+      notify  => Exec['concat_${config_file}'],
       ensure  => $ensure,
-      require => Exec['clean-tor.d'],
+      owner => 'debian-tor', group => 'debian-tor', mode => 0755, 
     }
   } 
 
   # control definition
   define tor::control( $port                    = 0,
                        $hashed_control_password = '',
-                       $ensure                  = absent ) {
-    file { "/etc/tor.d/03.control":
-      require => File['/etc/tor.d'],
-      notify  => Exec['concat_/etc/tor/torrc'],
+                       $ensure                  = present ) {
+    file { '${spool_dir}/04.control':
+      content => template('tor/control.erb'),
+      require => File['${spool_dir}'],
+      notify  => Exec['concat_${config_file}'],
       ensure  => $ensure,
-      require => Exec['clean-tor.d'],
+      owner => 'debian-tor', group => 'debian-tor', mode => 0755, 
     }
   } 
 
   # hidden services definition
   define tor::hidden_service( $ports = [],
                               $ensure = present ) {
-    file { "/etc/tor.d/04.hidden_service.$name":
-      require => File['/etc/tor.d'],
-      notify  => Exec['concat_/etc/tor/torrc'],
+    file { '${spool_dir}/05.hidden_service.${name}':
+      content => template('tor/hidden_service.erb'),
+      require => File['${spool_dir}'],
+      notify  => Exec['concat_${config_file}'],
       ensure  => $ensure,
-      require => Exec['clean-tor.d'],
+      owner => 'debian-tor', group => 'debian-tor', mode => 0755, 
     }
   } 
   
   # directory advertising
-  define tor::directory ( $ports = [],
-                          $hashed_password = '',
-                          $ensure = present, ) {
-    file { "/etc/tor.d/05.directory":
-      require => File['/etc/tor.d'],
-      notify  => Exec['concat_/etc/tor/torrc'],
+  define tor::directory ( $port = 0,
+                          $listen_addresses = [],
+                          $port_front_page = '',
+                          $ensure = present ) {
+    file { '${spool_dir}/06.directory':
+      content => template('tor/directory.erb'),
+      require => File['${spool_dir}'],
+      notify  => Exec['concat_${config_file}'],
       ensure  => $ensure,
-      require => Exec['clean-tor.d'],
+      owner => 'debian-tor', group => 'debian-tor', mode => 0755, 
     }
   } 
 
   # exit policies
   define tor::exit_policy( $accept = [],
                            $reject = [],
-                           $ensure = present, ) {
-    file { "/etc/tor.d/06.exit_policy":
-      require => File['/etc/tor.d'],
-      notify  => Exec['concat_/etc/tor/torrc'],
+                           $ensure = present ) {
+    file { '${spool_dir}/07.exit_policy.${name}':
+      content => template('tor/exit_policy.erb'),
+      require => File['${spool_dir}'],
+      notify  => Exec['concat_${config_file}'],
       ensure  => $ensure,
-      require => Exec['clean-tor.d'],
+      owner => 'debian-tor', group => 'debian-tor', mode => 0755, 
     }
   } 
 }
