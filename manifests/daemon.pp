@@ -4,7 +4,7 @@ class tor::daemon inherits tor {
   # config variables
   $data_dir = '/var/tor'
   $config_file = '/etc/tor/torrc'
-  $spool_dir = '/var/lib/puppet/modules/tor/torrc.d'
+  $spool_dir = '/var/lib/puppet/modules/tor'
 
   # packages, user, group
   group { 'debian-tor':
@@ -45,8 +45,13 @@ class tor::daemon inherits tor {
 
   file {"${spool_dir}":
     ensure => directory,
-    force => true,
     owner => 'debian-tor', group => 'debian-tor', mode => 0755, 
+  }
+
+  file {"${spool_dir}/torrc.d":
+    ensure => directory,
+    owner => 'debian-tor', group => 'debian-tor', mode => 0755, 
+    require => File[${spool_dir}],
   }
 
   # tor configuration file
