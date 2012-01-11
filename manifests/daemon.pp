@@ -81,9 +81,9 @@ class tor::daemon inherits tor {
   }
 
   # socks definition
-  define socks( $socks_port = 0,
-                     $socks_listen_addresses = [],
-                     $socks_policies = [] ) {
+  define socks( $port = 0,
+                $listen_addresses = [],
+                $policies = [] ) {
     file { "${spool_dir}/02.socks":
       content => template('tor/torrc.socks.erb'),
       require => File["${spool_dir}"],
@@ -95,15 +95,15 @@ class tor::daemon inherits tor {
 
   # relay definition
   define relay( $port                  = 0,
-                     $listen_addresses      = [],
-                     $relay_bandwidth_rate  = 0,  # KB/s, 0 for no limit.
-                     $relay_bandwidth_burst = 0,  # KB/s, 0 for no limit.
-                     $accounting_max        = 0,  # GB, 0 for no limit.
-                     $accounting_start      = [],
-                     $contact_info          = '',
-                     $my_family             = '', # TODO: autofill with other relays
-                     $bridge_reay           = 0,
-                     $ensure                = present ) {
+                $listen_addresses      = [],
+                $relay_bandwidth_rate  = 0,  # KB/s, 0 for no limit.
+                $relay_bandwidth_burst = 0,  # KB/s, 0 for no limit.
+                $accounting_max        = 0,  # GB, 0 for no limit.
+                $accounting_start      = [],
+                $contact_info          = '',
+                $my_family             = '', # TODO: autofill with other relays
+                $bridge_reay           = 0,
+                $ensure                = present ) {
     $nickname = $name
     $address = $hostname
 
@@ -118,8 +118,8 @@ class tor::daemon inherits tor {
 
   # control definition
   define control( $port                    = 0,
-                       $hashed_control_password = '',
-                       $ensure                  = present ) {
+                  $hashed_control_password = '',
+                  $ensure                  = present ) {
     file { "${spool_dir}/04.control":
       content => template('tor/torrc.control.erb'),
       require => File["${spool_dir}"],
@@ -143,9 +143,9 @@ class tor::daemon inherits tor {
   
   # directory advertising
   define directory ( $port = 0,
-                          $listen_addresses = [],
-                          $port_front_page = '',
-                          $ensure = present ) {
+                     $listen_addresses = [],
+                     $port_front_page = '',
+                     $ensure = present ) {
     file { "${spool_dir}/06.directory":
       content => template('tor/torrc.directory.erb'),
       require => [ File["${spool_dir}"], File['/etc/tor/tor-exit-notice.html'] ],
@@ -163,8 +163,8 @@ class tor::daemon inherits tor {
 
   # exit policies
   define exit_policy( $accept = [],
-                           $reject = [],
-                           $ensure = present ) {
+                      $reject = [],
+                      $ensure = present ) {
     file { "${spool_dir}/07.exit_policy.${name}":
       content => template('tor/torrc.exit_policy.erb'),
       require => File["${spool_dir}"],
