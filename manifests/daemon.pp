@@ -74,7 +74,7 @@ class tor::daemon inherits tor {
     file { "${spool_dir}/01.global":
       content => template('tor/torrc.global.erb'),
       require => File["${spool_dir}"],
-      notify  => Exec["concat_${config_file}"],
+      notify  => Exec["concat_${tor::daemon::config_file}"],
       ensure  => $ensure,
       owner => 'debian-tor', group => 'debian-tor', mode => 0644, 
     }
@@ -87,7 +87,7 @@ class tor::daemon inherits tor {
     file { "${spool_dir}/02.socks":
       content => template('tor/torrc.socks.erb'),
       require => File["${spool_dir}"],
-      notify  => Exec["concat_${config_file}"],
+      notify  => Exec["concat_${tor::daemon::config_file}"],
       ensure  => $ensure,
       owner => 'debian-tor', group => 'debian-tor', mode => 0644, 
     }
@@ -110,7 +110,7 @@ class tor::daemon inherits tor {
     file { "${spool_dir}/03.relay":
       content => template('tor/torrc.relay.erb'),
       require => File["${spool_dir}"],
-      notify  => Exec["concat_${config_file}"],
+      notify  => Exec["concat_${tor::daemon::config_file}"],
       ensure  => $ensure,
       owner => 'debian-tor', group => 'debian-tor', mode => 0644, 
     }
@@ -123,7 +123,7 @@ class tor::daemon inherits tor {
     file { "${spool_dir}/04.control":
       content => template('tor/torrc.control.erb'),
       require => File["${spool_dir}"],
-      notify  => Exec["concat_${config_file}"],
+      notify  => Exec["concat_${tor::daemon::config_file}"],
       ensure  => $ensure,
       owner => 'debian-tor', group => 'debian-tor', mode => 0600, 
     }
@@ -135,7 +135,7 @@ class tor::daemon inherits tor {
     file { "${spool_dir}/05.hidden_service.${name}":
       content => template('tor/torrc.hidden_service.erb'),
       require => File["${spool_dir}"],
-      notify  => Exec["concat_${config_file}"],
+      notify  => Exec["concat_${tor::daemon::config_file}"],
       ensure  => $ensure,
       owner => 'debian-tor', group => 'debian-tor', mode => 0644, 
     }
@@ -149,7 +149,7 @@ class tor::daemon inherits tor {
     file { "${spool_dir}/06.directory":
       content => template('tor/torrc.directory.erb'),
       require => [ File["${spool_dir}"], File['/etc/tor/tor-exit-notice.html'] ],
-      notify  => Exec["concat_${config_file}"],
+      notify  => Exec["concat_${tor::daemon::config_file}"],
       ensure  => $ensure,
       owner => 'debian-tor', group => 'debian-tor', mode => 0644, 
     }
@@ -168,7 +168,7 @@ class tor::daemon inherits tor {
     file { "${spool_dir}/07.exit_policy.${name}":
       content => template('tor/torrc.exit_policy.erb'),
       require => File["${spool_dir}"],
-      notify  => Exec["concat_${config_file}"],
+      notify  => Exec["concat_${tor::daemon::config_file}"],
       ensure  => $ensure,
       owner => 'debian-tor', group => 'debian-tor', mode => 0644, 
     }
