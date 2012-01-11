@@ -8,13 +8,19 @@ class tor::daemon inherits tor {
   $snippet_dir = "${spool_dir}/torrc.d"
 
   # packages, user, group
-  group { 'debian-tor':
-    ensure    => present,
-    allowdupe => false,
+  service { 'tor':
+    ensure    => running,
+    require   => Package['tor'],
+    subscribe => File[$config_file],
   }
 
   Package[ 'tor', 'torsocks' ] {
     require => File[$data_dir],
+  }
+
+  group { 'debian-tor':
+    ensure    => present,
+    allowdupe => false,
   }
 
   user { 'debian-tor':
@@ -59,7 +65,6 @@ class tor::daemon inherits tor {
   concatenated_file { "${config_file}":
     dir    => $snippet_dir,
     mode   => 0600,
-    notify => Service['tor'],
     owner => 'debian-tor', group => 'debian-tor', 
   }
 
