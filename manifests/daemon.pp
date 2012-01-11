@@ -93,7 +93,7 @@ class tor::daemon inherits tor {
       content => template('tor/torrc.socks.erb'),
       require => File["${tor::daemon::snippet_dir}"],
       notify  => Exec["concat_${tor::daemon::config_file}"],
-      ensure  => $ensure,
+      ensure  => present,
       owner => 'debian-tor', group => 'debian-tor', mode => 0644, 
     }
   }
