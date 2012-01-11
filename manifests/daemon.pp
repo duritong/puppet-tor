@@ -154,7 +154,7 @@ class tor::daemon inherits tor {
       owner => 'debian-tor', group => 'debian-tor', mode => 0644, 
     }
     file { '/etc/tor/tor-exit-notice.html':
-      source  => "puppet://$server/modules/tor/tor-exit-notice",
+      source  => "puppet://$server/modules/tor/tor-exit-notice.html",
       require => File['/etc/tor'],
       ensure  => $ensure,
       owner => 'debian-tor', group => 'debian-tor', mode => 0644, 
