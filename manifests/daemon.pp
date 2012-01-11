@@ -51,7 +51,7 @@ class tor::daemon inherits tor {
   file {"${spool_dir}/torrc.d":
     ensure => directory,
     owner => 'debian-tor', group => 'debian-tor', mode => 0755, 
-    require => File[${spool_dir}],
+    require => File[$spool_dir],
   }
 
   # tor configuration file
