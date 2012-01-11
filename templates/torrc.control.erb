@@ -1,7 +1,7 @@
 # tor controller
 
-<%- if control_port != '0' then -%>
-ControlPort <%= control_port %>
+<%- if port != '0' then -%>
+ControlPort <%= port %>
 HashedControlPassword <%= hashed_control_password %>
 <%- end -%>
 
