@@ -73,8 +73,7 @@ class tor::daemon inherits tor {
   }
 
   # global configurations
-  define global_opts( $data_dir = $data_dir,
-                      $log_rules = [ 'notice file /var/log/tor/notices.log' ],
+  define global_opts( $log_rules = [ 'notice file /var/log/tor/notices.log' ],
                       $ensure = present ) {
     file { "${tor::daemon::snippet_dir}/01.global":
       content => template('tor/torrc.global.erb'),
@@ -110,7 +109,7 @@ class tor::daemon inherits tor {
                 $bridge_relay          = 0,
                 $ensure                = present ) {
     $nickname = $name
-    $address = $hostname
+    $address = "tor.${domain}"
 
     file { "${tor::daemon::snippet_dir}/03.relay":
       content => template('tor/torrc.relay.erb'),
@@ -149,7 +148,7 @@ class tor::daemon inherits tor {
   # directory advertising
   define directory ( $port = 0,
                      $listen_addresses = [],
-                     $port_front_page = '',
+                     $port_front_page = '/etc/tor/tor-exit-notice.html',
                      $ensure = present ) {
     file { "${tor::daemon::snippet_dir}/06.directory":
       content => template('tor/torrc.directory.erb'),
