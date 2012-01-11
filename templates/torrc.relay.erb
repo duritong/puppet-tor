@@ -11,11 +11,11 @@ Nickname <%= nickname %>
 <%-   if address != '' then -%>
 Address <%= address %>
 <%-   end -%>
-<%-   if relay_bandwidth_rate != '0' then -%>
-RelayBandwidthRate <%= relay_bandwidth_rate %> KB
+<%-   if bandwidth_rate != '0' then -%>
+RelayBandwidthRate <%= bandwidth_rate %> KB
 <%-   end -%>
-<%-   if relay_bandwidth_burst != '0' then -%>
-RelayBandwidthBurst <%= relay_bandwidth_burst %> KB
+<%-   if bandwidth_burst != '0' then -%>
+RelayBandwidthBurst <%= bandwidth_burst %> KB
 <%-   end -%>
 <%-   if accounting_max != '0' then -%>
 AccountingMax <%= accounting_max %> GB

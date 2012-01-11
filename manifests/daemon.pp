@@ -96,8 +96,8 @@ class tor::daemon inherits tor {
   # relay definition
   define relay( $port                  = 0,
                 $listen_addresses      = [],
-                $relay_bandwidth_rate  = 0,  # KB/s, 0 for no limit.
-                $relay_bandwidth_burst = 0,  # KB/s, 0 for no limit.
+                $bandwidth_rate  = 0,  # KB/s, 0 for no limit.
+                $bandwidth_burst = 0,  # KB/s, 0 for no limit.
                 $accounting_max        = 0,  # GB, 0 for no limit.
                 $accounting_start      = [],
                 $contact_info          = '',
