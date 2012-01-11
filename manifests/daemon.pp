@@ -76,9 +76,9 @@ class tor::daemon inherits tor {
   define global_opts( $data_dir = $data_dir,
                       $log_rules = [ 'notice file /var/log/tor/notices.log' ],
                       $ensure = present ) {
-    file { "${snippet_dir}/01.global":
+    file { "${tor::daemon::snippet_dir}/01.global":
       content => template('tor/torrc.global.erb'),
-      require => File["${snippet_dir}"],
+      require => File["${tor::daemon::snippet_dir}"],
       notify  => Exec["concat_${tor::daemon::config_file}"],
       ensure  => $ensure,
       owner => 'debian-tor', group => 'debian-tor', mode => 0644, 
@@ -89,9 +89,9 @@ class tor::daemon inherits tor {
   define socks( $port = 0,
                 $listen_addresses = [],
                 $policies = [] ) {
-    file { "${snippet_dir}/02.socks":
+    file { "${tor::daemon::snippet_dir}/02.socks":
       content => template('tor/torrc.socks.erb'),
-      require => File["${snippet_dir}"],
+      require => File["${tor::daemon::snippet_dir}"],
       notify  => Exec["concat_${tor::daemon::config_file}"],
       ensure  => $ensure,
       owner => 'debian-tor', group => 'debian-tor', mode => 0644, 
@@ -112,9 +112,9 @@ class tor::daemon inherits tor {
     $nickname = $name
     $address = $hostname
 
-    file { "${snippet_dir}/03.relay":
+    file { "${tor::daemon::snippet_dir}/03.relay":
       content => template('tor/torrc.relay.erb'),
-      require => File["${snippet_dir}"],
+      require => File["${tor::daemon::snippet_dir}"],
       notify  => Exec["concat_${tor::daemon::config_file}"],
       ensure  => $ensure,
       owner => 'debian-tor', group => 'debian-tor', mode => 0644, 
@@ -125,9 +125,9 @@ class tor::daemon inherits tor {
   define control( $port                    = 0,
                   $hashed_control_password = '',
                   $ensure                  = present ) {
-    file { "${snippet_dir}/04.control":
+    file { "${tor::daemon::snippet_dir}/04.control":
       content => template('tor/torrc.control.erb'),
-      require => File["${snippet_dir}"],
+      require => File["${tor::daemon::snippet_dir}"],
       notify  => Exec["concat_${tor::daemon::config_file}"],
       ensure  => $ensure,
       owner => 'debian-tor', group => 'debian-tor', mode => 0600, 
@@ -137,9 +137,9 @@ class tor::daemon inherits tor {
   # hidden services definition
   define hidden_service( $ports = [],
                               $ensure = present ) {
-    file { "${snippet_dir}/05.hidden_service.${name}":
+    file { "${tor::daemon::snippet_dir}/05.hidden_service.${name}":
       content => template('tor/torrc.hidden_service.erb'),
-      require => File["${snippet_dir}"],
+      require => File["${tor::daemon::snippet_dir}"],
       notify  => Exec["concat_${tor::daemon::config_file}"],
       ensure  => $ensure,
       owner => 'debian-tor', group => 'debian-tor', mode => 0644, 
@@ -151,9 +151,9 @@ class tor::daemon inherits tor {
                      $listen_addresses = [],
                      $port_front_page = '',
                      $ensure = present ) {
-    file { "${snippet_dir}/06.directory":
+    file { "${tor::daemon::snippet_dir}/06.directory":
       content => template('tor/torrc.directory.erb'),
-      require => [ File["${snippet_dir}"], File['/etc/tor/tor-exit-notice.html'] ],
+      require => [ File["${tor::daemon::snippet_dir}"], File['/etc/tor/tor-exit-notice.html'] ],
       notify  => Exec["concat_${tor::daemon::config_file}"],
       ensure  => $ensure,
       owner => 'debian-tor', group => 'debian-tor', mode => 0644, 
@@ -170,9 +170,9 @@ class tor::daemon inherits tor {
   define exit_policy( $accept = [],
                       $reject = [],
                       $ensure = present ) {
-    file { "${snippet_dir}/07.exit_policy.${name}":
+    file { "${tor::daemon::snippet_dir}/07.exit_policy.${name}":
       content => template('tor/torrc.exit_policy.erb'),
-      require => File["${snippet_dir}"],
+      require => File["${tor::daemon::snippet_dir}"],
       notify  => Exec["concat_${tor::daemon::config_file}"],
       ensure  => $ensure,
       owner => 'debian-tor', group => 'debian-tor', mode => 0644, 
