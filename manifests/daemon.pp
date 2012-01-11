@@ -102,7 +102,7 @@ class tor::daemon inherits tor {
                 $accounting_start      = [],
                 $contact_info          = '',
                 $my_family             = '', # TODO: autofill with other relays
-                $bridge_reay           = 0,
+                $bridge_relay          = 0,
                 $ensure                = present ) {
     $nickname = $name
     $address = $hostname
