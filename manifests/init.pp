@@ -1,7 +1,5 @@
 import "polipo.pp"
 import "daemon.pp"
-import "relay.pp"
-import "bridge.pp"
 
 class tor {
   package { [ "tor", "torsocks" ]:
