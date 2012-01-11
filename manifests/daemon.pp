@@ -68,8 +68,9 @@ class tor::daemon inherits tor {
   }
 
   # global configurations
-  define global_opts( $log_rules = [ 'notice file /var/log/tor/notices.log' ],
-                           $ensure = present ) {
+  define global_opts( $data_dir = $data_dir,
+                      $log_rules = [ 'notice file /var/log/tor/notices.log' ],
+                      $ensure = present ) {
     file { "${spool_dir}/01.global":
       content => template('tor/torrc.global.erb'),
       require => File["${spool_dir}"],
