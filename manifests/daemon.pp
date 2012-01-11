@@ -50,7 +50,7 @@ class tor::daemon inherits tor {
   }
 
   # tor configuration file
-  concatenated_file { '${config_file}':
+  concatenated_file { "${config_file}":
     dir    => $spool_dir,
     header => "${spool_dir}/00.header"
     mode   => 0600,
@@ -59,10 +59,10 @@ class tor::daemon inherits tor {
   }
 
   # config file headers
-  file { '${spool_dir}/00.header':
+  file { "${spool_dir}/00.header":
     content => template('tor/header.erb'),
-    require => File['${spool_dir}'],
-    notify  => Exec['concat_${config_file}'],
+    require => File["${spool_dir}"],
+    notify  => Exec["concat_${config_file}"],
     ensure  => present,
     owner => 'debian-tor', group => 'debian-tor', mode => 0755, 
   }
@@ -70,10 +70,10 @@ class tor::daemon inherits tor {
   # global configurations
   define tor::global_opts( $log_rules = [ 'notice file /var/log/tor/notices.log' ],
                            $ensure = present ) {
-    file { '${spool_dir}/01.global':
+    file { "${spool_dir}/01.global":
       content => template('tor/global.erb'),
-      require => File['${spool_dir}'],
-      notify  => Exec['concat_${config_file}'],
+      require => File["${spool_dir}"],
+      notify  => Exec["concat_${config_file}"],
       ensure  => $ensure,
       owner => 'debian-tor', group => 'debian-tor', mode => 0755, 
     }
@@ -83,10 +83,10 @@ class tor::daemon inherits tor {
   define tor::socks( $socks_port = 0,
                      $socks_listen_addresses = [],
                      $socks_policies = [] ) {
-    file { '${spool_dir}/02.socks':
+    file { "${spool_dir}/02.socks":
       content => template('tor/socks.erb'),
-      require => File['${spool_dir}'],
-      notify  => Exec['concat_${config_file}'],
+      require => File["${spool_dir}"],
+      notify  => Exec["concat_${config_file}"],
       ensure  => $ensure,
       owner => 'debian-tor', group => 'debian-tor', mode => 0755, 
     }
@@ -95,21 +95,21 @@ class tor::daemon inherits tor {
   # relay definition
   define tor::relay( $port                  = 0,
                      $listen_addresses      = [],
-                     $nickname              = '',
-                     $address               = $hostname,
                      $relay_bandwidth_rate  = 0,  # KB/s, 0 for no limit.
-                     $relay_bandwidth_burst = 0, # KB/s, 0 for no limit.
-                     $accounting_max        = 0,       # GB, 0 for no limit.
+                     $relay_bandwidth_burst = 0,  # KB/s, 0 for no limit.
+                     $accounting_max        = 0,  # GB, 0 for no limit.
                      $accounting_start      = [],
                      $contact_info          = '',
-                     $my_family             = '',
+                     $my_family             = '', # TODO: autofill with other relays
                      $bridge_reay           = 0,
                      $ensure                = present ) {
+    $nickname = $name
+    $address = $hostname
 
-    file { '${spool_dir}/03.relay':
+    file { "${spool_dir}/03.relay":
       content => template('tor/relay.erb'),
-      require => File['${spool_dir}'],
-      notify  => Exec['concat_${config_file}'],
+      require => File["${spool_dir}"],
+      notify  => Exec["concat_${config_file}"],
       ensure  => $ensure,
       owner => 'debian-tor', group => 'debian-tor', mode => 0755, 
     }
@@ -119,10 +119,10 @@ class tor::daemon inherits tor {
   define tor::control( $port                    = 0,
                        $hashed_control_password = '',
                        $ensure                  = present ) {
-    file { '${spool_dir}/04.control':
+    file { "${spool_dir}/04.control":
       content => template('tor/control.erb'),
-      require => File['${spool_dir}'],
-      notify  => Exec['concat_${config_file}'],
+      require => File["${spool_dir}"],
+      notify  => Exec["concat_${config_file}"],
       ensure  => $ensure,
       owner => 'debian-tor', group => 'debian-tor', mode => 0755, 
     }
@@ -131,10 +131,10 @@ class tor::daemon inherits tor {
   # hidden services definition
   define tor::hidden_service( $ports = [],
                               $ensure = present ) {
-    file { '${spool_dir}/05.hidden_service.${name}':
+    file { "${spool_dir}/05.hidden_service.${name}":
       content => template('tor/hidden_service.erb'),
-      require => File['${spool_dir}'],
-      notify  => Exec['concat_${config_file}'],
+      require => File["${spool_dir}"],
+      notify  => Exec["concat_${config_file}"],
       ensure  => $ensure,
       owner => 'debian-tor', group => 'debian-tor', mode => 0755, 
     }
@@ -145,10 +145,16 @@ class tor::daemon inherits tor {
                           $listen_addresses = [],
                           $port_front_page = '',
                           $ensure = present ) {
-    file { '${spool_dir}/06.directory':
+    file { "${spool_dir}/06.directory":
       content => template('tor/directory.erb'),
-      require => File['${spool_dir}'],
-      notify  => Exec['concat_${config_file}'],
+      require => [ File["${spool_dir}"], File['/etc/tor/tor-exit-notice.html'] ],
+      notify  => Exec["concat_${config_file}"],
+      ensure  => $ensure,
+      owner => 'debian-tor', group => 'debian-tor', mode => 0755, 
+    }
+    file { '/etc/tor/tor-exit-notice.html':
+      source  => "puppet://$server/modules/tor/tor-exit-notice",
+      require => File['/etc/tor'],
       ensure  => $ensure,
       owner => 'debian-tor', group => 'debian-tor', mode => 0755, 
     }
@@ -158,10 +164,10 @@ class tor::daemon inherits tor {
   define tor::exit_policy( $accept = [],
                            $reject = [],
                            $ensure = present ) {
-    file { '${spool_dir}/07.exit_policy.${name}':
+    file { "${spool_dir}/07.exit_policy.${name}":
       content => template('tor/exit_policy.erb'),
-      require => File['${spool_dir}'],
-      notify  => Exec['concat_${config_file}'],
+      require => File["${spool_dir}"],
+      notify  => Exec["concat_${config_file}"],
       ensure  => $ensure,
       owner => 'debian-tor', group => 'debian-tor', mode => 0755, 
     }
