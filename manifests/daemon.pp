@@ -149,17 +149,17 @@ class tor::daemon inherits tor {
   # directory advertising
   define directory ( $port = 0,
                      $listen_addresses = [],
-                     $port_front_page = '/etc/tor/tor-exit-notice.html',
+                     $port_front_page = '/etc/tor/tor.html',
                      $ensure = present ) {
     file { "${tor::daemon::snippet_dir}/06.directory":
       content => template('tor/torrc.directory.erb'),
-      require => [ File["${tor::daemon::snippet_dir}"], File['/etc/tor/tor-exit-notice.html'] ],
+      require => [ File["${tor::daemon::snippet_dir}"], File['/etc/tor/tor.html'] ],
       notify  => Exec["concat_${tor::daemon::config_file}"],
       ensure  => $ensure,
       owner => 'debian-tor', group => 'debian-tor', mode => 0644, 
     }
-    file { '/etc/tor/tor-exit-notice.html':
-      source  => "puppet://$server/modules/tor/tor-exit-notice.html",
+    file { '/etc/tor/tor.html':
+      source  => "puppet://$server/modules/tor/tor.html",
       require => File['/etc/tor'],
       ensure  => $ensure,
       owner => 'debian-tor', group => 'debian-tor', mode => 0644, 
