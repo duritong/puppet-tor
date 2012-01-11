@@ -60,7 +60,7 @@ class tor::daemon inherits tor {
 
   # config file headers
   file { "${spool_dir}/00.header":
-    content => template('tor/header.erb'),
+    content => template('tor/torrc.header.erb'),
     require => File["${spool_dir}"],
     notify  => Exec["concat_${config_file}"],
     ensure  => present,
@@ -71,7 +71,7 @@ class tor::daemon inherits tor {
   define tor::global_opts( $log_rules = [ 'notice file /var/log/tor/notices.log' ],
                            $ensure = present ) {
     file { "${spool_dir}/01.global":
-      content => template('tor/global.erb'),
+      content => template('tor/torrc.global.erb'),
       require => File["${spool_dir}"],
       notify  => Exec["concat_${config_file}"],
       ensure  => $ensure,
@@ -84,7 +84,7 @@ class tor::daemon inherits tor {
                      $socks_listen_addresses = [],
                      $socks_policies = [] ) {
     file { "${spool_dir}/02.socks":
-      content => template('tor/socks.erb'),
+      content => template('tor/torrc.socks.erb'),
       require => File["${spool_dir}"],
       notify  => Exec["concat_${config_file}"],
       ensure  => $ensure,
@@ -107,7 +107,7 @@ class tor::daemon inherits tor {
     $address = $hostname
 
     file { "${spool_dir}/03.relay":
-      content => template('tor/relay.erb'),
+      content => template('tor/torrc.relay.erb'),
       require => File["${spool_dir}"],
       notify  => Exec["concat_${config_file}"],
       ensure  => $ensure,
@@ -120,7 +120,7 @@ class tor::daemon inherits tor {
                        $hashed_control_password = '',
                        $ensure                  = present ) {
     file { "${spool_dir}/04.control":
-      content => template('tor/control.erb'),
+      content => template('tor/torrc.control.erb'),
       require => File["${spool_dir}"],
       notify  => Exec["concat_${config_file}"],
       ensure  => $ensure,
@@ -132,7 +132,7 @@ class tor::daemon inherits tor {
   define tor::hidden_service( $ports = [],
                               $ensure = present ) {
     file { "${spool_dir}/05.hidden_service.${name}":
-      content => template('tor/hidden_service.erb'),
+      content => template('tor/torrc.hidden_service.erb'),
       require => File["${spool_dir}"],
       notify  => Exec["concat_${config_file}"],
       ensure  => $ensure,
@@ -146,7 +146,7 @@ class tor::daemon inherits tor {
                           $port_front_page = '',
                           $ensure = present ) {
     file { "${spool_dir}/06.directory":
-      content => template('tor/directory.erb'),
+      content => template('tor/torrc.directory.erb'),
       require => [ File["${spool_dir}"], File['/etc/tor/tor-exit-notice.html'] ],
       notify  => Exec["concat_${config_file}"],
       ensure  => $ensure,
@@ -165,7 +165,7 @@ class tor::daemon inherits tor {
                            $reject = [],
                            $ensure = present ) {
     file { "${spool_dir}/07.exit_policy.${name}":
-      content => template('tor/exit_policy.erb'),
+      content => template('tor/torrc.exit_policy.erb'),
       require => File["${spool_dir}"],
       notify  => Exec["concat_${config_file}"],
       ensure  => $ensure,
