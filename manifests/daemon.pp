@@ -55,7 +55,7 @@ class tor::daemon inherits tor {
     header => "${spool_dir}/00.header",
     mode   => 0600,
     notify => Service['tor'],
-    owner => 'debian-tor', group => 'debian-tor', mode => 0755, 
+    owner => 'debian-tor', group => 'debian-tor', 
   }
 
   # config file headers
@@ -64,7 +64,7 @@ class tor::daemon inherits tor {
     require => File["${spool_dir}"],
     notify  => Exec["concat_${config_file}"],
     ensure  => present,
-    owner => 'debian-tor', group => 'debian-tor', mode => 0755, 
+    owner => 'debian-tor', group => 'debian-tor', mode => 0644, 
   }
 
   # global configurations
@@ -75,7 +75,7 @@ class tor::daemon inherits tor {
       require => File["${spool_dir}"],
       notify  => Exec["concat_${config_file}"],
       ensure  => $ensure,
-      owner => 'debian-tor', group => 'debian-tor', mode => 0755, 
+      owner => 'debian-tor', group => 'debian-tor', mode => 0644, 
     }
   }
 
@@ -88,7 +88,7 @@ class tor::daemon inherits tor {
       require => File["${spool_dir}"],
       notify  => Exec["concat_${config_file}"],
       ensure  => $ensure,
-      owner => 'debian-tor', group => 'debian-tor', mode => 0755, 
+      owner => 'debian-tor', group => 'debian-tor', mode => 0644, 
     }
   }
 
@@ -111,7 +111,7 @@ class tor::daemon inherits tor {
       require => File["${spool_dir}"],
       notify  => Exec["concat_${config_file}"],
       ensure  => $ensure,
-      owner => 'debian-tor', group => 'debian-tor', mode => 0755, 
+      owner => 'debian-tor', group => 'debian-tor', mode => 0644, 
     }
   } 
 
@@ -124,7 +124,7 @@ class tor::daemon inherits tor {
       require => File["${spool_dir}"],
       notify  => Exec["concat_${config_file}"],
       ensure  => $ensure,
-      owner => 'debian-tor', group => 'debian-tor', mode => 0755, 
+      owner => 'debian-tor', group => 'debian-tor', mode => 0600, 
     }
   } 
 
@@ -136,7 +136,7 @@ class tor::daemon inherits tor {
       require => File["${spool_dir}"],
       notify  => Exec["concat_${config_file}"],
       ensure  => $ensure,
-      owner => 'debian-tor', group => 'debian-tor', mode => 0755, 
+      owner => 'debian-tor', group => 'debian-tor', mode => 0644, 
     }
   } 
   
@@ -150,13 +150,13 @@ class tor::daemon inherits tor {
       require => [ File["${spool_dir}"], File['/etc/tor/tor-exit-notice.html'] ],
       notify  => Exec["concat_${config_file}"],
       ensure  => $ensure,
-      owner => 'debian-tor', group => 'debian-tor', mode => 0755, 
+      owner => 'debian-tor', group => 'debian-tor', mode => 0644, 
     }
     file { '/etc/tor/tor-exit-notice.html':
       source  => "puppet://$server/modules/tor/tor-exit-notice",
       require => File['/etc/tor'],
       ensure  => $ensure,
-      owner => 'debian-tor', group => 'debian-tor', mode => 0755, 
+      owner => 'debian-tor', group => 'debian-tor', mode => 0644, 
     }
   } 
 
@@ -169,7 +169,7 @@ class tor::daemon inherits tor {
       require => File["${spool_dir}"],
       notify  => Exec["concat_${config_file}"],
       ensure  => $ensure,
-      owner => 'debian-tor', group => 'debian-tor', mode => 0755, 
+      owner => 'debian-tor', group => 'debian-tor', mode => 0644, 
     }
   } 
 }
