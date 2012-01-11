@@ -30,7 +30,7 @@ class tor::daemon inherits tor {
   # directories
   file { "${data_dir}":
     ensure  => directory,
-    mode    => 0755,
+    mode    => 0700,
     owner   => 'debian-tor',
     group   => 'debian-tor',
     require => User['debian-tor'],
