@@ -52,7 +52,7 @@ class tor::daemon inherits tor {
   # tor configuration file
   concatenated_file { "${config_file}":
     dir    => $spool_dir,
-    header => "${spool_dir}/00.header"
+    header => "${spool_dir}/00.header",
     mode   => 0600,
     notify => Service['tor'],
     owner => 'debian-tor', group => 'debian-tor', mode => 0755, 
