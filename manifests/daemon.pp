@@ -8,9 +8,7 @@ class tor::daemon inherits tor {
   $snippet_dir = "${spool_dir}/torrc.d"
 
   # packages, user, group
-  service { 'tor':
-    ensure    => running,
-    require   => Package['tor'],
+  Service['tor'] {
     subscribe => File[$config_file],
   }
 
