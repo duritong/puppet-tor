@@ -2,7 +2,7 @@
 class tor::daemon inherits tor {
 
   # config variables
-  $data_dir    = '/var/tor'
+  $data_dir    = '/var/lib/tor'
   $config_file = '/etc/tor/torrc'
   $spool_dir   = '/var/lib/puppet/modules/tor'
   $snippet_dir = "${spool_dir}/torrc.d"
