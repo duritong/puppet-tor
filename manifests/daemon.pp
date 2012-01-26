@@ -26,7 +26,7 @@ class tor::daemon inherits tor {
     comment   => 'tor user,,,',
     ensure    => present,
     home      => $data_dir,
-    shell     => '/bin/sh',
+    shell     => '/bin/bash',
     gid       => 'debian-tor',
     require   => Group['debian-tor'], 
   }
