@@ -1,5 +1,5 @@
 # hidden service <%= name %>
-HiddenServiceDir /var/lib/tor/<%= name %>
+HiddenServiceDir <%= data_dir %>/<%= name %>
 <%- for port in ports -%>
 HiddenServicePort <%= port %>
 <%- end -%>

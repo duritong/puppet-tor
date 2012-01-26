@@ -131,6 +131,7 @@ class tor::daemon inherits tor {
 
   # hidden services definition
   define hidden_service( $ports = [],
+                         $data_dir = $tor::daemon::data_dir,
                          $ensure = present ) {
     concatenated_file_part { "05.hidden_service.${name}":
       dir     => $tor::daemon::snippet_dir,
