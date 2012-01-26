@@ -152,7 +152,7 @@ class tor::daemon inherits tor {
       ensure  => $ensure,
     }
     file { '/etc/tor/tor.html':
-      source  => "puppet://$server/modules/tor/tor.html",
+      source  => "puppet:///modules/tor/tor.html",
       require => File['/etc/tor'],
       ensure  => $ensure,
       owner => 'debian-tor', group => 'debian-tor', mode => 0644, 
