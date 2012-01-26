@@ -104,10 +104,10 @@ class tor::daemon inherits tor {
                 $accounting_start      = [],
                 $contact_info          = '',
                 $my_family             = '', # TODO: autofill with other relays
+                $address               = "tor.${domain}",
                 $bridge_relay          = 0,
                 $ensure                = present ) {
     $nickname = $name
-    $address = "tor.${domain}"
 
     concatenated_file_part { '03.relay':
       dir     => $tor::daemon::snippet_dir,
