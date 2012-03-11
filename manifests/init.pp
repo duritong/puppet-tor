@@ -2,8 +2,11 @@ import "polipo.pp"
 import "daemon.pp"
 
 class tor {
+
+  if !$tor_ensure_version { $tor_ensure_version = 'installed' }
+
   package { [ "tor", "torsocks" ]:
-    ensure => installed,
+    ensure => $tor_ensure_version,
   }
 
   service { 'tor':
