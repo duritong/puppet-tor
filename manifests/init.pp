@@ -13,4 +13,8 @@ class tor {
     hasstatus => true,
     require => Package['tor'],
   }
+
+  if $use_munin {
+    include tor::munin
+  }
 }
