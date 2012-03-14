@@ -48,12 +48,12 @@ class tor::daemon inherits tor {
     require => User['debian-tor'],
   }
 
-  file {"${spool_dir}":
+  file { "${spool_dir}":
     ensure => directory,
     owner => 'debian-tor', group => 'debian-tor', mode => 0755, 
   }
 
-  file {"${snippet_dir}":
+  file { "${snippet_dir}":
     ensure => directory,
     owner => 'debian-tor', group => 'debian-tor', mode => 0755, 
     require => File[$spool_dir],
@@ -77,6 +77,7 @@ class tor::daemon inherits tor {
   # global configurations
   define global_opts( $data_dir = $tor::daemon::data_dir,
                       $log_rules = [ 'notice file /var/log/tor/notices.log' ] ) {
+
     concatenated_file_part { '01.global':
       dir     => $tor::daemon::snippet_dir,
       content => template('tor/torrc.global.erb'),
@@ -88,6 +89,7 @@ class tor::daemon inherits tor {
   define socks( $port = 0,
                 $listen_addresses = [],
                 $policies = [] ) {
+
     concatenated_file_part { '02.socks':
       dir     => $tor::daemon::snippet_dir,
       content => template('tor/torrc.socks.erb'),
@@ -133,6 +135,7 @@ class tor::daemon inherits tor {
   define hidden_service( $ports = [],
                          $data_dir = $tor::daemon::data_dir,
                          $ensure = present ) {
+
     concatenated_file_part { "05.hidden_service.${name}":
       dir     => $tor::daemon::snippet_dir,
       content => template('tor/torrc.hidden_service.erb'),
@@ -146,12 +149,14 @@ class tor::daemon inherits tor {
                      $listen_addresses = [],
                      $port_front_page = '/etc/tor/tor.html',
                      $ensure = present ) {
+
     concatenated_file_part { '06.directory':
       dir     => $tor::daemon::snippet_dir,
       content => template('tor/torrc.directory.erb'),
       owner => 'debian-tor', group => 'debian-tor', mode => 0644, 
       ensure  => $ensure,
     }
+    
     file { '/etc/tor/tor.html':
       source  => "puppet:///modules/tor/tor.html",
       require => File['/etc/tor'],
@@ -164,6 +169,7 @@ class tor::daemon inherits tor {
   define exit_policy( $accept = [],
                       $reject = [],
                       $ensure = present ) {
+
     concatenated_file_part { "07.exit_policy.${name}":
       dir     => $tor::daemon::snippet_dir,
       content => template('tor/torrc.exit_policy.erb'),
