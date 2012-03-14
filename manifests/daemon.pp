@@ -98,17 +98,18 @@ class tor::daemon inherits tor {
   }
 
   # relay definition
-  define relay( $port                  = 0,
-                $listen_addresses      = [],
-                $bandwidth_rate  = 0,  # KB/s, 0 for no limit.
-                $bandwidth_burst = 0,  # KB/s, 0 for no limit.
-                $accounting_max        = 0,  # GB, 0 for no limit.
-                $accounting_start      = [],
-                $contact_info          = '',
-                $my_family             = '', # TODO: autofill with other relays
-                $address               = "tor.${domain}",
-                $bridge_relay          = 0,
-                $ensure                = present ) {
+  define relay( $port                    = 0,
+                $listen_addresses        = [],
+                $outbound_bindaddresses  = $listen_addresses,
+                $bandwidth_rate  = 0,    # KB/s, 0 for no limit.
+                $bandwidth_burst = 0,    # KB/s, 0 for no limit.
+                $accounting_max          = 0,  # GB, 0 for no limit.
+                $accounting_start        = [],
+                $contact_info            = '',
+                $my_family               = '', # TODO: autofill with other relays
+                $address                 = "tor.${domain}",
+                $bridge_relay            = 0,
+                $ensure                  = present ) {
     $nickname = $name
 
     concatenated_file_part { '03.relay':
@@ -173,6 +174,7 @@ class tor::daemon inherits tor {
   # exit policies
   define exit_policy( $accept = [],
                       $reject = [],
+                      $reject_private = 1,
                       $ensure = present ) {
 
     concatenated_file_part { "07.exit_policy.${name}":
