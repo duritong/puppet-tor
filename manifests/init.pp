@@ -1,6 +1,3 @@
-import "polipo.pp"
-import "daemon.pp"
-
 class tor {
 
   if !$tor_ensure_version { $tor_ensure_version = 'installed' }
