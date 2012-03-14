@@ -174,6 +174,7 @@ class tor::daemon inherits tor {
   # exit policies
   define exit_policy( $accept = [],
                       $reject = [],
+                      $reject_private = 1,
                       $ensure = present ) {
 
     concatenated_file_part { "07.exit_policy.${name}":
