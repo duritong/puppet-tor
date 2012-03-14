@@ -123,6 +123,11 @@ class tor::daemon inherits tor {
   define control( $port                    = 0,
                   $hashed_control_password = '',
                   $ensure                  = present ) {
+
+    if $hashed_control_password == '' and $ensure != 'absent' {
+      fail("You need to define the tor control password")
+    }
+    
     concatenated_file_part { '04.control':
       dir     => $tor::daemon::snippet_dir,
       content => template('tor/torrc.control.erb'),
