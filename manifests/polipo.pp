@@ -9,21 +9,14 @@ class tor::polipo inherits tor {
     require => [ Package["polipo"], Service["tor"] ],
   }
 
-  file { "/etc/polipo":
-    ensure => directory,
-    owner  => root,
-    group  => root,
-    mode   => 0755,
-  }
-
   file { "/etc/polipo/config":
     ensure  => present,
     owner   => root,
     group   => root,
     mode    => 0644,
     source  => "puppet:///modules/tor/polipo.conf",
+    require => Package["polipo"],
     notify  => Service["polipo"],
-    require => File["/etc/polipo"],
   }
 
   # TODO: restore file to original state after the following bug is solved:
