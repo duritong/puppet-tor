@@ -100,7 +100,7 @@ class tor::daemon inherits tor {
   # relay definition
   define relay( $port                    = 0,
                 $listen_addresses        = [],
-                $outbound_bindaddresses  = $listen_addresses,
+                $outbound_bindaddresses  = [],
                 $bandwidth_rate  = 0,    # KB/s, 0 for no limit.
                 $bandwidth_burst = 0,    # KB/s, 0 for no limit.
                 $accounting_max          = 0,  # GB, 0 for no limit.
@@ -111,6 +111,12 @@ class tor::daemon inherits tor {
                 $bridge_relay            = 0,
                 $ensure                  = present ) {
     $nickname = $name
+
+    if $outbound_bindaddresses == [] {
+      $real_outbound_bindaddresses = $listen_addresses
+    } else {
+      $real_outbound_bindaddresses = $outbound_bindaddresses
+    }
 
     concatenated_file_part { '03.relay':
       dir     => $tor::daemon::snippet_dir,

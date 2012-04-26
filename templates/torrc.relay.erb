@@ -4,7 +4,7 @@ ORPort <%= port %>
 <%-   for listen_address in listen_addresses -%>
 ORListenAddress <%= listen_address %>
 <%-   end -%>
-<%-   for outbound_bindaddress in outbound_bindaddresses -%>
+<%-   for outbound_bindaddress in real_outbound_bindaddresses -%>
 OutboundBindAddress <%= outbound_bindaddress %>
 <%-   end -%>
 <%-   if nickname != '' then -%>
