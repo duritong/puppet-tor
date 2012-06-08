@@ -8,7 +8,7 @@ class tor::polipo::base {
     owner   => root,
     group   => root,
     mode    => 0644,
-    source  => "puppet:///modules/tor/polipo.conf",
+    source  => "puppet:///modules/tor/polipo/polipo.conf",
     require => Package["polipo"],
     notify  => Service["polipo"],
   }

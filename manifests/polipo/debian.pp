@@ -7,6 +7,6 @@ class tor::polipo::debian inherits tor::polipo::base {
     group   => root,
     mode    => 0755,
     require => Package["polipo"],
-    source  => "puppet:///modules/tor/polipo.cron",
+    source  => "puppet:///modules/tor/polipo/polipo.cron",
   }
 }
