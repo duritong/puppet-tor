@@ -1,0 +1,21 @@
+class tor::polipo::base {
+  package { "polipo":
+    ensure => installed,
+  }
+
+  file { "/etc/polipo/config":
+    ensure  => present,
+    owner   => root,
+    group   => root,
+    mode    => 0644,
+    source  => "puppet:///modules/tor/polipo.conf",
+    require => Package["polipo"],
+    notify  => Service["polipo"],
+  }
+
+  service { "polipo":
+    ensure  => running,
+    enable  => true,
+    require => [ Package["polipo"], Service["tor"] ],
+  }
+}
