@@ -12,7 +12,7 @@ class tor::daemon inherits tor {
     subscribe => File[$config_file],
   }
 
-  Package[ 'tor', 'torsocks' ] {
+  Package[ 'tor' ] {
     require => File[$data_dir],
   }
 
