@@ -1,14 +1,9 @@
 class tor {
 
   if !$tor_ensure_version { $tor_ensure_version = 'installed' }
-  if !$torsocks_ensure_version { $torsocks_ensure_version = 'installed'}
   
   package { [ "tor", "tor-geoipdb" ]:
     ensure => $tor_ensure_version,
-  }
-
-  package { "torsocks":
-    ensure => $torsocks_ensure_version,
   }
 
   service { 'tor':
