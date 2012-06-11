@@ -147,7 +147,7 @@ class tor::daemon inherits tor {
         ensure => present, 
         owner  => 'debian-tor',
         group  => 'debian-tor',
-        mode   => 0640,
+        mode   => 0700,
       }
     }
 
