@@ -142,15 +142,6 @@ class tor::daemon inherits tor {
                          $data_dir = $tor::daemon::data_dir,
                          $ensure = present ) {
 
-    if !defined(File["$data_dir/.."]) {
-      file { "$data_dir/..":
-        ensure => present, 
-        owner  => 'debian-tor',
-        group  => 'debian-tor',
-        mode   => 0700,
-      }
-    }
-
     concatenated_file_part { "05.hidden_service.${name}":
       dir     => $tor::daemon::snippet_dir,
       content => template('tor/torrc.hidden_service.erb'),
