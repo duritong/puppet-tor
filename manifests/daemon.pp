@@ -77,9 +77,10 @@ class tor::daemon inherits tor {
   # global configurations
   define global_opts( $data_dir = $tor::daemon::data_dir,
                       $log_rules = [ 'notice file /var/log/tor/notices.log' ],
-                      $use_bridges = 0 ) {
+                      $use_bridges = 0,
+                      $automap_hosts_on_resolve = 0) {
 
-    concatenated_file_part { '01.global':
+      concatenated_file_part { '01.global':
       dir     => $tor::daemon::snippet_dir,
       content => template('tor/torrc.global.erb'),
       owner => 'debian-tor', group => 'debian-tor', mode => 0644, 
