@@ -76,7 +76,8 @@ class tor::daemon inherits tor {
 
   # global configurations
   define global_opts( $data_dir = $tor::daemon::data_dir,
-                      $log_rules = [ 'notice file /var/log/tor/notices.log' ] ) {
+                      $log_rules = [ 'notice file /var/log/tor/notices.log' ],
+                      $use_bridges = 0 ) {
 
     concatenated_file_part { '01.global':
       dir     => $tor::daemon::snippet_dir,
@@ -212,6 +213,20 @@ class tor::daemon inherits tor {
       concatenated_file_part { "09.transparent.${name}":
       dir     => $tor::daemon::snippet_dir,
       content => template('tor/torrc.transparent.erb'),
+      owner => 'debian-tor', group => 'debian-tor', mode => 0644,
+      ensure  => $ensure,
+    }
+  }
+
+  # Bridge definition
+  define bridge( $ip,
+                 $port,
+                 $fingerprint = false,
+                 $ensure = present ) {
+
+    concatenated_file_part { "10.bridge.${name}":
+      dir     => $tor::daemon::snippet_dir,
+      content => template('tor/torrc.bridge.erb'),
       owner => 'debian-tor', group => 'debian-tor', mode => 0644,
       ensure  => $ensure,
     }
