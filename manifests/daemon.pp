@@ -190,5 +190,19 @@ class tor::daemon inherits tor {
       ensure  => $ensure,
     }
   } 
+
+  # DNS definition
+  define dns( $port = 0,
+              $listen_addresses = [],
+              $ensure = present ) {
+
+      concatenated_file_part { "08.dns.${name}":
+      dir     => $tor::daemon::snippet_dir,
+      content => template('tor/torrc.dns.erb'),
+      owner => 'debian-tor', group => 'debian-tor', mode => 0644,
+      ensure  => $ensure,
+    }
+  }
+
 }
 

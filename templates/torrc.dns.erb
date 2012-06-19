@@ -1,0 +1,5 @@
+# DNS
+DNSPort <%= port %>
+<%- for listen_address in listen_addresses -%>
+DNSListenAddress <%= listen_address %>
+<%- end -%>
