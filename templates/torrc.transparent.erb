@@ -1,0 +1,5 @@
+# Transparent proxy
+TransPort <%= port %>
+<%- for listen_address in listen_addresses -%>
+TransListenAddress <%= listen_address %>
+<%- end -%>

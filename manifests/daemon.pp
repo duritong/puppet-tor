@@ -204,5 +204,18 @@ class tor::daemon inherits tor {
     }
   }
 
+  # Transparent proxy definition
+  define transparent( $port = 0,
+                      $listen_addresses = [],
+                      $ensure = present ) {
+
+      concatenated_file_part { "09.transparent.${name}":
+      dir     => $tor::daemon::snippet_dir,
+      content => template('tor/torrc.transparent.erb'),
+      owner => 'debian-tor', group => 'debian-tor', mode => 0644,
+      ensure  => $ensure,
+    }
+  }
+
 }
 
