@@ -184,5 +184,17 @@ class tor::daemon inherits tor {
       ensure  => $ensure,
     }
   } 
+
+  # map address definition
+  define map_address( $address = '',
+                      $newaddress = '') {
+
+    concatenated_file_part { "08.map_address.${name}":
+      dir     => $tor::daemon::snippet_dir,
+      content => template('tor/torrc.map_address.erb'),
+      owner   => 'debian-tor', group => 'debian-tor', mode => 0644, 
+      ensure  => $ensure,
+    }
+  } 
 }
 
