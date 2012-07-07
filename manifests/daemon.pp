@@ -192,9 +192,9 @@ class tor::daemon inherits tor {
     concatenated_file_part { "08.map_address.${name}":
       dir     => $tor::daemon::snippet_dir,
       content => template('tor/torrc.map_address.erb'),
-      owner   => 'debian-tor', group => 'debian-tor', mode => 0644, 
+      owner   => 'debian-tor', group => 'debian-tor', mode => 0644,
       ensure  => $ensure,
     }
-  } 
+  }
 }
 
