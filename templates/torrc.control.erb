@@ -9,7 +9,7 @@ CookieAuthFile <%= cookie_auth_file %>
 <%- if cookie_auth_file_group_readable != '' then -%>
 CookieAuthFileGroupReadable <%= cookie_auth_file_group_readable %>
 <%- end -%>
-<%- else %->
+<%- else -%>
 HashedControlPassword <%= hashed_control_password %>
 <%- end -%>
 <%- end -%>
