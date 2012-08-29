@@ -253,4 +253,17 @@ class tor::daemon inherits tor {
       ensure  => $ensure,
     }
   }
+
+  # Arbitrary torrc snippet definition
+  define snippet( $content = '',
+                  $ensure = present ) {
+
+    concatenated_file_part { "99.snippet.${name}":
+      dir     => $tor::daemon::snippet_dir,
+      content => $content,
+      owner   => 'debian-tor', group => 'debian-tor', mode => 0644,
+      ensure  => $ensure,
+    }
+  }
+
 }
