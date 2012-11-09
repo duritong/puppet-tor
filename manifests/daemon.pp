@@ -1,4 +1,3 @@
-# tor::daemon
 class tor::daemon inherits tor {
 
   # config variables
