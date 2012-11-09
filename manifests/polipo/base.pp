@@ -1,6 +1,6 @@
 class tor::polipo::base {
-  package { "polipo":
-    ensure => installed,
+  package{'polipo':
+    ensure => present,
   }
 
   file { "/etc/polipo/config":
