@@ -1,8 +1,12 @@
-class tor::daemon inherits tor {
+class tor::daemon (
+  $data_dir                 = '/var/lib/tor',
+  $config_file              = '/etc/tor/torrc',
+  $use_bridges              = 0,
+  $automap_hosts_on_resolve = 0,
+  $log_rules                = [ 'notice file /var/log/tor/notices.log' ],
+) inherits tor {
 
-  # config variables
-  $data_dir    = '/var/lib/tor'
-  $config_file = '/etc/tor/torrc'
+  # constants
   $spool_dir   = '/var/lib/puppet/modules/tor'
   $snippet_dir = "${spool_dir}/torrc.d"
 
@@ -74,16 +78,10 @@ class tor::daemon inherits tor {
   }
 
   # global configurations
-  define global_opts( $data_dir = $tor::daemon::data_dir,
-                      $log_rules = [ 'notice file /var/log/tor/notices.log' ],
-                      $use_bridges = 0,
-                      $automap_hosts_on_resolve = 0) {
-
-      concatenated_file_part { '01.global':
-      dir     => $tor::daemon::snippet_dir,
-      content => template('tor/torrc.global.erb'),
-      owner => 'debian-tor', group => 'debian-tor', mode => 0644, 
-    }
+  concatenated_file_part { '01.global':
+    dir     => $snippet_dir,
+    content => template('tor/torrc.global.erb'),
+    owner => 'debian-tor', group => 'debian-tor', mode => 0644, 
   }
 
   # socks definition

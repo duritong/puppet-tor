@@ -18,6 +18,17 @@ policies, etc.
  $bandwidth_rate or $bandwidth_burst please be aware that these values have
  changed and adjust your configuration as necessary.
 
+ The $tor_ensure_version was converted to a parameter for the tor and
+ tor::daemon classes.
+
+ The $torsocks_ensure_version was converted to a parameter for the
+ tor::torsocks class.
+
+ The options that used to be settable with the
+ tor::daemon::global_opts define now are parameters for the
+ tor::daemon class, and tor::daemon::global_opts was
+ removed accordingly.
+
 
 Usage
 =====
@@ -27,31 +38,51 @@ Installing tor
 
 To install tor, simply include the 'tor' class in your manifests:
 
-    include tor
+    class { 'tor': }
 
-You can specify $tor_ensure_version and $torsocks_ensure_version to get a
-specific version installed.
+You can specify the $ensure_version class parameter to get a specific
+version installed.
 
 However, if you want to make configuration changes to your tor daemon, you will
 want to instead include the 'tor::daemon' class in your manifests, which will
 inherit the 'tor' class from above:
 
-    include tor::daemon
+    class { '::tor::daemon': }
 
-You have the following tor global variables that you can adjust in your node scope:
+You have the following class parameters that you can specify:
 
-$data_dir    = '/var/lib/tor'
-$config_file = '/etc/tor/torrc'
-$log_rules   = 'notice file /var/log/tor/notices.log'
+data_dir    (default: '/var/lib/tor')
+config_file (default: '/etc/tor/torrc')
+use_bridges (default: 0)
+automap_hosts_on_resolve (default: 0)
+log_rules   (default: ['notice file /var/log/tor/notices.log'])
 
-The $data_dir will be used for the tor user's $HOME, and the tor DataDirectory
-value. The $config_file will be managed and the daemon restarted when it
-changed.
+The data_dir will be used for the tor user's $HOME, and the tor DataDirectory
+value.
 
-The $log_rules can be an array of different Log lines, each will be added to the
+The config_file will be managed and the daemon restarted when
+it changed.
+
+use_bridges and automap_hosts_on_resolve are used to set the
+UseBridges and AutomapHostsOnResolve torrc settings.
+
+The log_rules can be an array of different Log lines, each will be added to the
 config, for example the following will use syslog:
 
-  tor::daemon::global_opts { "use_syslog": log_rules => [ 'notice syslog' ]; }
+    class { '::tor::daemon':
+        log_rules => [ 'notice syslog' ],
+    }
+
+If you want to set specific options for the tor class,
+you need to define it before tor::daemon in your manifests,
+e.g.:
+
+    class { '::tor':
+      use_munin => true,
+    }
+    class { '::tor::daemon':
+      automap_hosts_on_resolve => 1,
+    }
 
 Configuring socks
 -----------------
@@ -67,6 +98,15 @@ $port = 0       - SocksPort
 $listen_address - can pass multiple values to configure SocksListenAddress lines
 $policies       - can pass multiple values to configure SocksPolicy lines
 
+Installing torsocks
+-------------------
+
+To install torsocks, simply include the 'torsocks' class in your manifests:
+
+    class { 'torsocks': }
+
+You can specify the $ensure_version class parameter to get a specific
+version installed.
 
 Configuring relays
 ==================
@@ -157,5 +197,6 @@ Munin
 =====
 
 If you are using munin, and have the puppet munin module installed, you can set
-the variable $use_munin = true to have graphs setup for you.
+the use_munin parameter to true when defining the tor::daemon class to have
+graphs setup for you.
 

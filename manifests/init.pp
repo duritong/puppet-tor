@@ -1,9 +1,10 @@
-class tor {
+class tor (
+  $ensure_version = 'installed',
+  $use_munin      = false,
+){
 
-  if !$tor_ensure_version { $tor_ensure_version = 'installed' }
-  
   package { [ "tor", "tor-geoipdb" ]:
-    ensure => $tor_ensure_version,
+    ensure => $ensure_version,
   }
 
   service { 'tor':
