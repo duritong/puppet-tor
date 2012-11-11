@@ -204,7 +204,7 @@ class tor::daemon (
               $listen_addresses = [],
               $ensure = present ) {
 
-      concatenated_file_part { "08.dns.${name}":
+    concatenated_file_part { "08.dns.${name}":
       dir     => "${tor::daemon::snippet_dir}",
       content => template('tor/torrc.dns.erb'),
       owner => 'debian-tor', group => 'debian-tor', mode => 0644,
@@ -217,7 +217,7 @@ class tor::daemon (
                       $listen_addresses = [],
                       $ensure = present ) {
 
-      concatenated_file_part { "09.transparent.${name}":
+    concatenated_file_part { "09.transparent.${name}":
       dir     => "${tor::daemon::snippet_dir}",
       content => template('tor/torrc.transparent.erb'),
       owner => 'debian-tor', group => 'debian-tor', mode => 0644,
