@@ -99,7 +99,7 @@ class tor::daemon (
   # relay definition
   define relay( $port                    = 0,
                 $listen_addresses        = [],
-                $outbound_bindaddresses  = $listen_addresses,
+                $outbound_bindaddresses  = [],
                 $bandwidth_rate          = '',    # KB/s, defaulting to using tor's default: 5120KB/s
                 $bandwidth_burst         = '',    # KB/s, defaulting to using tor's default: 10240KB/s
                 $relay_bandwidth_rate    = 0,     # KB/s, 0 for no limit.
