@@ -12,11 +12,11 @@ class tor::daemon (
 
   # packages, user, group
   Service['tor'] {
-    subscribe => File[$config_file],
+    subscribe => File["${config_file}"],
   }
 
   Package[ 'tor' ] {
-    require => File[$data_dir],
+    require => File["${data_dir}"],
   }
 
   group { 'debian-tor':
@@ -28,7 +28,7 @@ class tor::daemon (
     allowdupe => false,
     comment   => 'tor user,,,',
     ensure    => present,
-    home      => $data_dir,
+    home      => "${data_dir}",
     shell     => '/bin/bash',
     gid       => 'debian-tor',
     require   => Group['debian-tor'], 
@@ -59,19 +59,19 @@ class tor::daemon (
   file { "${snippet_dir}":
     ensure => directory,
     owner => 'debian-tor', group => 'debian-tor', mode => 0755, 
-    require => File[$spool_dir],
+    require => File["${spool_dir}"],
   }
 
   # tor configuration file
   concatenated_file { "${config_file}":
-    dir    => $snippet_dir,
+    dir    => "${snippet_dir}",
     mode   => 0600,
     owner => 'debian-tor', group => 'debian-tor', 
   }
 
   # config file headers
   concatenated_file_part { '00.header':
-    dir     => $snippet_dir,
+    dir     => "${snippet_dir}",
     content => template('tor/torrc.header.erb'),
     owner => 'debian-tor', group => 'debian-tor', mode => 0644, 
     ensure  => present,
@@ -79,7 +79,7 @@ class tor::daemon (
 
   # global configurations
   concatenated_file_part { '01.global':
-    dir     => $snippet_dir,
+    dir     => "${snippet_dir}",
     content => template('tor/torrc.global.erb'),
     owner => 'debian-tor', group => 'debian-tor', mode => 0644, 
   }
@@ -90,7 +90,7 @@ class tor::daemon (
                 $policies = [] ) {
 
     concatenated_file_part { '02.socks':
-      dir     => $tor::daemon::snippet_dir,
+      dir     => "${tor::daemon::snippet_dir}",
       content => template('tor/torrc.socks.erb'),
       owner => 'debian-tor', group => 'debian-tor', mode => 0644, 
     }
@@ -120,7 +120,7 @@ class tor::daemon (
     }
 
     concatenated_file_part { '03.relay':
-      dir     => $tor::daemon::snippet_dir,
+      dir     => "${tor::daemon::snippet_dir}",
       content => template('tor/torrc.relay.erb'),
       owner => 'debian-tor', group => 'debian-tor', mode => 0644, 
       ensure  => $ensure,
@@ -139,12 +139,12 @@ class tor::daemon (
       fail('You need to define the tor control password')
     }
 
-    if $cookie_authentication == 0 and ($cookie_auth_file != '' or $cookie_auth_file_group_readable != '') {
+    if $cookie_authentication == 0 and ("${cookie_auth_file}" != '' or "${cookie_auth_file_group_readable}" != '') {
       notice('You set a tor cookie authentication option, but do not have cookie_authentication on')
     }
     
     concatenated_file_part { '04.control':
-      dir     => $tor::daemon::snippet_dir,
+      dir     => "${tor::daemon::snippet_dir}",
       content => template('tor/torrc.control.erb'),
       owner => 'debian-tor', group => 'debian-tor', mode => 0600, 
       ensure  => $ensure,
@@ -153,11 +153,11 @@ class tor::daemon (
 
   # hidden services definition
   define hidden_service( $ports = [],
-                         $data_dir = $tor::daemon::data_dir,
+                         $data_dir = "${tor::daemon::data_dir}",
                          $ensure = present ) {
 
     concatenated_file_part { "05.hidden_service.${name}":
-      dir     => $tor::daemon::snippet_dir,
+      dir     => "${tor::daemon::snippet_dir}",
       content => template('tor/torrc.hidden_service.erb'),
       owner => 'debian-tor', group => 'debian-tor', mode => 0644, 
       ensure  => $ensure,
@@ -171,7 +171,7 @@ class tor::daemon (
                      $ensure = present ) {
 
     concatenated_file_part { '06.directory':
-      dir     => $tor::daemon::snippet_dir,
+      dir     => "${tor::daemon::snippet_dir}",
       content => template('tor/torrc.directory.erb'),
       owner => 'debian-tor', group => 'debian-tor', mode => 0644, 
       ensure  => $ensure,
@@ -192,7 +192,7 @@ class tor::daemon (
                       $ensure = present ) {
 
     concatenated_file_part { "07.exit_policy.${name}":
-      dir     => $tor::daemon::snippet_dir,
+      dir     => "${tor::daemon::snippet_dir}",
       content => template('tor/torrc.exit_policy.erb'),
       owner => 'debian-tor', group => 'debian-tor', mode => 0644, 
       ensure  => $ensure,
@@ -205,7 +205,7 @@ class tor::daemon (
               $ensure = present ) {
 
       concatenated_file_part { "08.dns.${name}":
-      dir     => $tor::daemon::snippet_dir,
+      dir     => "${tor::daemon::snippet_dir}",
       content => template('tor/torrc.dns.erb'),
       owner => 'debian-tor', group => 'debian-tor', mode => 0644,
       ensure  => $ensure,
@@ -218,7 +218,7 @@ class tor::daemon (
                       $ensure = present ) {
 
       concatenated_file_part { "09.transparent.${name}":
-      dir     => $tor::daemon::snippet_dir,
+      dir     => "${tor::daemon::snippet_dir}",
       content => template('tor/torrc.transparent.erb'),
       owner => 'debian-tor', group => 'debian-tor', mode => 0644,
       ensure  => $ensure,
@@ -232,7 +232,7 @@ class tor::daemon (
                  $ensure = present ) {
 
     concatenated_file_part { "10.bridge.${name}":
-      dir     => $tor::daemon::snippet_dir,
+      dir     => "${tor::daemon::snippet_dir}",
       content => template('tor/torrc.bridge.erb'),
       owner => 'debian-tor', group => 'debian-tor', mode => 0644,
       ensure  => $ensure,
@@ -244,7 +244,7 @@ class tor::daemon (
                       $newaddress = '') {
 
     concatenated_file_part { "08.map_address.${name}":
-      dir     => $tor::daemon::snippet_dir,
+      dir     => "${tor::daemon::snippet_dir}",
       content => template('tor/torrc.map_address.erb'),
       owner   => 'debian-tor', group => 'debian-tor', mode => 0644,
       ensure  => $ensure,
@@ -256,8 +256,8 @@ class tor::daemon (
                   $ensure = present ) {
 
     concatenated_file_part { "99.snippet.${name}":
-      dir     => $tor::daemon::snippet_dir,
-      content => $content,
+      dir     => "${tor::daemon::snippet_dir}",
+      content => "${content}",
       owner   => 'debian-tor', group => 'debian-tor', mode => 0644,
       ensure  => $ensure,
     }
