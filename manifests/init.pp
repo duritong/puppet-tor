@@ -8,11 +8,11 @@ class tor (
   }
 
   service { 'tor':
-    ensure  => running,
-    enable => true,
+    ensure     => running,
+    enable     => true,
     hasrestart => true,
-    hasstatus => true,
-    require => Package['tor'],
+    hasstatus  => true,
+    require    => Package['tor'],
   }
 
   if $use_munin {

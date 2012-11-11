@@ -16,8 +16,8 @@ class tor::munin {
 
   munin::plugin {
     [ 'tor_connections', 'tor_routers', 'tor_traffic' ]:
-      ensure => present,
-      config => "user debian-tor\n env.cookiefile /var/run/tor/control.authcookie",
+      ensure         => present,
+      config         => "user debian-tor\n env.cookiefile /var/run/tor/control.authcookie",
       script_path_in => '/usr/local/share/munin-plugins';
   }
 }
