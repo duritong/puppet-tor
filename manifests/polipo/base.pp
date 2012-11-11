@@ -3,19 +3,19 @@ class tor::polipo::base {
     ensure => present,
   }
 
-  file { "/etc/polipo/config":
+  file { '/etc/polipo/config':
     ensure  => present,
     owner   => root,
     group   => root,
     mode    => 0644,
-    source  => "puppet:///modules/tor/polipo/polipo.conf",
-    require => Package["polipo"],
-    notify  => Service["polipo"],
+    source  => 'puppet:///modules/tor/polipo/polipo.conf',
+    require => Package['polipo'],
+    notify  => Service['polipo'],
   }
 
-  service { "polipo":
+  service { 'polipo':
     ensure  => running,
     enable  => true,
-    require => [ Package["polipo"], Service["tor"] ],
+    require => [ Package['polipo'], Service['tor'] ],
   }
 }

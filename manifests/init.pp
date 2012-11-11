@@ -3,7 +3,7 @@ class tor (
   $use_munin      = false,
 ){
 
-  package { [ "tor", "tor-geoipdb" ]:
+  package { [ 'tor', 'tor-geoipdb' ]:
     ensure => $ensure_version,
   }
 

@@ -136,11 +136,11 @@ class tor::daemon (
                   $ensure                  = present ) {
 
     if $cookie_authentication == '0' and $hashed_control_password == '' and $ensure != 'absent' {
-      fail("You need to define the tor control password")
+      fail('You need to define the tor control password')
     }
 
     if $cookie_authentication == 0 and ($cookie_auth_file != '' or $cookie_auth_file_group_readable != '') {
-      notice("You set a tor cookie authentication option, but do not have cookie_authentication on")
+      notice('You set a tor cookie authentication option, but do not have cookie_authentication on')
     }
     
     concatenated_file_part { '04.control':
@@ -178,7 +178,7 @@ class tor::daemon (
     }
     
     file { '/etc/tor/tor.html':
-      source  => "puppet:///modules/tor/tor.html",
+      source  => 'puppet:///modules/tor/tor.html',
       require => File['/etc/tor'],
       ensure  => $ensure,
       owner => 'debian-tor', group => 'debian-tor', mode => 0644, 
