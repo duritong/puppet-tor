@@ -6,9 +6,6 @@ class tor::daemon (
   $log_rules                = [ 'notice file /var/log/tor/notices.log' ],
 ) inherits tor {
 
-  # constants
-  $spool_dir   = '/var/lib/puppet/modules/tor'
-
   # packages, user, group
   Service['tor'] {
     subscribe => File["${config_file}"],
@@ -50,7 +47,7 @@ class tor::daemon (
     require => User['debian-tor'],
   }
 
-  file { "${spool_dir}":
+  file { '/var/lib/puppet/modules/tor':
     ensure  => absent,
     recurse => true,
     force   => true,
