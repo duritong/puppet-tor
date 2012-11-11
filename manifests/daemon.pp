@@ -29,7 +29,7 @@ class tor::daemon (
     comment   => 'tor user,,,',
     ensure    => present,
     home      => "${data_dir}",
-    shell     => '/bin/bash',
+    shell     => '/bin/false',
     gid       => 'debian-tor',
     require   => Group['debian-tor'], 
   }
