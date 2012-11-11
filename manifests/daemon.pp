@@ -24,9 +24,9 @@ class tor::daemon (
   }
 
   user { 'debian-tor':
+    ensure    => present,
     allowdupe => false,
     comment   => 'tor user,,,',
-    ensure    => present,
     home      => "${data_dir}",
     shell     => '/bin/false',
     gid       => 'debian-tor',
@@ -64,9 +64,9 @@ class tor::daemon (
 
   # config file headers
   concat::fragment { '00.header':
+    ensure  => present,
     content => template('tor/torrc.header.erb'),
     owner => 'debian-tor', group => 'debian-tor', mode => 0644, 
-    ensure  => present,
     order   => 00,
     target  => "${config_file}",
   }
@@ -116,9 +116,9 @@ class tor::daemon (
     }
 
     concat::fragment { '03.relay':
+      ensure  => $ensure,
       content => template('tor/torrc.relay.erb'),
       owner => 'debian-tor', group => 'debian-tor', mode => 0644, 
-      ensure  => $ensure,
       order   => 03,
       target  => "${tor::daemon::config_file}",
     }
@@ -141,9 +141,9 @@ class tor::daemon (
     }
     
     concat::fragment { '04.control':
+      ensure  => $ensure,
       content => template('tor/torrc.control.erb'),
       owner => 'debian-tor', group => 'debian-tor', mode => 0600, 
-      ensure  => $ensure,
       order   => 04,
       target  => "${tor::daemon::config_file}",
     }
@@ -155,9 +155,9 @@ class tor::daemon (
                          $ensure = present ) {
 
     concat::fragment { "05.hidden_service.${name}":
+      ensure  => $ensure,
       content => template('tor/torrc.hidden_service.erb'),
       owner => 'debian-tor', group => 'debian-tor', mode => 0644, 
-      ensure  => $ensure,
       order   => 05,
       target  => "${tor::daemon::config_file}",
     }
@@ -170,17 +170,17 @@ class tor::daemon (
                      $ensure = present ) {
 
     concat::fragment { '06.directory':
+      ensure  => $ensure,
       content => template('tor/torrc.directory.erb'),
       owner => 'debian-tor', group => 'debian-tor', mode => 0644, 
-      ensure  => $ensure,
       order   => 06,
       target  => "${tor::daemon::config_file}",
     }
     
     file { '/etc/tor/tor.html':
+      ensure  => $ensure,
       source  => 'puppet:///modules/tor/tor.html',
       require => File['/etc/tor'],
-      ensure  => $ensure,
       owner => 'debian-tor', group => 'debian-tor', mode => 0644, 
     }
   } 
@@ -192,9 +192,9 @@ class tor::daemon (
                       $ensure = present ) {
 
     concat::fragment { "07.exit_policy.${name}":
+      ensure  => $ensure,
       content => template('tor/torrc.exit_policy.erb'),
       owner => 'debian-tor', group => 'debian-tor', mode => 0644, 
-      ensure  => $ensure,
       order   => 07,
       target  => "${tor::daemon::config_file}",
     }
@@ -206,9 +206,9 @@ class tor::daemon (
               $ensure = present ) {
 
     concat::fragment { "08.dns.${name}":
+      ensure  => $ensure,
       content => template('tor/torrc.dns.erb'),
       owner => 'debian-tor', group => 'debian-tor', mode => 0644,
-      ensure  => $ensure,
       order   => 08,
       target  => "${tor::daemon::config_file}",
     }
@@ -220,9 +220,9 @@ class tor::daemon (
                       $ensure = present ) {
 
     concat::fragment { "09.transparent.${name}":
+      ensure  => $ensure,
       content => template('tor/torrc.transparent.erb'),
       owner => 'debian-tor', group => 'debian-tor', mode => 0644,
-      ensure  => $ensure,
       order   => 09,
       target  => "${tor::daemon::config_file}",
     }
@@ -235,9 +235,9 @@ class tor::daemon (
                  $ensure = present ) {
 
     concat::fragment { "10.bridge.${name}":
+      ensure  => $ensure,
       content => template('tor/torrc.bridge.erb'),
       owner => 'debian-tor', group => 'debian-tor', mode => 0644,
-      ensure  => $ensure,
       order   => 10,
       target  => "${tor::daemon::config_file}",
     }
@@ -248,9 +248,9 @@ class tor::daemon (
                       $newaddress = '') {
 
     concat::fragment { "08.map_address.${name}":
+      ensure  => $ensure,
       content => template('tor/torrc.map_address.erb'),
       owner   => 'debian-tor', group => 'debian-tor', mode => 0644,
-      ensure  => $ensure,
       order   => 08,
       target  => "${tor::daemon::config_file}",
     }
@@ -261,9 +261,9 @@ class tor::daemon (
                   $ensure = present ) {
 
     concat::fragment { "99.snippet.${name}":
+      ensure  => $ensure,
       content => "${content}",
       owner   => 'debian-tor', group => 'debian-tor', mode => 0644,
-      ensure  => $ensure,
       order   => 99,
       target  => "${tor::daemon::config_file}",
     }
