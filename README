@@ -30,6 +30,13 @@ policies, etc.
  removed accordingly.
 
 
+Dependencies
+============
+
+This module needs:
+
+- the concat module: git://labs.riseup.net/shared-concat
+
 Usage
 =====
 

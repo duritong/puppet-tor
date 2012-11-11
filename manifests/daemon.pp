@@ -8,7 +8,6 @@ class tor::daemon (
 
   # constants
   $spool_dir   = '/var/lib/puppet/modules/tor'
-  $snippet_dir = "${spool_dir}/torrc.d"
 
   # packages, user, group
   Service['tor'] {
@@ -52,36 +51,32 @@ class tor::daemon (
   }
 
   file { "${spool_dir}":
-    ensure => directory,
-    owner => 'debian-tor', group => 'debian-tor', mode => 0755, 
-  }
-
-  file { "${snippet_dir}":
-    ensure => directory,
-    owner => 'debian-tor', group => 'debian-tor', mode => 0755, 
-    require => File["${spool_dir}"],
+    ensure  => absent,
+    recurse => true,
+    force   => true,
   }
 
   # tor configuration file
-  concatenated_file { "${config_file}":
-    dir    => "${snippet_dir}",
+  concat { "${config_file}":
     mode   => 0600,
     owner => 'debian-tor', group => 'debian-tor', 
   }
 
   # config file headers
-  concatenated_file_part { '00.header':
-    dir     => "${snippet_dir}",
+  concat::fragment { '00.header':
     content => template('tor/torrc.header.erb'),
     owner => 'debian-tor', group => 'debian-tor', mode => 0644, 
     ensure  => present,
+    order   => 00,
+    target  => "${config_file}",
   }
 
   # global configurations
-  concatenated_file_part { '01.global':
-    dir     => "${snippet_dir}",
+  concat::fragment { '01.global':
     content => template('tor/torrc.global.erb'),
     owner => 'debian-tor', group => 'debian-tor', mode => 0644, 
+    order   => 01,
+    target  => "${config_file}",
   }
 
   # socks definition
@@ -89,10 +84,11 @@ class tor::daemon (
                 $listen_addresses = [],
                 $policies = [] ) {
 
-    concatenated_file_part { '02.socks':
-      dir     => "${tor::daemon::snippet_dir}",
+    concat::fragment { '02.socks':
       content => template('tor/torrc.socks.erb'),
       owner => 'debian-tor', group => 'debian-tor', mode => 0644, 
+      order   => 02,
+      target  => "${tor::daemon::config_file}",
     }
   }
 
@@ -119,11 +115,12 @@ class tor::daemon (
       $real_outbound_bindaddresses = $outbound_bindaddresses
     }
 
-    concatenated_file_part { '03.relay':
-      dir     => "${tor::daemon::snippet_dir}",
+    concat::fragment { '03.relay':
       content => template('tor/torrc.relay.erb'),
       owner => 'debian-tor', group => 'debian-tor', mode => 0644, 
       ensure  => $ensure,
+      order   => 03,
+      target  => "${tor::daemon::config_file}",
     }
   } 
 
@@ -143,11 +140,12 @@ class tor::daemon (
       notice('You set a tor cookie authentication option, but do not have cookie_authentication on')
     }
     
-    concatenated_file_part { '04.control':
-      dir     => "${tor::daemon::snippet_dir}",
+    concat::fragment { '04.control':
       content => template('tor/torrc.control.erb'),
       owner => 'debian-tor', group => 'debian-tor', mode => 0600, 
       ensure  => $ensure,
+      order   => 04,
+      target  => "${tor::daemon::config_file}",
     }
   } 
 
@@ -156,11 +154,12 @@ class tor::daemon (
                          $data_dir = "${tor::daemon::data_dir}",
                          $ensure = present ) {
 
-    concatenated_file_part { "05.hidden_service.${name}":
-      dir     => "${tor::daemon::snippet_dir}",
+    concat::fragment { "05.hidden_service.${name}":
       content => template('tor/torrc.hidden_service.erb'),
       owner => 'debian-tor', group => 'debian-tor', mode => 0644, 
       ensure  => $ensure,
+      order   => 05,
+      target  => "${tor::daemon::config_file}",
     }
   } 
   
@@ -170,11 +169,12 @@ class tor::daemon (
                      $port_front_page = '/etc/tor/tor.html',
                      $ensure = present ) {
 
-    concatenated_file_part { '06.directory':
-      dir     => "${tor::daemon::snippet_dir}",
+    concat::fragment { '06.directory':
       content => template('tor/torrc.directory.erb'),
       owner => 'debian-tor', group => 'debian-tor', mode => 0644, 
       ensure  => $ensure,
+      order   => 06,
+      target  => "${tor::daemon::config_file}",
     }
     
     file { '/etc/tor/tor.html':
@@ -191,11 +191,12 @@ class tor::daemon (
                       $reject_private = 1,
                       $ensure = present ) {
 
-    concatenated_file_part { "07.exit_policy.${name}":
-      dir     => "${tor::daemon::snippet_dir}",
+    concat::fragment { "07.exit_policy.${name}":
       content => template('tor/torrc.exit_policy.erb'),
       owner => 'debian-tor', group => 'debian-tor', mode => 0644, 
       ensure  => $ensure,
+      order   => 07,
+      target  => "${tor::daemon::config_file}",
     }
   } 
 
@@ -204,11 +205,12 @@ class tor::daemon (
               $listen_addresses = [],
               $ensure = present ) {
 
-    concatenated_file_part { "08.dns.${name}":
-      dir     => "${tor::daemon::snippet_dir}",
+    concat::fragment { "08.dns.${name}":
       content => template('tor/torrc.dns.erb'),
       owner => 'debian-tor', group => 'debian-tor', mode => 0644,
       ensure  => $ensure,
+      order   => 08,
+      target  => "${tor::daemon::config_file}",
     }
   }
 
@@ -217,11 +219,12 @@ class tor::daemon (
                       $listen_addresses = [],
                       $ensure = present ) {
 
-    concatenated_file_part { "09.transparent.${name}":
-      dir     => "${tor::daemon::snippet_dir}",
+    concat::fragment { "09.transparent.${name}":
       content => template('tor/torrc.transparent.erb'),
       owner => 'debian-tor', group => 'debian-tor', mode => 0644,
       ensure  => $ensure,
+      order   => 09,
+      target  => "${tor::daemon::config_file}",
     }
   }
 
@@ -231,11 +234,12 @@ class tor::daemon (
                  $fingerprint = false,
                  $ensure = present ) {
 
-    concatenated_file_part { "10.bridge.${name}":
-      dir     => "${tor::daemon::snippet_dir}",
+    concat::fragment { "10.bridge.${name}":
       content => template('tor/torrc.bridge.erb'),
       owner => 'debian-tor', group => 'debian-tor', mode => 0644,
       ensure  => $ensure,
+      order   => 10,
+      target  => "${tor::daemon::config_file}",
     }
   }
 
@@ -243,11 +247,12 @@ class tor::daemon (
   define map_address( $address = '',
                       $newaddress = '') {
 
-    concatenated_file_part { "08.map_address.${name}":
-      dir     => "${tor::daemon::snippet_dir}",
+    concat::fragment { "08.map_address.${name}":
       content => template('tor/torrc.map_address.erb'),
       owner   => 'debian-tor', group => 'debian-tor', mode => 0644,
       ensure  => $ensure,
+      order   => 08,
+      target  => "${tor::daemon::config_file}",
     }
   }
 
@@ -255,11 +260,12 @@ class tor::daemon (
   define snippet( $content = '',
                   $ensure = present ) {
 
-    concatenated_file_part { "99.snippet.${name}":
-      dir     => "${tor::daemon::snippet_dir}",
+    concat::fragment { "99.snippet.${name}":
       content => "${content}",
       owner   => 'debian-tor', group => 'debian-tor', mode => 0644,
       ensure  => $ensure,
+      order   => 99,
+      target  => "${tor::daemon::config_file}",
     }
   }
 
