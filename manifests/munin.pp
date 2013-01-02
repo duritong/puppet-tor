@@ -3,15 +3,21 @@ class tor::munin {
   file {
     '/usr/local/share/munin-plugins/tor_connections':
       source => 'puppet:///modules/tor/munin/tor_connections',
-      mode => '0755', owner => root, group => root;
-    
+      mode   => '0755',
+      owner  => root,
+      group  => root;
+
     '/usr/local/share/munin-plugins/tor_routers':
       source => 'puppet:///modules/tor/munin/tor_routers',
-      mode => '0755', owner => root, group => root;
+      mode   => '0755',
+      owner  => root,
+      group  => root;
 
     '/usr/local/share/munin-plugins/tor_traffic':
       source => 'puppet:///modules/tor/munin/tor_traffic',
-      mode => '0755', owner => root, group => root;
+      mode   => '0755',
+      owner  => root,
+      group  => root;
   }
 
   munin::plugin {
