@@ -11,8 +11,11 @@ class tor::daemon (
 
   class{'tor':
     ensure_version => $ensure_version,
-    use_munin      => $use_munin,
   }
 
   include tor::daemon::base
+
+  if $use_munin {
+    include tor::munin
+  }
 }
