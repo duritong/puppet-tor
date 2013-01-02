@@ -1,3 +1,4 @@
+# munin plugins for puppet
 class tor::munin {
 
   file {

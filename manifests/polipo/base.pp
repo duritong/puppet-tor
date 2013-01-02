@@ -1,3 +1,4 @@
+# manage polipo resources
 class tor::polipo::base {
   package{'polipo':
     ensure => present,

@@ -1,7 +1,8 @@
 # map address definition
 define tor::daemon::map_address(
   $address    = '',
-  $newaddress = '') {
+  $newaddress = ''
+  $ensure     = 'present') {
 
   concat::fragment { "08.map_address.${name}":
     ensure  => $ensure,

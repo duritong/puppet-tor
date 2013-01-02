@@ -81,14 +81,12 @@ config, for example the following will use syslog:
     }
 
 If you want to set specific options for the tor class,
-you need to define it before tor::daemon in your manifests,
+you may pass them directly to the tor::daemon in your manifests,
 e.g.:
 
-    class { '::tor':
-      use_munin => true,
-    }
     class { '::tor::daemon':
-      automap_hosts_on_resolve => 1,
+      use_munin                 => true,
+      automap_hosts_on_resolve  => 1,
     }
 
 Configuring socks

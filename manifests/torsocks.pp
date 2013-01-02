@@ -1,3 +1,4 @@
+# manage torsocks
 class tor::torsocks (
   $ensure_version = 'installed'
 ){
