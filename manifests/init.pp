@@ -1,6 +1,6 @@
 class tor (
   $ensure_version = 'installed',
-  $use_munin      = false,
+  $use_munin      = false
 ){
 
   package { [ 'tor', 'tor-geoipdb' ]:

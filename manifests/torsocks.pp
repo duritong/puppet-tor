@@ -1,5 +1,5 @@
 class tor::torsocks (
-  $ensure_version = 'installed',
+  $ensure_version = 'installed'
 ){
   include ::tor
   package{'torsocks':
