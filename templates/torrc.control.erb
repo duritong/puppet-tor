@@ -1,6 +1,16 @@
 # tor controller
 <%- if port != '0' then -%>
 ControlPort <%= port %>
+<%- if cookie_authentication != '0' then -%>
+CookieAuthentication 1
+<%- if cookie_auth_file != '' then -%>
+CookieAuthFile <%= cookie_auth_file %>
+<%- end -%>
+<%- if cookie_auth_file_group_readable != '' then -%>
+CookieAuthFileGroupReadable <%= cookie_auth_file_group_readable %>
+<%- end -%>
+<%- else -%>
 HashedControlPassword <%= hashed_control_password %>
+<%- end -%>
 <%- end -%>
 
