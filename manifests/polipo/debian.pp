@@ -10,4 +10,9 @@ class tor::polipo::debian inherits tor::polipo::base {
     require => Package['polipo'],
     source  => 'puppet:///modules/tor/polipo/polipo.cron',
   }
+
+  Service['polipo'] {
+    hasstatus => false,
+    pattern   => '/usr/bin/polipo',
+  }
 }
