@@ -3,13 +3,13 @@ RunAsDaemon 1
 DataDirectory <%= data_dir %>
 
 # log
-<%- if log_rules != [] then -%>
-<%-   for log_rule in log_rules -%>
+<%- if scope.lookupvar('tor::daemon::log_rules') != [] then -%>
+<%-   for scope.lookupvar('tor::daemon::log_rule') in log_rules -%>
 Log <%= log_rule %>
 <%-   end -%>
 <%- else -%>
 Log notice syslog
 <%- end -%>
 
-AutomapHostsOnResolve <%= automap_hosts_on_resolve%>
-UseBridges <%= use_bridges%>
+AutomapHostsOnResolve <%= scope.lookupvar('tor::daemon::automap_hosts_on_resolve') %>
+UseBridges <%= scope.lookupvar('tor::daemon::use_bridges') %>
