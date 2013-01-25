@@ -1,6 +1,6 @@
 # runtime
 RunAsDaemon 1
-DataDirectory <%= data_dir %>
+DataDirectory <%= scope.lookupvar('tor::daemon::data_dir') %>
 
 # log
 <%- if scope.lookupvar('tor::daemon::log_rules') != [] then -%>
