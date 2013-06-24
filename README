@@ -7,6 +7,11 @@ policies, etc.
 
 ! Upgrade Notice !
 
+ previously, if you did not set the $outbound_bindaddress variable, it was being 
+ automatically set to the $listen_address variable. Now this is not being done
+ and instead you will need to set the $outbound_bindaddress explicitly for it to 
+ be set. 
+
  the tor::relay{} variables $bandwidth_rate and $bandwidth_burst were previously
  used for the tor configuration variables RelayBandwidthRate and
  RelayBandwidthBurst, these have been renamed to $relay_bandwidth_rate and
