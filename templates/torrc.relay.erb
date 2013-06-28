@@ -13,6 +13,9 @@ Nickname <%= nickname %>
 <%-   if address != '' then -%>
 Address <%= address %>
 <%-   end -%>
+<%-   if portforwarding != '0' then -%>
+PortForwarding <%= portforwarding %>
+<%-   end -%>
 <%-   if bandwidth_rate != '' then -%>
 BandwidthRate <%= bandwidth_rate %> KB
 <%-   end -%>
@@ -41,4 +44,3 @@ MyFamily <%= my_family %>
 <%- if bridge_relay != '0' then -%>
 BridgeRelay <%= bridge_relay %>
 <%- end -%>
-
