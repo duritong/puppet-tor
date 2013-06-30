@@ -133,6 +133,8 @@ You have the following options that can be passed to a relay, with the defaults 
  
 $port                    = 0,
 $listen_addresses        = [],
+$portforwarding          = 0,     # PortForwarding 0|1, set for opening ports at the router via UPnP.
+                                  # Requires 'tor-fw-helper' binary present.
 $bandwidth_rate          = '',    # KB/s, defaulting to using tor's default: 5120KB/s
 $bandwidth_burst         = '',    # KB/s, defaulting to using tor's default: 10240KB/s
 $relay_bandwidth_rate    = 0,     # KB/s, 0 for no limit.
