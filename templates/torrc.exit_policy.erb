@@ -1,5 +1,5 @@
 # exit policies: <%= name %>
-<%- if reject_private != 1 then -%>
+<%- if reject_private != '1' then -%>
 ExitPolicyRejectPrivate <%= reject_private %>
 <%- end -%>
 <%- for policy in accept -%>
