@@ -3,10 +3,14 @@ class tor::repo (
   $source_name = 'torproject.org',
   $include_src = false,
 ) {
-  apt::source { $source_name:
-    ensure      => $ensure,
-    location    => 'https://deb.torproject.org/torproject.org/',
-    key         => '886DDD89',
-    include_src => $include_src,
+  case $::osfamily {
+    'Debian': {
+      $key      = '886DDD89'
+      $location = 'https://deb.torproject.org/torproject.org/'
+      class { 'tor::repo::debian': }
+    }
+    default: {
+      fail("Unsupported managed repository for osfamily: ${::osfamily}, operatingsystem: ${::operatingsystem}, module ${module_name} currently only supports managing repos for osfamily Debian and Ubuntu")
+    }
   }
 }
