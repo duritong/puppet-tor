@@ -6,7 +6,8 @@ class tor::daemon (
   $config_file              = '/etc/tor/torrc',
   $use_bridges              = 0,
   $automap_hosts_on_resolve = 0,
-  $log_rules                = [ 'notice file /var/log/tor/notices.log' ]
+  $log_rules                = [ 'notice file /var/log/tor/notices.log' ],
+  $safe_logging             = 1,
 ) {
 
   class{'tor':

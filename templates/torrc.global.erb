@@ -12,6 +12,9 @@ Log <%= log_rule %>
 <%- else -%>
 Log notice syslog
 <%- end -%>
+<%- if safe_logging != 1 then -%>
+SafeLogging <%= safe_logging %>
+<%-   end -%>
 
 <%- if scope.lookupvar('tor::daemon::automap_hosts_on_resolve') != '0' then -%>
 AutomapHostsOnResolve <%= scope.lookupvar('tor::daemon::automap_hosts_on_resolve') %>
