@@ -2,7 +2,7 @@
 define tor::daemon::directory (
   $port             = 0,
   $listen_addresses = [],
-  $port_front_page  = '/etc/tor/tor.html',
+  $port_front_page  = '/etc/tor/tor-exit-notice.html',
   $ensure           = present ) {
 
   concat::fragment { '06.directory':
@@ -15,9 +15,9 @@ define tor::daemon::directory (
     target  => $tor::daemon::config_file,
   }
 
-  file { '/etc/tor/tor.html':
+  file { '/etc/tor/tor-exit-notice.html':
     ensure  => $ensure,
-    source  => 'puppet:///modules/tor/tor.html',
+    source  => 'puppet:///modules/tor/tor-exit-notice.html',
     require => File['/etc/tor'],
     owner   => 'debian-tor',
     group   => 'debian-tor',
