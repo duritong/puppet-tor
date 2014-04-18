@@ -1,5 +1,5 @@
 # DNS
-DNSPort <%= port %>
-<%- for listen_address in listen_addresses -%>
+DNSPort <%= @port %>
+<% @listen_addresses.each do |listen_address|  -%>
 DNSListenAddress <%= listen_address %>
-<%- end -%>
+<% end -%>

@@ -1,21 +1,21 @@
 # runtime
 RunAsDaemon 1
-<%- if scope.lookupvar('tor::daemon::data_dir') != '/var/lib/tor' then -%>
-DataDirectory <%= scope.lookupvar('tor::daemon::data_dir') %>
-<%- end -%>
+<%  if (v=scope.lookupvar('tor::daemon::data_dir')) != '/var/lib/tor' -%>
+DataDirectory <%= v %>
+<% end -%>
 
 # log
-<%- if scope.lookupvar('tor::daemon::log_rules') != [] then -%>
-<%-   for log_rule in scope.lookupvar('tor::daemon::log_rules') -%>
-Log <%= log_rule %>
-<%-   end -%>
-<%- else -%>
+<% if (rules=scope.lookupvar('tor::daemon::log_rules')).empty? -%>
 Log notice syslog
-<%- end -%>
+<%  else -%>
+<%   rules.each do |log_rule| -%>
+Log <%= log_rule %>
+<%    end -%>
+<%  end -%>
 
-<%- if scope.lookupvar('tor::daemon::automap_hosts_on_resolve') != '0' then -%>
-AutomapHostsOnResolve <%= scope.lookupvar('tor::daemon::automap_hosts_on_resolve') %>
-<%- end -%>
-<%- if scope.lookupvar('tor::daemon::use_bridges') != '0' then -%>
-UseBridges <%= scope.lookupvar('tor::daemon::use_bridges') %>
+<%  if (v=scope.lookupvar('tor::daemon::automap_hosts_on_resolve')) != '0' -%>
+AutomapHostsOnResolve <%= v %>
+<%  end -%>
+<%  if (v=scope.lookupvar('tor::daemon::use_bridges')) != '0' -%>
+UseBridges <%= v %>
 <%- end -%>

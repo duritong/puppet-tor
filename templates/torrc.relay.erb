@@ -1,46 +1,46 @@
 # relay
-<%- if port != 0 then -%>
-ORPort <%= port %>
-<%-   for listen_address in listen_addresses -%>
+<% if @port != 0 -%>
+ORPort <%= @port %>
+<%   listen_addresses.each do |listen_address| -%>
 ORListenAddress <%= listen_address %>
-<%-   end -%>
-<%-   for outbound_bindaddress in real_outbound_bindaddresses -%>
+<%   end -%>
+<%   real_outbound_bindaddresses.each do |outbound_bindaddress| -%>
 OutboundBindAddress <%= outbound_bindaddress %>
-<%-   end -%>
-<%-   if nickname != '' then -%>
-Nickname <%= nickname %>
-<%-   end -%>
-<%-   if address != '' then -%>
-Address <%= address %>
-<%-   end -%>
-<%-   if portforwarding != '0' then -%>
-PortForwarding <%= portforwarding %>
-<%-   end -%>
-<%-   if bandwidth_rate != '' then -%>
-BandwidthRate <%= bandwidth_rate %> KB
-<%-   end -%>
-<%-   if bandwidth_burst != '' then -%>
-BandwidthBurst <%= bandwidth_burst %> KB
-<%-   end -%>
-<%-   if relay_bandwidth_rate != '0' then -%>
-RelayBandwidthRate <%= relay_bandwidth_rate %> KB
-<%-   end -%>
-<%-   if relay_bandwidth_burst != '0' then -%>
-RelayBandwidthBurst <%= relay_bandwidth_burst %> KB
-<%-   end -%>
-<%-   if accounting_max != '0' then -%>
-AccountingMax <%= accounting_max %> GB
-<%-     if accounting_start then -%>
-AccountingStart <%= accounting_start %>
-<%-     end -%>
-<%-   end -%>
-<%-   if contact_info != '' then -%>
-ContactInfo <%= contact_info %>
-<%-   end -%>
-<%- end -%>
-<%- if my_family != '' then -%>
-MyFamily <%= my_family %>
-<%- end -%>
-<%- if bridge_relay != '0' then -%>
-BridgeRelay <%= bridge_relay %>
-<%- end -%>
+<%   end -%>
+<%   if @nickname != '' -%>
+Nickname <%= @nickname %>
+<%   end -%>
+<%   if @address != '' -%>
+Address <%= @address %>
+<%   end -%>
+<%   if @portforwarding != '0' -%>
+PortForwarding <%= @portforwarding %>
+<%   end -%>
+<%   if @bandwidth_rate != '' -%>
+BandwidthRate <%= @bandwidth_rate %> KB
+<%   end -%>
+<%   if @bandwidth_burst != '' -%>
+BandwidthBurst <%= @bandwidth_burst %> KB
+<%   end -%>
+<%   if @relay_bandwidth_rate != '0' -%>
+RelayBandwidthRate <%= @relay_bandwidth_rate %> KB
+<%   end -%>
+<%   if @relay_bandwidth_burst != '0' -%>
+RelayBandwidthBurst <%= @relay_bandwidth_burst %> KB
+<%   end -%>
+<%   if @accounting_max != '0' -%>
+AccountingMax <%= @accounting_max %> GB
+<%     if @accounting_start -%>
+AccountingStart <%= @accounting_start %>
+<%     end -%>
+<%   end -%>
+<%   if @contact_info != '' -%>
+ContactInfo <%= @contact_info %>
+<%   end -%>
+<% end -%>
+<% if @my_family != '' -%>
+MyFamily <%= @my_family %>
+<% end -%>
+<% if @bridge_relay != '0' -%>
+BridgeRelay <%= @bridge_relay %>
+<% end -%>
