@@ -11,7 +11,7 @@ if ($ARGV[0] and $ARGV[0] =~ /^\s*config\s*$/i)
         print "graph_title Open file descriptors for Tor\n";
         print "graph_args --base 1000 -l 0\n";
         print "graph_vlabel open FDs\n";
-        print "graph_category network\n";
+        print "graph_category Tor\n";
         print "count.label TorFDs\n";
         exit 0;
 }
