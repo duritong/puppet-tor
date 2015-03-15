@@ -1,6 +1,6 @@
 # hidden service <%= @name %>
 HiddenServiceDir <%= @data_dir %>/<%= @name %>
 <% Array(@ports).each do |port| -%>
-HiddenServicePort <%= port %>
+HiddenServicePort <%= port =~ /^\d+$/ ? "#{port} 127.0.0.1:#{port}" : port %>
 <% end -%>
 
