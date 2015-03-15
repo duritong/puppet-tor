@@ -11,8 +11,9 @@ class tor::munin {
     config  => "user debian-tor\n env.cookiefile /var/run/tor/control.authcookie\n env.port 19051"
   }
   munin::plugin::deploy {
-    'tor_connections':
-      source => 'tor/munin/tor_connections';
+    'tor_openfds':
+      config  => 'user root',
+      source => 'tor/munin/tor_openfds';
     'tor_routers':
       source => 'tor/munin/tor_routers';
     'tor_traffic':
