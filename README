@@ -7,6 +7,11 @@ policies, etc.
 
 ! Upgrade Notice !
 
+ previously, if you did not set the $outbound_bindaddress variable, it was being 
+ automatically set to the $listen_address variable. Now this is not being done
+ and instead you will need to set the $outbound_bindaddress explicitly for it to 
+ be set. 
+
  the tor::relay{} variables $bandwidth_rate and $bandwidth_burst were previously
  used for the tor configuration variables RelayBandwidthRate and
  RelayBandwidthBurst, these have been renamed to $relay_bandwidth_rate and
@@ -128,6 +133,8 @@ You have the following options that can be passed to a relay, with the defaults 
  
 $port                    = 0,
 $listen_addresses        = [],
+$portforwarding          = 0,     # PortForwarding 0|1, set for opening ports at the router via UPnP.
+                                  # Requires 'tor-fw-helper' binary present.
 $bandwidth_rate          = '',    # KB/s, defaulting to using tor's default: 5120KB/s
 $bandwidth_burst         = '',    # KB/s, defaulting to using tor's default: 10240KB/s
 $relay_bandwidth_rate    = 0,     # KB/s, 0 for no limit.

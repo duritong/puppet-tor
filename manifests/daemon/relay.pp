@@ -3,6 +3,7 @@ define tor::daemon::relay(
   $port                    = 0,
   $listen_addresses        = [],
   $outbound_bindaddresses  = [],
+  $portforwarding          = 0,
   # KB/s, defaulting to using tor's default: 5120KB/s
   $bandwidth_rate          = '',
   # KB/s, defaulting to using tor's default: 10240KB/s
@@ -24,7 +25,7 @@ define tor::daemon::relay(
   $nickname = $name
 
   if $outbound_bindaddresses == [] {
-    $real_outbound_bindaddresses = $listen_addresses
+    $real_outbound_bindaddresses = ''
   } else {
     $real_outbound_bindaddresses = $outbound_bindaddresses
   }

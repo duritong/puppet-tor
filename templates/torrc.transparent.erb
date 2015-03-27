@@ -1,5 +1,5 @@
 # Transparent proxy
-TransPort <%= port %>
-<%- for listen_address in listen_addresses -%>
+TransPort <%= @port %>
+<% @listen_addresses.each do |listen_address| -%>
 TransListenAddress <%= listen_address %>
-<%- end -%>
+<% end -%>

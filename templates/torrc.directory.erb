@@ -1,11 +1,11 @@
 # directory listing
-<%- if port != '0' then -%>
-DirPort <%= port %>
-<%- end -%>
-<%- for listen_address in listen_addresses -%>
+<%  if port != '0' -%>
+DirPort <%= @port %>
+<%  end -%>
+<%  listen_addresses.each do |listen_address| -%>
 DirListenAddress <%= listen_address %>
-<%- end -%>
-<%- if port_front_page != '' then -%>
+<%  end -%>
+<%  if @port_front_page != '' -%>
 DirPortFrontPage <%= port_front_page %>
 <%- end -%>
 
