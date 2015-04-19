@@ -8,7 +8,7 @@ define tor::daemon::directory (
   concat::fragment { '06.directory':
     ensure  => $ensure,
     content => template('tor/torrc.directory.erb'),
-    order   => 06,
+    order   => '06',
     target  => $tor::daemon::config_file,
   }
 

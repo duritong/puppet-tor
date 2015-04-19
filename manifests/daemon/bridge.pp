@@ -8,7 +8,7 @@ define tor::daemon::bridge(
   concat::fragment { "10.bridge.${name}":
     ensure  => $ensure,
     content => template('tor/torrc.bridge.erb'),
-    order   => 10,
+    order   => '10',
     target  => $tor::daemon::config_file,
   }
 }

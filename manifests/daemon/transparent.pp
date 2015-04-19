@@ -7,7 +7,7 @@ define tor::daemon::transparent(
   concat::fragment { "09.transparent.${name}":
     ensure  => $ensure,
     content => template('tor/torrc.transparent.erb'),
-    order   => 09,
+    order   => '09',
     target  => $tor::daemon::config_file,
   }
 }

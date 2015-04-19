@@ -18,7 +18,7 @@ define tor::daemon::control(
   concat::fragment { '04.control':
     ensure  => $ensure,
     content => template('tor/torrc.control.erb'),
-    order   => 04,
+    order   => '04',
     target  => $tor::daemon::config_file,
   }
 }

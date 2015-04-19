@@ -8,7 +8,7 @@ define tor::daemon::exit_policy(
   concat::fragment { "07.exit_policy.${name}":
     ensure  => $ensure,
     content => template('tor/torrc.exit_policy.erb'),
-    order   => 07,
+    order   => '07',
     target  => $tor::daemon::config_file,
   }
 }

@@ -7,7 +7,7 @@ define tor::daemon::hidden_service(
   concat::fragment { "05.hidden_service.${name}":
     ensure  => $ensure,
     content => template('tor/torrc.hidden_service.erb'),
-    order   => 05,
+    order   => '05',
     target  => $tor::daemon::config_file,
   }
 }

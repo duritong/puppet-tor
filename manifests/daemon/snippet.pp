@@ -6,7 +6,7 @@ define tor::daemon::snippet(
   concat::fragment { "99.snippet.${name}":
     ensure  => $ensure,
     content => $content,
-    order   => 99,
+    order   => '99',
     target  => $tor::daemon::config_file,
   }
 }

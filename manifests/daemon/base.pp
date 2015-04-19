@@ -56,14 +56,14 @@ class tor::daemon::base inherits tor::base {
   concat::fragment { '00.header':
     ensure  => present,
     content => template('tor/torrc.header.erb'),
-    order   => 00,
+    order   => '00',
     target  => $tor::daemon::config_file,
   }
 
   # global configurations
   concat::fragment { '01.global':
     content => template('tor/torrc.global.erb'),
-    order   => 01,
+    order   => '01',
     target  => $tor::daemon::config_file,
   }
 }
