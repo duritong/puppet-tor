@@ -1,10 +1,7 @@
 # extend basic tor things with a snippet based daemon configuration
 class tor::daemon::base inherits tor::base {
-  # packages, user, group
-  Service['tor'] {
-    subscribe => File[$tor::daemon::config_file],
-  }
 
+  # packages, user, group
   Package[ 'tor' ] {
     require => File[$tor::daemon::data_dir],
   }
@@ -52,6 +49,7 @@ class tor::daemon::base inherits tor::base {
     mode   => '0600',
     owner  => 'debian-tor',
     group  => 'debian-tor',
+    notify => Service['tor'],
   }
 
   # config file headers
