@@ -10,7 +10,7 @@ define tor::daemon::transparent(
     owner   => 'debian-tor',
     group   => 'debian-tor',
     mode    => '0644',
-    order   => 09,
+    order   => '09',
     target  => $tor::daemon::config_file,
   }
 }
