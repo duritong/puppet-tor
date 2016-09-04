@@ -25,7 +25,7 @@ define tor::daemon::relay(
   $nickname = $name
 
   if $outbound_bindaddresses == [] {
-    $real_outbound_bindaddresses = ''
+    $real_outbound_bindaddresses = []
   } else {
     $real_outbound_bindaddresses = $outbound_bindaddresses
   }
