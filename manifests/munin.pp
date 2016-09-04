@@ -7,8 +7,9 @@ class tor::munin {
       cookie_auth_file      => '/var/run/tor/control.authcookie',
   }
 
+  include ::tor::daemon::params
   Munin::Plugin::Deploy {
-    config  => "user debian-tor\n env.cookiefile /var/run/tor/control.authcookie\n env.port 19051"
+    config  => "user ${tor::daemon::params::user}\n env.cookiefile /var/run/tor/control.authcookie\n env.port 19051"
   }
   munin::plugin::deploy {
     'tor_openfds':

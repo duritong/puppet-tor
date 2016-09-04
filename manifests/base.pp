@@ -1,7 +1,14 @@
 # basic management of resources for tor
 class tor::base {
-  package { [ 'tor', 'tor-geoipdb' ]:
+  package {'tor':
     ensure => $tor::ensure_version,
+  }
+  case $osfamily {
+    'Debian': {
+      package {'tor-geoipdb':
+        ensure => $tor::ensure_version,
+      }
+    }
   }
 
   service { 'tor':
