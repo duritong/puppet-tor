@@ -2,7 +2,7 @@
 class tor::daemon::base inherits tor::base {
   # packages, user, group
   Service['tor'] {
-    subscribe => File[$tor::daemon::config_file],
+    subscribe => Concat[$tor::daemon::config_file],
   }
 
   Package[ 'tor' ] {
