@@ -21,9 +21,6 @@ define tor::daemon::control(
   concat::fragment { '04.control':
     ensure  => $ensure,
     content => template('tor/torrc.control.erb'),
-    owner   => 'debian-tor',
-    group   => 'debian-tor',
-    mode    => '0600',
     order   => 04,
     target  => $tor::daemon::config_file,
   }
