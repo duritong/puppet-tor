@@ -23,7 +23,7 @@ class tor::daemon::base inherits tor::base {
   # directories
   file { $tor::daemon::data_dir:
     ensure  => directory,
-    mode    => '0750',
+    mode    => $tor::daemon::params::data_dir_mode,
     owner   => $tor::daemon::params::user,
     group   => 'root',
     require => Package['tor'],
