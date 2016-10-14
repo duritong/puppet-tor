@@ -9,6 +9,9 @@ class tor::repo (
       $location = 'https://deb.torproject.org/torproject.org/'
       class { 'tor::repo::debian': }
     }
+    'RedHat': {
+      # no need as EPEL is the relevant reference
+    }
     default: {
       fail("Unsupported managed repository for osfamily: ${::osfamily}, operatingsystem: ${::operatingsystem}, module ${module_name} currently only supports managing repos for osfamily Debian and Ubuntu")
     }
