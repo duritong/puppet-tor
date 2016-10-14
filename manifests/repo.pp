@@ -1,3 +1,4 @@
+# add upstream repositories of torproject
 class tor::repo (
   $ensure      = present,
   $source_name = 'torproject.org',
