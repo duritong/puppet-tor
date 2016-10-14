@@ -39,9 +39,9 @@ class tor::daemon::base inherits tor::base {
 
   # tor configuration file
   concat { $tor::daemon::config_file:
-    mode    => '0600',
+    mode    => '0640',
     owner   => 'root',
-    group   => 'root',
+    group   => $tor::daemon::params::group,
     require => Package['tor'],
     notify  => Service['tor'],
   }
