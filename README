@@ -40,7 +40,8 @@ Dependencies
 
 This module needs:
 
-- the concat module: git://labs.riseup.net/shared-concat
+- the concat module: https://gitlab.com/shared-puppet-modules-group/concat
+- the apt module https://gitlab.com/shared-puppet-modules-group/apt or https://github.com/puppetlabs/puppetlabs-apt/
 
 Usage
 =====
@@ -212,3 +213,17 @@ If you are using munin, and have the puppet munin module installed, you can set
 the use_munin parameter to true when defining the tor::daemon class to have
 graphs setup for you.
 
+Functions
+=========
+
+This module comes with 2 functions specific to tor support. They require the base32 gem to be installed on the master or wherever they are executed.
+
+onion_address
+-------------
+
+This function takes a 1024bit RSA private key as an argument and returns the onion address for a hidden service for that key.
+
+generate_onion_key
+------------------
+
+This function takes a path (on the puppetmaster!) and an identifier for a key and returns an array containing the matching onion address and the private key. The private key either exists under the supplied `path/key_identifier` or is being generated on the fly and stored under that path for the next execution.
