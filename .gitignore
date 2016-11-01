@@ -3,5 +3,6 @@
 .tmp
 spec/fixtures/modules
 spec/fixtures/manifests
-spec/fixtures/tmp
+spec/tmp
+!spec/tmp/.keep
 *.lock
