@@ -1,7 +1,7 @@
 require File.expand_path(File.join(File.dirname(__FILE__),'../spec_helper'))
 require 'openssl'
 
-describe 'tor::daemon::hidden_service', :type => 'define' do
+describe 'tor::daemon::onion_service', :type => 'define' do
   let(:default_facts) {
     {
       :osfamily        => 'RedHat',
@@ -15,13 +15,13 @@ describe 'tor::daemon::hidden_service', :type => 'define' do
   describe 'with standard' do
     it { is_expected.to compile.with_all_deps }
 
-    it { is_expected.to contain_concat__fragment('05.hidden_service.test_os').with(
+    it { is_expected.to contain_concat__fragment('05.onion_service.test_os').with(
       :ensure  => 'present',
       :content => /HiddenServiceDir \/var\/lib\/tor\/test_os/,
       :order   => '05',
       :target  => '/etc/tor/torrc',
     )}
-    it { is_expected.to_not contain_concat__fragment('05.hidden_service.test_os').with_content(/^HiddenServicePort/) }
+    it { is_expected.to_not contain_concat__fragment('05.onion_service.test_os').with_content(/^HiddenServicePort/) }
     it { is_expected.to_not contain_file('/var/lib/tor/test_os') }
     context 'on Debian' do
       let(:facts) {
@@ -31,13 +31,13 @@ describe 'tor::daemon::hidden_service', :type => 'define' do
         }
       }
       it { is_expected.to compile.with_all_deps }
-      it { is_expected.to contain_concat__fragment('05.hidden_service.test_os').with(
+      it { is_expected.to contain_concat__fragment('05.onion_service.test_os').with(
         :ensure  => 'present',
         :content => /HiddenServiceDir \/var\/lib\/tor\/test_os/,
         :order   => '05',
         :target  => '/etc/tor/torrc',
       )}
-      it { is_expected.to_not contain_concat__fragment('05.hidden_service.test_os').with_content(/^HiddenServicePort/) }
+      it { is_expected.to_not contain_concat__fragment('05.onion_service.test_os').with_content(/^HiddenServicePort/) }
       it { is_expected.to_not contain_file('/var/lib/tor/test_os') }
     end
     context 'with differt port params' do
@@ -47,8 +47,8 @@ describe 'tor::daemon::hidden_service', :type => 'define' do
         }
       }
       it { is_expected.to compile.with_all_deps }
-      it { is_expected.to contain_concat__fragment('05.hidden_service.test_os').with_content(/^HiddenServicePort 25 127.0.0.1:25/) }
-      it { is_expected.to contain_concat__fragment('05.hidden_service.test_os').with_content(/^HiddenServicePort 443 192.168.0.1:8443/) }
+      it { is_expected.to contain_concat__fragment('05.onion_service.test_os').with_content(/^HiddenServicePort 25 127.0.0.1:25/) }
+      it { is_expected.to contain_concat__fragment('05.onion_service.test_os').with_content(/^HiddenServicePort 443 192.168.0.1:8443/) }
       it { is_expected.to_not contain_file('/var/lib/tor/test_os') }
     end
     context 'with private_key' do
@@ -59,7 +59,7 @@ describe 'tor::daemon::hidden_service', :type => 'define' do
         }
       }
       it { is_expected.to compile.with_all_deps }
-      it { is_expected.to contain_concat__fragment('05.hidden_service.test_os').with_content(/^HiddenServicePort 80 127.0.0.1:80/) }
+      it { is_expected.to contain_concat__fragment('05.onion_service.test_os').with_content(/^HiddenServicePort 80 127.0.0.1:80/) }
       it { is_expected.to contain_file('/var/lib/tor/test_os').with(
         :ensure  => 'directory',
         :purge   => true,
@@ -93,7 +93,7 @@ describe 'tor::daemon::hidden_service', :type => 'define' do
         }
       }
       it { is_expected.to compile.with_all_deps }
-      it { is_expected.to contain_concat__fragment('05.hidden_service.test_os').with_content(/^HiddenServicePort 80 127.0.0.1:80/) }
+      it { is_expected.to contain_concat__fragment('05.onion_service.test_os').with_content(/^HiddenServicePort 80 127.0.0.1:80/) }
       it { is_expected.to contain_file('/var/lib/tor/test_os').with(
         :ensure  => 'directory',
         :purge   => true,

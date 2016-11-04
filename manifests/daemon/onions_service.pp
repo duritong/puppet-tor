@@ -1,5 +1,5 @@
-# hidden services definition
-define tor::daemon::hidden_service(
+# onion services definition
+define tor::daemon::onion_service(
   $ensure                 = present,
   $ports                  = [],
   $data_dir               = $tor::daemon::data_dir,
@@ -10,9 +10,9 @@ define tor::daemon::hidden_service(
 
   $data_dir_path = "${data_dir}/${name}"
   include ::tor::daemon::params
-  concat::fragment { "05.hidden_service.${name}":
+  concat::fragment { "05.onion_service.${name}":
     ensure  => $ensure,
-    content => template('tor/torrc.hidden_service.erb'),
+    content => template('tor/torrc.onion_service.erb'),
     order   => '05',
     target  => $tor::daemon::config_file,
   }

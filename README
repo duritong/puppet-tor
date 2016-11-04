@@ -169,7 +169,7 @@ Configuring hidden services
 
 To configure a tor hidden service you can do something like the following:
 
- tor::daemon::hidden_service { "hidden_ssh": ports => 22 }
+ tor::daemon::onion_service { "onion_ssh": ports => 22 }
 
 The HiddenServiceDir is set to the ${data_dir}/${name}.
 
