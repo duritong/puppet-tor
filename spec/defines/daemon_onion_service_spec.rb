@@ -67,7 +67,7 @@ describe 'tor::daemon::onion_service', :type => 'define' do
         :recurse => true,
         :owner   => 'toranon',
         :group   => 'toranon',
-        :mode    => '0750',
+        :mode    => '0600',
         :require => 'Package[tor]',
       )}
       it { is_expected.to contain_file('/var/lib/tor/test_os/hostname').with(
@@ -101,7 +101,7 @@ describe 'tor::daemon::onion_service', :type => 'define' do
         :recurse => true,
         :owner   => 'toranon',
         :group   => 'toranon',
-        :mode    => '0750',
+        :mode    => '0600',
         :require => 'Package[tor]',
       )}
       it { is_expected.to contain_file('/var/lib/tor/test_os/hostname').with(
