@@ -36,7 +36,7 @@ define tor::daemon::hidden_service(
         recurse => true,
         owner   => $tor::daemon::params::user,
         group   => $tor::daemon::params::group,
-        mode    => $tor::daemon::params::data_dir_mode,
+        mode    => '0600',
         require => Package['tor'];
       "${data_dir_path}/private_key":
         content => $real_private_key,
