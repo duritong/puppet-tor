@@ -4,7 +4,7 @@ require 'fileutils'
 describe 'generate_onion_key' do
   before(:all) do
     @tmp_path = File.expand_path(File.join(File.dirname(__FILE__),'..','fixtures','tmp'))
-    @test_path = File.join(@tmp_path,'test')
+    @test_path = File.join(@tmp_path,'test.key')
     @drpsyff5srkctr7h_str = "-----BEGIN RSA PRIVATE KEY-----
 MIICXAIBAAKBgQC9OUBOkL73n43ogC/Jma54/ZZDEpoisqpkGJHgbcRGJIxcqqfL
 PbnT3hD5SUCVXxLnzWDCTwTe2VOzIUlBXmslwVXnCJh/XGZg9NHiNU3EAZTwu1g9
@@ -51,10 +51,10 @@ znq+qT/KbJlwy/27X/auCAzD5rJ9VVzyWiu8nnwICS8=
         expect(return_value.size).to be(2)
       end
       it 'creates and stores the key' do
-        expect(return_value.last).to be_eql(File.read(File.join(@tmp_path,'test')))
+        expect(return_value.last).to be_eql(File.read(File.join(@tmp_path,'test.key')))
       end
       it 'returns a proper onion address' do
-        expect(return_value.first).to be_eql(scope.function_onion_address([File.read(File.join(@tmp_path,'test'))]))
+        expect(return_value.first).to be_eql(scope.function_onion_address([File.read(File.join(@tmp_path,'test.key'))]))
       end
       it 'does not recreate a key once created' do
         expect(scope.function_generate_onion_key([@tmp_path,'test'])).to be_eql(scope.function_generate_onion_key([@tmp_path,'test']))
@@ -65,9 +65,9 @@ znq+qT/KbJlwy/27X/auCAzD5rJ9VVzyWiu8nnwICS8=
     end
     context 'with an existing key' do
       before(:all) do
-        File.open(@test_path,'w'){|f| f << @drpsyff5srkctr7h_str }
+        File.open(File.join(@tmp_path,'test3.key'),'w'){|f| f << @drpsyff5srkctr7h_str }
       end
-      it { is_expected.to run.with_params(@tmp_path,'test').and_return(['drpsyff5srkctr7h',@drpsyff5srkctr7h_str]) }
+      it { is_expected.to run.with_params(@tmp_path,'test3').and_return(['drpsyff5srkctr7h',@drpsyff5srkctr7h_str]) }
     end
   end
 end
