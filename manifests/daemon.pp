@@ -1,6 +1,5 @@
 # manage a snippet based tor installation
 class tor::daemon (
-  $ensure_version           = 'installed',
   $use_munin                = false,
   $data_dir                 = '/var/lib/tor',
   $config_file              = '/etc/tor/torrc',
@@ -10,13 +9,10 @@ class tor::daemon (
   $safe_logging             = 1,
 ) {
 
-  class{'tor':
-    ensure_version => $ensure_version,
-  }
-
-  include tor::daemon::base
+  include ::tor
+  include ::tor::daemon::base
 
   if $use_munin {
-    include tor::munin
+    include ::tor::munin
   }
 }
