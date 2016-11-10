@@ -22,7 +22,9 @@ Returns the onionadress for that key, *without* the .onion suffix.
     # We can skip the first 22 bits of the der format as they are ignored by tor
     # https://timtaubert.de/blog/2014/11/using-the-webcrypto-api-to-generate-onion-names-for-tor-hidden-services/
     # https://gitweb.torproject.org/torspec.git/tree/rend-spec.txt#n525
+    # Except for Ruby 1.8.7 where the first 22 are not present at all
+    start = RUBY_VERSION.to_f < 1.9 ? 0 : 22
     public_key_der = private_key.public_key.to_der
-    Base32.encode(Digest::SHA1.digest(public_key_der[22..-1]))[0..15].downcase
+    Base32.encode(Digest::SHA1.digest(public_key_der[start..-1]))[0..15].downcase
   end
 end
