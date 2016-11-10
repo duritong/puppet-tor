@@ -62,8 +62,9 @@ class tor::onionbalance(
       notify  => Service['tor@onionbalance'],
   }
 
+  $keys = keys($services)
   tor::onionbalance::keys{
-    keys($services):
+    $keys:
       values => $services,
       group  => $instance_user,
   }
