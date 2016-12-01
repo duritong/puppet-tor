@@ -2,7 +2,7 @@
 class tor::torsocks (
   $ensure_version = 'installed'
 ){
-  include ::tor
+  include ::tor::daemon
   package{'torsocks':
     ensure => $ensure_version,
   }
