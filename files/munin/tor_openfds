@@ -16,9 +16,15 @@ if ($ARGV[0] and $ARGV[0] =~ /^\s*config\s*$/i)
         exit 0;
 }
 
-open (PID, "/var/run/tor/tor.pid") or exit 1;
-my $pid = <PID>;
-close PID;
+my $pidfile = "/var/run/tor/tor.pid";
+my $pid = '';
+if (-e $pidfile) {
+  open (PID, $pidfile) or exit 1;
+  $pid = <PID>;
+  close PID;
+} else {
+  $pid = `pidof tor`;
+}
 chomp $pid;
 
 $pid =~ /^[0-9]+$/ or exit 1;
