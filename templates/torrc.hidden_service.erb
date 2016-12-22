@@ -1,5 +1,10 @@
 # hidden service <%= @name %>
 HiddenServiceDir <%= @data_dir %>/<%= @name %>
+<% if @single_hop != false %>
+HiddenServiceNonAnonymousMode 1
+<% else %> 
+HiddenServiceNonAnonymousMode 0
+<% end %>
 <% @ports.each do |port| -%>
 HiddenServicePort <%= port %>
 <% end -%>
