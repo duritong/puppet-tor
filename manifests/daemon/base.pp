@@ -49,9 +49,9 @@ class tor::daemon::base inherits tor::base {
 
   # tor configuration file
   concat { $tor::daemon::config_file:
-    mode   => '0600',
-    owner  => 'debian-tor',
-    group  => 'debian-tor',
+    mode  => '0600',
+    owner => 'debian-tor',
+    group => 'debian-tor',
   }
 
   # config file headers
