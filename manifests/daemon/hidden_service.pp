@@ -1,8 +1,16 @@
 # hidden services definition
 define tor::daemon::hidden_service(
-  $ports    = [],
-  $data_dir = $tor::daemon::data_dir,
-  $ensure   = present ) {
+  $ports         = [],
+  $single_hop    = false,
+  $data_dir      = $tor::daemon::data_dir,
+  $ensure        = present ) {
+
+
+  if $single_hop {
+    file { "${$data_dir}/${$name}/onion_service_non_anonymous":
+      ensure => 'present',
+    }
+  }
 
   concat::fragment { "05.hidden_service.${name}":
     ensure  => $ensure,
@@ -11,4 +19,3 @@ define tor::daemon::hidden_service(
     target  => $tor::daemon::config_file,
   }
 }
-
