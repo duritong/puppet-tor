@@ -18,8 +18,4 @@ define tor::daemon::hidden_service(
     order   => 05,
     target  => $tor::daemon::config_file,
   }
-
-  
-
 }
-
