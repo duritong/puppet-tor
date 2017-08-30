@@ -16,7 +16,6 @@ describe 'tor::daemon::onion_service', :type => 'define' do
     it { is_expected.to compile.with_all_deps }
 
     it { is_expected.to contain_concat__fragment('05.onion_service.test_os').with(
-      :ensure  => 'present',
       :content => /HiddenServiceDir \/var\/lib\/tor\/test_os/,
       :order   => '05',
       :target  => '/etc/tor/torrc',
@@ -32,7 +31,6 @@ describe 'tor::daemon::onion_service', :type => 'define' do
       }
       it { is_expected.to compile.with_all_deps }
       it { is_expected.to contain_concat__fragment('05.onion_service.test_os').with(
-        :ensure  => 'present',
         :content => /HiddenServiceDir \/var\/lib\/tor\/test_os/,
         :order   => '05',
         :target  => '/etc/tor/torrc',

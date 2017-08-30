@@ -1,6 +1,6 @@
 # onion services definition
 define tor::daemon::onion_service(
-  $ensure                 = present,
+  $ensure                 = 'present',
   $ports                  = [],
   $data_dir               = $tor::daemon::data_dir,
   $private_key            = undef,
@@ -9,16 +9,17 @@ define tor::daemon::onion_service(
 ) {
 
   $data_dir_path = "${data_dir}/${name}"
-  include ::tor::daemon::params
-  concat::fragment { "05.onion_service.${name}":
-    ensure  => $ensure,
-    content => template('tor/torrc.onion_service.erb'),
-    order   => '05',
-    target  => $tor::daemon::config_file,
+  if $ensure == 'present' {
+    include ::tor::daemon::params
+    concat::fragment { "05.onion_service.${name}":
+      content => template('tor/torrc.onion_service.erb'),
+      order   => '05',
+      target  => $tor::daemon::config_file,
+    }
   }
   if $private_key or ($private_key_name and $private_key_store_path) {
     if $private_key and ($private_key_name and $private_key_store_path) {
-      fail("Either private_key OR (private_key_name AND private_key_store_path) must be set, but not all three of them")
+      fail('Either private_key OR (private_key_name AND private_key_store_path) must be set, but not all three of them')
     }
     if $private_key_store_path and $private_key_name {
       $tmp = generate_onion_key($private_key_store_path,$private_key_name)

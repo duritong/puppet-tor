@@ -2,8 +2,8 @@
 define tor::daemon::socks(
   $port = 0,
   $listen_addresses = [],
-  $policies = [] ) {
-
+  $policies = [],
+) {
   concat::fragment { '02.socks':
     content => template('tor/torrc.socks.erb'),
     order   => '02',
