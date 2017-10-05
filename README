@@ -178,7 +178,7 @@ Configuring directories
 An example directory configuration:
 
  tor::daemon::directory { 'ssh_directory':
-   port => 80, listen_address => '192.168.0.1', 
+   port => 80, listen_addresses => '192.168.0.1',
    port_front_page => '/etc/tor/tor.html'
  }
   
