@@ -31,7 +31,6 @@ define tor::daemon::relay(
   }
 
   concat::fragment { '03.relay':
-    ensure  => $ensure,
     content => template('tor/torrc.relay.erb'),
     order   => 03,
     target  => $tor::daemon::config_file,

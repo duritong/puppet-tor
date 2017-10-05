@@ -56,7 +56,6 @@ class tor::daemon::base inherits tor::base {
 
   # config file headers
   concat::fragment { '00.header':
-    ensure  => present,
     content => template('tor/torrc.header.erb'),
     order   => 00,
     target  => $tor::daemon::config_file,
