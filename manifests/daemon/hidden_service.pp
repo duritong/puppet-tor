@@ -2,7 +2,9 @@
 define tor::daemon::hidden_service(
   $ports         = [],
   $single_hop    = false,
+  $v3            = false,
   $data_dir      = $tor::daemon::data_dir ) {
+
 
 
   if $single_hop {

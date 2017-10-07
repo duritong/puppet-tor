@@ -183,7 +183,15 @@ To configure a tor hidden service you can do something like the following:
       ports => 22;
     }
 
-The `HiddenServiceDir` is set to the `${data_dir}/${name}`.
+The `HiddenServiceDir` is set to the `${data_dir}/${name}`, but you can override
+it with the parameter `datadir`.
+
+If you wish to enable v3-style hidden services to correspond with the v2-style
+hidden services (the same configuration will be applied to both), you can pass
+the parameter `v3 => true`. The default is `false`.
+
+If you wish to enable single-hop onion addresses, you can enable them by
+passing `single_hop => true`. The default is `false`.
 
 ## Configuring directories<a name="configuring-directories"></a>
 
