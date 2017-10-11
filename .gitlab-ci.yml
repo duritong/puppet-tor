@@ -24,10 +24,10 @@ test:puppet38_future_parser:
     FUTURE_PARSER:  'yes'
   <<: *job_definition
 
-# Default debia stretch versions
-test:puppet45:
+# Default debian stretch versions
+test:puppet48:
   variables:
-    PUPPET_VERSION: "~> 4.5.2"
+    PUPPET_VERSION: "~> 4.8.2"
     FACTER_VERSION: '~> 2.4.6'
   <<: *job_definition
 
