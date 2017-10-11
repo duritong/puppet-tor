@@ -5,7 +5,7 @@ group :development, :unit_tests do
   gem "rspec-puppet", "~> 2.1", :require => false
   gem "rspec-core"
   gem "puppetlabs_spec_helper"
-  gem "semantic_puppet gem"
+  gem "semantic_puppet"
   gem "metadata-json-lint"
   gem "rspec-puppet-facts"
   gem "mocha"
