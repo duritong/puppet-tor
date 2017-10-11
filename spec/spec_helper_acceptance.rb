@@ -12,7 +12,7 @@ RSpec.configure do |c|
     # Install module and dependencies
     puppet_module_install(:source => module_root, :module_name => module_name)
     hosts.each do |host|
-      shell('git clone https://gitlab.com/shared-puppet-modules-group/common.git /etc/puppet/modules/common')
+      shell('git clone https://github.com/puppetlabs/puppetlabs-concat.git /etc/puppet/modules/concat')
     end
   end
 end
