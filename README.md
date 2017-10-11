@@ -8,7 +8,7 @@
 * [Usage](#usage)
   * [Installing tor](#installing-tor)
   * [Configuring SOCKS](#configuring-socks)
-  * [Installing torsocks](#installing-torsock)
+  * [Installing torsocks](#installing-torsocks)
   * [Configuring relays](#configuring-relays)
   * [Configuring the control](#configuring-control)
   * [Configuring hidden services](#configuring-hidden-services)
@@ -134,15 +134,15 @@ version installed.
 
 An example relay configuration:
 
-   tor::daemon::relay { "foobar":
-     port             => '9001',
-     listen_addresses => '192.168.0.1',
-     address          => '192.168.0.1',
-     bandwidth_rate   => '256',
-     bandwidth_burst  => '256',
-     contact_info     => "Foo <collective at example dot com>",
-     my_family        => '<long family string here>';
-   }
+    tor::daemon::relay { "foobar":
+      port             => '9001',
+      listen_addresses => '192.168.0.1',
+      address          => '192.168.0.1',
+      bandwidth_rate   => '256',
+      bandwidth_burst  => '256',
+      contact_info     => "Foo <collective at example dot com>",
+      my_family        => '<long family string here>';
+    }
 
 You have the following options that can be passed to a relay, with the defaults
 shown:
@@ -166,8 +166,8 @@ shown:
 
 ## Configuring the control<a name="configuring-control"></a>
 
-To pass parameters to configure the ControlPort and the HashedControlPassword,
-you would do something like this:
+To pass parameters to configure the `ControlPort` and the
+`HashedControlPassword`, you would do something like this:
 
     tor::daemon::control { "foo-control": 
       port                    => '80',
