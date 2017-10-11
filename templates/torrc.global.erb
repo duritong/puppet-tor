@@ -8,7 +8,7 @@ DataDirectory <%= v %>
 <% if (rules=scope.lookupvar('tor::daemon::log_rules')).empty? -%>
 Log notice syslog
 <%  else -%>
-<%   rules.each do |log_rule| -%>
+<%   Array(rules).each do |log_rule| -%>
 Log <%= log_rule %>
 <%    end -%>
 <%  end -%>
