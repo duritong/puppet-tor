@@ -40,7 +40,7 @@ Dependencies
 
 This module needs:
 
-- the concat module: git://labs.riseup.net/shared-concat
+- the concat module: https://github.com/puppetlabs/puppetlabs-concat.git
 
 Usage
 =====
