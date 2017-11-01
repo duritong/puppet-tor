@@ -1,10 +1,10 @@
 # relay
 <% if @port != 0 -%>
 ORPort <%= @port %>
-<%   @listen_addresses.each do |listen_address| -%>
+<%   Array(@listen_addresses).each do |listen_address| -%>
 ORListenAddress <%= @listen_address %>
 <%   end -%>
-<%   @real_outbound_bindaddresses.each do |outbound_bindaddress| -%>
+<%   Array(@real_outbound_bindaddresses).each do |outbound_bindaddress| -%>
 OutboundBindAddress <%= @outbound_bindaddress %>
 <%   end -%>
 <%   if @nickname != '' -%>
