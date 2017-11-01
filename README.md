@@ -14,6 +14,7 @@
   * [Configuring hidden services](#configuring-hidden-services)
   * [Configuring directories](#configuring-directories)
   * [Configuring exit policies](#configuring-exit-policies)
+  * [Configuring transport plugins](#configuring-transport-plugins)
 * [Polipo](#polipo)
 * [Munin](#munin)
 
@@ -202,6 +203,23 @@ To configure exit policies, you can do the following:
       reject => "*:*";
     }
 
+## Configuring transport plugins<a name="configuring-transport-plugins"></a>
+
+To configure transport plugins, you can do the following:
+
+    tor::daemon::transport_plugins { "obfs4":
+      ext_port                => '80',
+      servertransport_plugin  => 'obfs4 exec /usr/bin/obfs4proxy',
+    }
+
+If you wish to use `obfs4proxy`, you will also need to install the required
+Debian package, as the puppet module will not do it for you.
+
+Other options for transport plugins are also available but not defined by
+default:
+
+    $servertransport_listenaddr  #Set a different address for the transport plugin mechanism
+    $servertransport_options     #Pass a k=v parameters to the transport proxy
 
 # Polipo<a name="polipo"></a>
 
