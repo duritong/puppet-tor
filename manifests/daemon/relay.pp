@@ -1,7 +1,6 @@
 # relay definition
 define tor::daemon::relay(
   $port                    = 0,
-  $listen_addresses        = [],
   $outbound_bindaddresses  = [],
   $portforwarding          = 0,
   # KB/s, defaulting to using tor's default: 5120KB/s

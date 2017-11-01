@@ -1,7 +1,6 @@
 # socks definition
 define tor::daemon::socks(
   $port = 0,
-  $listen_addresses = [],
   $policies = [] ) {
 
   concat::fragment { '02.socks':

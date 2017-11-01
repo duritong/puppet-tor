@@ -25,6 +25,10 @@ exit policies, etc.
 
 ## Upgrade Notice<a name="upgrade-notice"></a>
 
+ * All of the `listen_address` variables have been deprecated, since they have
+   been deprecated in tor since 0.2.3.x-alpha. Please read the new tor man page
+   if you were using those variables.
+
  * Previously, if you did not set the `$outbound_bindaddress` variable, it was
    being automatically set to the `$listen_address variable`. Now this is not
    being done and instead you will need to set the `$outbound_bindaddress`
@@ -111,15 +115,9 @@ directly to the tor::daemon in your manifests, e.g.:
 To configure tor socks support, you can do the following:
 
     tor::daemon::socks { "listen_locally":
-      listen_addresses => [ '127.0.0.1' ];
+      port     => 0,
+      policies => 'your super policy';
     }
-
-This will setup the `SocksListenAddress` to be `127.0.0.1`. You also can pass
-the following options to `tor::daemon::socks`:
-
-    $port = 0       - SocksPort
-    $listen_address - can pass multiple values to configure SocksListenAddress lines
-    $policies       - can pass multiple values to configure SocksPolicy lines
 
 ## Installing torsocks<a name="installing-torsocks"></a>
 
@@ -136,7 +134,6 @@ An example relay configuration:
 
     tor::daemon::relay { "foobar":
       port             => '9001',
-      listen_addresses => '192.168.0.1',
       address          => '192.168.0.1',
       bandwidth_rate   => '256',
       bandwidth_burst  => '256',
@@ -148,7 +145,6 @@ You have the following options that can be passed to a relay, with the defaults
 shown:
  
     $port                    = 0,
-    $listen_addresses        = [],
     $portforwarding          = 0,     # PortForwarding 0|1, set for opening ports at the router via UPnP.
                                       # Requires 'tor-fw-helper' binary present.
     $bandwidth_rate          = '',    # KB/s, defaulting to using tor's default: 5120KB/s
@@ -194,7 +190,6 @@ An example directory configuration:
 
     tor::daemon::directory { 'ssh_directory':
       port             => '80',
-      listen_addresses => '192.168.0.1',
       port_front_page  => '/etc/tor/tor.html';
     }
   

@@ -1,7 +1,6 @@
 # directory advertising
 define tor::daemon::directory (
   $port             = 0,
-  $listen_addresses = [],
   $port_front_page  = '/etc/tor/tor-exit-notice.html',
   $ensure           = present ) {
 

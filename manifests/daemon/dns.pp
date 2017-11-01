@@ -1,7 +1,6 @@
 # DNS definition
 define tor::daemon::dns(
-  $port             = 0,
-  $listen_addresses = [] ) {
+  $port             = 0 ) {
 
   concat::fragment { "08.dns.${name}":
     content => template('tor/torrc.dns.erb'),
