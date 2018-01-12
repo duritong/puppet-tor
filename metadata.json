@@ -1,0 +1,29 @@
+{
+  "name": "smash-tor",
+  "version": "1.0.0",
+  "author": "SMASH",
+  "summary": "This project tracks the tor puppet module that manages the tor onion routing system.",
+  "license": "GPL-3.0",
+  "source": "https://gitlab.com/shared-puppet-modules-group/tor",
+  "project_page": "https://gitlab.com/shared-puppet-modules-group/tor",
+  "issues_url": "https://gitlab.com/shared-puppet-modules-group/tor/issues",
+  "dependencies": [
+    { "name":"puppetlabs/concat" }
+  ],
+  "operatingsystem_support": [
+    {
+      "operatingsystem": "Debian",
+      "operatingsystemrelease": [
+        "8",
+        "9"
+      ]
+    }
+  ],
+  "requirements": [
+    {
+      "name": "puppet",
+      "version_requirement": "4.X"
+    }
+  ],
+  "description": "This module tries to manage tor, making sure it is installed, running, has  munin graphs if desired and allows for configuration of relays, hidden services, exit policies, etc."
+}
