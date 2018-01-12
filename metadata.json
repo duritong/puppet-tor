@@ -1,5 +1,5 @@
 {
-  "name": "tor",
+  "name": "smash-tor",
   "version": "1.0.0",
   "author": "SMASH",
   "summary": "This project tracks the tor puppet module that manages the tor onion routing system.",
