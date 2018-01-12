@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "author": "SMASH",
   "summary": "This project tracks the tor puppet module that manages the tor onion routing system.",
-  "license": "GPL-3.0-or-later",
+  "license": "GPL-3.0",
   "source": "https://gitlab.com/shared-puppet-modules-group/tor",
   "project_page": "https://gitlab.com/shared-puppet-modules-group/tor",
   "issues_url": "https://gitlab.com/shared-puppet-modules-group/tor/issues",
