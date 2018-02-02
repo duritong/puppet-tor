@@ -6,8 +6,6 @@ image: ruby:2.3
   script:
     - bundle install --jobs $(nproc) --without docs --path vendor
     - bundle exec rake tests
-  except:
-      - legacy
 
 # Test with version present on Debian stable
 test:puppet48:
