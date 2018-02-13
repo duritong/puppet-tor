@@ -2,7 +2,6 @@
 define tor::daemon::dns(
   $ensure           = 'present',
   $port             = 0,
-  $listen_addresses = [],
 ){
   if $ensure == 'present' {
     concat::fragment { "08.dns.${name}":

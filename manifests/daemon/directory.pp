@@ -2,7 +2,6 @@
 define tor::daemon::directory (
   $ensure           = 'present',
   $port             = 0,
-  $listen_addresses = [],
   $port_front_page  = '/etc/tor/tor-exit-notice.html',
 ) {
   if $ensure == 'present' {
@@ -23,4 +22,3 @@ define tor::daemon::directory (
     mode    => '0644',
   }
 }
-

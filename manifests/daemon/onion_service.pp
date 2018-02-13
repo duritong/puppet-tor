@@ -3,6 +3,8 @@ define tor::daemon::onion_service(
   $ensure                 = 'present',
   $ports                  = [],
   $data_dir               = $tor::daemon::data_dir,
+  $v3                     = false,
+  $single_hop             = false,
   $private_key            = undef,
   $private_key_name       = $name,
   $private_key_store_path = undef,
@@ -15,6 +17,12 @@ define tor::daemon::onion_service(
       content => template('tor/torrc.onion_service.erb'),
       order   => '05',
       target  => $tor::daemon::config_file,
+    }
+    if $single_hop {
+      file { "${$data_dir_path}/onion_service_non_anonymous":
+        ensure => 'present',
+        notify => Service['tor'];
+      }
     }
   }
   if $private_key or ($private_key_name and $private_key_store_path) {

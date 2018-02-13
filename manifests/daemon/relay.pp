@@ -2,7 +2,6 @@
 define tor::daemon::relay(
   $ensure                  = 'present',
   $port                    = 0,
-  $listen_addresses        = [],
   $outbound_bindaddresses  = [],
   $portforwarding          = 0,
   # KB/s, defaulting to using tor's default: 5120KB/s
@@ -15,7 +14,7 @@ define tor::daemon::relay(
   $relay_bandwidth_burst   = 0,
   # GB, 0 for no limit
   $accounting_max          = 0,
-  $accounting_start        = [],
+  $accounting_start        = 'month 1 0:00',
   $contact_info            = '',
   # TODO: autofill with other relays
   $my_family               = '',

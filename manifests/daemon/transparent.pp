@@ -1,9 +1,7 @@
 # Transparent proxy definition
 define tor::daemon::transparent(
   $ensure           = 'present',
-  $port             = 0,
-  $listen_addresses = [],
-) {
+  $port             = 0) {
 
   if $ensure == 'present' {
     concat::fragment { "09.transparent.${name}":

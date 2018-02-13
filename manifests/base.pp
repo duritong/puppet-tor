@@ -3,12 +3,10 @@ class tor::base {
   package {'tor':
     ensure => $tor::version,
   }
-  case $osfamily {
-    'Debian': {
-      package {'tor-geoipdb':
-        ensure => $tor::version,
-        before => Service['tor'],
-      }
+  if $facts['osfamily'] == 'Debian' {
+    package {'tor-geoipdb':
+      ensure => $tor::version,
+      before => Service['tor'],
     }
   }
 

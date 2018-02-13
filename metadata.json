@@ -1,60 +1,35 @@
 {
-  "name": "duritong-tor",
-  "version": "0.0.1",
-  "author": "duritong and others",
-  "summary": "Manage tor and its components",
-  "description": "Manage tor and its components",
-  "license": "GPLv3",
-  "source": "https://github.com/duritong/puppet-tor",
-  "project_page": "https://github.com/duritong/puppet-tor",
-  "issues_url": "https://github.com/duritong/puppet-tor/issues",
+  "name": "smash-tor",
+  "version": "1.0.1",
+  "author": "SMASH",
+  "summary": "This project tracks the tor puppet module that manages the tor onion routing system.",
+  "license": "GPL-3.0",
+  "source": "https://gitlab.com/shared-puppet-modules-group/tor",
+  "project_page": "https://gitlab.com/shared-puppet-modules-group/tor",
+  "issues_url": "https://gitlab.com/shared-puppet-modules-group/tor/issues",
+  "dependencies": [
+    { "name":"puppetlabs/concat" }
+  ],
   "operatingsystem_support": [
     {
-      "operatingsystem": "RedHat",
+      "operatingsystem": "Debian",
       "operatingsystemrelease": [
-        "7"
+        "8",
+        "9"
       ]
     },
     {
       "operatingsystem": "CentOS",
       "operatingsystemrelease": [
-        "7"
-      ]
-    },
-    {
-      "operatingsystem": "OracleLinux",
-      "operatingsystemrelease": [
-        "7"
-      ]
-    },
-    {
-      "operatingsystem": "Scientific",
-      "operatingsystemrelease": [
-        "7"
-      ]
-    },
-    {
-      "operatingsystem": "Debian",
-      "operatingsystemrelease": [
-        "6",
         "7",
-        "8"
-      ]
-    },
-    {
-      "operatingsystem": "Ubuntu",
-      "operatingsystemrelease": [
-        "10.04",
-        "12.04",
-        "14.04",
-        "16.04"
+        "6"
       ]
     }
   ],
   "requirements": [
     {
       "name": "puppet",
-      "version_requirement": ">=2.7.20 <5.0.0"
+      "version_requirement": ">=4.0.0"
     }
   ],
   "dependencies": [
@@ -67,5 +42,6 @@
     {
       "name": "puppetlabs-apt"
     }
-  ]
+  ],
+  "description": "This module tries to manage tor, making sure it is installed, running, has  munin graphs if desired and allows for configuration of relays, hidden services, exit policies, etc."
 }

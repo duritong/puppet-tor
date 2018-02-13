@@ -1,7 +1,6 @@
 # setup variables for different distributions
 class tor::daemon::params {
-
-  case $osfamily {
+  case $facts['osfamily'] {
     'RedHat': {
       $user          = 'toranon'
       $group         = 'toranon'
@@ -14,7 +13,7 @@ class tor::daemon::params {
       $manage_user   = true
       $data_dir_mode = '0700'
     }
-    default: { fail("No support for osfamily ${osfamily}") }
+    default: { fail("No support for osfamily ${facts['osfamily']}") }
   }
 
 }

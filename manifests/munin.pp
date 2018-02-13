@@ -9,7 +9,7 @@ class tor::munin {
 
   include ::tor::daemon::params
   Munin::Plugin::Deploy {
-    config => "user ${tor::daemon::params::user}\n env.cookiefile /var/run/tor/control.authcookie\n env.port 9001"
+    config => "user ${tor::daemon::params::user}\n env.cookiefile /var/run/tor/control.authcookie\n env.port 9001" # lint:ignore:80chars 
   }
   munin::plugin::deploy {
     'tor_openfds':

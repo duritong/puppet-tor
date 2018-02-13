@@ -17,7 +17,7 @@ class tor::onionbalance(
 
   include ::tor
 
-  case $osfamily {
+  case $facts['osfamily'] {
     'Debian': {
       $pkg_name = 'onionbalance'
       $instance_file = '/etc/tor/instances/onionbalance/torrc'
@@ -39,7 +39,7 @@ class tor::onionbalance(
       $pkg_name      = 'python2-onionbalance'
     }
     default: {
-      fail("OSFamily ${osfamily} not (yet) supported for onionbalance")
+      fail("OSFamily ${facts['osfamily']} not (yet) supported for onionbalance")
     }
   }
 
@@ -54,7 +54,7 @@ class tor::onionbalance(
       mode    => '0640',
       notify  => Service['onionbalance'];
     $instance_file:
-      content => template("tor/onionbalance/${osfamily}.torrc.erb"),
+      content => template("tor/onionbalance/${facts['osfamily']}.torrc.erb"),
       owner   => root,
       group   => 0,
       mode    => '0644',

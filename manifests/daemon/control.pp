@@ -13,8 +13,8 @@ define tor::daemon::control(
       fail('You need to define the tor control password')
     }
 
-    if $cookie_authentication == 0 and ($cookie_auth_file != '' or $cookie_auth_file_group_readable != '') {
-      notice('You set a tor cookie authentication option, but do not have cookie_authentication on')
+    if $cookie_authentication == 0 and ($cookie_auth_file != '' or $cookie_auth_file_group_readable != '') { # lint:ignore:80chars 
+      notice('You set a tor cookie authentication option, but do not have cookie_authentication on') # lint:ignore:80chars
     }
 
     concat::fragment { '04.control':
