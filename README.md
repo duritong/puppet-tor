@@ -72,8 +72,7 @@ To install tor, simply include the 'tor' class in your manifests:
 
     class { 'tor': }
 
-You can specify the `$ensure_version` class parameter to get a specific
-version installed.
+You can specify the `$version` class parameter to get a specific version installed.
 
 However, if you want to make configuration changes to your tor daemon, you will
 want to instead include the `tor::daemon` class in your manifests, which will
@@ -127,8 +126,7 @@ To install torsocks, simply include the `torsocks` class in your manifests:
 
     class { 'tor::torsocks': }
 
-You can specify the `$ensure_version` class parameter to get a specific
-version installed.
+You can specify the `$version` class parameter to get a specific version installed.
 
 # Configuring relays<a name="configuring-relays"></a>
 
