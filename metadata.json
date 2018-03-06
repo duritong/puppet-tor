@@ -17,12 +17,33 @@
         "8",
         "9"
       ]
+    },
+    {
+      "operatingsystem": "CentOS",
+      "operatingsystemrelease": [
+        "7",
+        "6"
+      ]
     }
   ],
   "requirements": [
     {
       "name": "puppet",
-      "version_requirement": "4.X"
+       "version_requirement": ">= 4.7.0 < 6.0.0"
+    }
+  ],
+  "dependencies": [
+    {
+      "name": "puppetlabs/stdlib",
+      "version_requirement": ">= 4.24.0 < 5.0.0"
+    },
+    {
+      "name": "puppetlabs/concat",
+      "version_requirement": ">= 4.2.0 < 5.0.0"
+    },
+    {
+      "name": "puppetlabs/apt",
+      "version_requirement": ">= 4.5.1 < 5.0.0"
     }
   ],
   "description": "This module tries to manage tor, making sure it is installed, running, has  munin graphs if desired and allows for configuration of relays, hidden services, exit policies, etc."

@@ -1,0 +1,13 @@
+# Tor config for the onionbalance management server
+# ---
+# The onionbalance service must be able to access the Tor control port.
+
+DataDirectory /var/lib/tor/onionbalance-data
+
+ControlPort 9051
+CookieAuthentication 1
+SocksPort 0
+
+CookieAuthFileGroupReadable 1
+CookieAuthFile /run/tor/onionbalance.control.authcookie
+

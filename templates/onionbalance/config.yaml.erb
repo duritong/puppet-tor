@@ -1,0 +1,10 @@
+# OnionBalance Config File
+services:
+<% @services.keys.sort.each do |key| -%>
+  - key: /etc/onionbalance/<%= key %>.key
+    instances:
+<% (@services[key].keys - ['_key_content']).sort.each do |inst| -%>
+      - address: <%= @services[key][inst] %>
+        name: <%= inst %>
+<% end -%>
+<% end -%>

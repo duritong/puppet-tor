@@ -1,9 +1,9 @@
 # manage torsocks
 class tor::torsocks (
-  $ensure_version = 'installed'
+  $version = 'installed'
 ){
-  include ::tor
+  include ::tor::daemon
   package{'torsocks':
-    ensure => $ensure_version,
+    ensure => $version,
   }
 }

@@ -1,0 +1,38 @@
+#!/usr/bin/perl -w
+# https://lists.torproject.org/pipermail/tor-talk/2006-June/010486.html
+
+use strict;
+
+# Script to monitor the amount of FDs used by
+# the Tor process (var/run/tor/tor.pid)
+
+if ($ARGV[0] and $ARGV[0] =~ /^\s*config\s*$/i)
+{
+        print "graph_title Open file descriptors for Tor\n";
+        print "graph_args --base 1000 -l 0\n";
+        print "graph_vlabel open FDs\n";
+        print "graph_category Tor\n";
+        print "count.label TorFDs\n";
+        exit 0;
+}
+
+my $pidfile = "/var/run/tor/tor.pid";
+my $pid = '';
+if (-e $pidfile) {
+  open (PID, $pidfile) or exit 1;
+  $pid = <PID>;
+  close PID;
+} else {
+  $pid = `pidof tor`;
+}
+chomp $pid;
+
+$pid =~ /^[0-9]+$/ or exit 1;
+
+opendir (FDS, "/proc/$pid/fd") or exit 1;
+my @fds = readdir(FDS);
+closedir FDS;
+
+my $count = scalar @fds - 2;
+
+print "count.value $count\n";

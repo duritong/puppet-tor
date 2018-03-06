@@ -11,17 +11,18 @@
   * [Installing torsocks](#installing-torsocks)
   * [Configuring relays](#configuring-relays)
   * [Configuring the control](#configuring-control)
-  * [Configuring hidden services](#configuring-hidden-services)
+  * [Configuring onion services](#configuring-onion-services)
   * [Configuring directories](#configuring-directories)
   * [Configuring exit policies](#configuring-exit-policies)
   * [Configuring transport plugins](#configuring-transport-plugins)
+* [Functions](#functions)
 * [Polipo](#polipo)
 * [Munin](#munin)
 
 # Overview<a name="overview"></a>
 
 This module tries to manage tor, making sure it is installed, running, has
-munin graphs if desired and allows for configuration of relays, hidden services,
+munin graphs if desired and allows for configuration of relays, onion services,
 exit policies, etc.
 
 ## Upgrade Notice<a name="upgrade-notice"></a>
@@ -71,8 +72,7 @@ To install tor, simply include the 'tor' class in your manifests:
 
     class { 'tor': }
 
-You can specify the `$ensure_version` class parameter to get a specific
-version installed.
+You can specify the `$version` class parameter to get a specific version installed.
 
 However, if you want to make configuration changes to your tor daemon, you will
 want to instead include the `tor::daemon` class in your manifests, which will
@@ -126,8 +126,7 @@ To install torsocks, simply include the `torsocks` class in your manifests:
 
     class { 'tor::torsocks': }
 
-You can specify the `$ensure_version` class parameter to get a specific
-version installed.
+You can specify the `$version` class parameter to get a specific version installed.
 
 # Configuring relays<a name="configuring-relays"></a>
 
@@ -175,23 +174,27 @@ To pass parameters to configure the `ControlPort` and the
 Note: you must pass a hashed password to the control port, if you are going to
 use it.
 
-## Configuring hidden services<a name="configuring-hidden-services"></a>
+## Configuring onion services<a name="configuring-onion-services"></a>
 
-To configure a tor hidden service you can do something like the following:
+To configure a tor onion service you can do something like the following:
 
-    tor::daemon::hidden_service { "hidden_ssh":
+    tor::daemon::onion_service { "onion_ssh":
       ports => 22;
     }
 
 The `HiddenServiceDir` is set to the `${data_dir}/${name}`, but you can override
 it with the parameter `datadir`.
 
-If you wish to enable v3-style hidden services to correspond with the v2-style
-hidden services (the same configuration will be applied to both), you can pass
+If you wish to enable v3-style onion services to correspond with the v2-style
+onion services (the same configuration will be applied to both), you can pass
 the parameter `v3 => true`. The default is `false`.
 
 If you wish to enable single-hop onion addresses, you can enable them by
 passing `single_hop => true`. The default is `false`.
+
+Onion services used to be called hidden services, so an old interface
+`tor::daemon::hidden_service` is still available, with the feature
+set of that time.
 
 ## Configuring directories<a name="configuring-directories"></a>
 
@@ -228,6 +231,18 @@ default:
 
     $servertransport_listenaddr  #Set a different address for the transport plugin mechanism
     $servertransport_options     #Pass a k=v parameters to the transport proxy
+
+# Functions<a name="functions"></a>
+
+This module comes with 2 functions specific to tor support. They require the base32 gem to be installed on the master or wherever they are executed.
+
+## onion_address
+
+This function takes a 1024bit RSA private key as an argument and returns the onion address for an onion service for that key.
+
+## generate_onion_key
+
+This function takes a path (on the puppetmaster!) and an identifier for a key and returns an array containing the matching onion address and the private key. The private key either exists under the supplied `path/key_identifier` or is being generated on the fly and stored under that path for the next execution.
 
 # Polipo<a name="polipo"></a>
 
