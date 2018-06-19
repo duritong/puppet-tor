@@ -1,16 +1,10 @@
 class tor (
-  String $version = 'installed',
-){
+  Boolean $arm      = false,
+  Boolean $torsocks = false,
+  String  $version  = 'installed',
+) {
 
-  package {'tor':
-    ensure => $tor::version,
-  }
-  if $facts['osfamily'] == 'Debian' {
-    package {'tor-geoipdb':
-      ensure => $tor::version,
-      before => Service['tor'],
-    }
-  }
+  include ::tor::install
 
   service { 'tor':
     ensure     => running,
