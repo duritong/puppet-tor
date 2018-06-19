@@ -3,7 +3,4 @@
 class tor::compact {
   include ::tor
   include tor::torsocks
-  if $facts['osfamily'] == 'Debian' {
-    include tor::polipo
-  }
 }
