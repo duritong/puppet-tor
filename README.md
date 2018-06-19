@@ -16,7 +16,6 @@
   * [Configuring exit policies](#configuring-exit-policies)
   * [Configuring transport plugins](#configuring-transport-plugins)
 * [Functions](#functions)
-* [Polipo](#polipo)
 * [Munin](#munin)
 
 # Overview<a name="overview"></a>
@@ -244,15 +243,6 @@ This function takes a 1024bit RSA private key as an argument and returns the oni
 
 This function takes a path (on the puppetmaster!) and an identifier for a key and returns an array containing the matching onion address and the private key. The private key either exists under the supplied `path/key_identifier` or is being generated on the fly and stored under that path for the next execution.
 
-# Polipo<a name="polipo"></a>
-
-Polipo support can be enabled by doing:
-
-    include tor::polipo
-
-This will inherit the `tor` class by default, remove `privoxy` if it's
-installed, and install `polipo`, making sure it is running.
-  
 # Munin<a name="munin"></a>
 
 If you are using `munin`, and have the puppet munin module installed, you can
