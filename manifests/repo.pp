@@ -11,6 +11,9 @@ class tor::repo (
       class { 'tor::repo::debian': }
     }
     'RedHat': {
+      if $source_name == 'copr-latest' and (versioncmp($facts['os']['release']['major'],'6') > 0) {
+        include ::tor::repo::centos_latest
+      }
       # no need as EPEL is the relevant reference
     }
     default: {
