@@ -16,7 +16,6 @@ define tor::daemon::relay(
   $accounting_max          = 0,
   $accounting_start        = 'month 1 0:00',
   $contact_info            = '',
-  # TODO: autofill with other relays
   $my_family               = '',
   $address                 = "tor.${::domain}",
   $bridge_relay            = 0,
