@@ -4,6 +4,7 @@ class tor::torsocks (
 ){
   include ::tor::daemon
   package{'torsocks':
-    ensure => $version,
+    ensure  => $version,
+    require => Package['tor']
   }
 }

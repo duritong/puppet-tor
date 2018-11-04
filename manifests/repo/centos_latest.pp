@@ -12,5 +12,5 @@ class tor::repo::centos_latest(
       repo_gpgcheck => 0,
       enabled       => 1,
       priority      => $priority,
-  }
+  } -> Package<| title == 'tor' |>
 }

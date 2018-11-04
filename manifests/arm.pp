@@ -4,6 +4,7 @@ class tor::arm (
 ){
   include ::tor
   package{'tor-arm':
-    ensure => $version,
+    ensure  => $version,
+    require => Package['tor'],
   }
 }

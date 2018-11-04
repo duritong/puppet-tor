@@ -44,8 +44,9 @@ class tor::onionbalance(
   }
 
   package{$pkg_name:
-    ensure => 'installed',
-    tag    => 'onionbalance',
+    ensure  => 'installed',
+    require => Package['tor'],
+    tag     => 'onionbalance',
   } -> file{
     '/etc/onionbalance/config.yaml':
       content => template('tor/onionbalance/config.yaml.erb'),
