@@ -1,7 +1,10 @@
 # extend basic tor things with a snippet based daemon configuration
-class tor::daemon::base inherits tor::base {
-
-  include ::tor::daemon::params
+class tor::daemon::base (
+  String $user                    = $tor::daemon::params::user,
+  String $group                   = $tor::daemon::params::group,
+  Boolean $manage_user            = $tor::daemon::params::manage_user,
+  Stdlib::Filemode $data_dir_mode = $tor::daemon::params::data_dir_mode
+) inherits tor::daemon::params {
 
   if $tor::daemon::params::manage_user {
     group { $tor::daemon::params::group:
