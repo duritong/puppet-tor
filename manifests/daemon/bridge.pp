@@ -6,9 +6,9 @@ define tor::daemon::bridge(
   $ensure      = 'present',
 ) {
   if $ensure == 'present' {
-    concat::fragment { "10.bridge.${name}":
-      content => template('tor/torrc.bridge.erb'),
-      order   => '10',
+    concat::fragment { "11.bridge.${name}":
+      content => template('tor/torrc/11_bridge.erb'),
+      order   => '11',
       target  => $tor::daemon::config_file,
     }
   }

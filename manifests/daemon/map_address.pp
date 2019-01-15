@@ -5,9 +5,9 @@ define tor::daemon::map_address(
   $newaddress = '',
 ) {
   if $ensure == 'present' {
-    concat::fragment { "08.map_address.${name}":
-      content => template('tor/torrc.map_address.erb'),
-      order   => '08',
+    concat::fragment { "09.map_address.${name}":
+      content => template('tor/torrc/09_map_address.erb'),
+      order   => '09',
       target  => $tor::daemon::config_file,
     }
   }

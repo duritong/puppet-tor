@@ -6,7 +6,7 @@ define tor::daemon::socks(
 ) {
   if $ensure == 'present' {
     concat::fragment { '02.socks':
-      content => template('tor/torrc.socks.erb'),
+      content => template('tor/torrc/02_socks.erb'),
       order   => '02',
       target  => $tor::daemon::config_file,
     }

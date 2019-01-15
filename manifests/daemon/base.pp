@@ -51,14 +51,14 @@ class tor::daemon::base (
 
   # config file headers
   concat::fragment { '00.header':
-    content => template('tor/torrc.header.erb'),
+    content => template('tor/torrc/00_header.erb'),
     order   => '00',
     target  => $tor::daemon::config_file,
   }
 
   # global configurations
   concat::fragment { '01.global':
-    content => template('tor/torrc.global.erb'),
+    content => template('tor/torrc/01_global.erb'),
     order   => '01',
     target  => $tor::daemon::config_file,
   }

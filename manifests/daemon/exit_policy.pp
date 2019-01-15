@@ -7,7 +7,7 @@ define tor::daemon::exit_policy(
 ) {
   if $ensure == 'present' {
     concat::fragment { "07.exit_policy.${name}":
-      content => template('tor/torrc.exit_policy.erb'),
+      content => template('tor/torrc/07_exit_policy.erb'),
       order   => '07',
       target  => $tor::daemon::config_file,
     }

@@ -14,7 +14,7 @@ define tor::daemon::onion_service(
   if $ensure == 'present' {
     include ::tor::daemon::params
     concat::fragment { "05.onion_service.${name}":
-      content => template('tor/torrc.onion_service.erb'),
+      content => template('tor/torrc/05_onion_service.erb'),
       order   => '05',
       target  => $tor::daemon::config_file,
     }

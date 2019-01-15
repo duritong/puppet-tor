@@ -7,9 +7,9 @@ define tor::daemon::transport_plugin(
   $ext_port                   = '',
 ) {
   if $ensure == 'present' {
-    concat::fragment { '11.transport_plugin':
-      content => template('tor/torrc.transport_plugin.erb'),
-      order   => 11,
+    concat::fragment { '12.transport_plugin':
+      content => template('tor/torrc/12_transport_plugin.erb'),
+      order   => 12,
       target  => $tor::daemon::config_file,
     }
   }
