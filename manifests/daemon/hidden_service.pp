@@ -1,9 +1,9 @@
 # hidden services definition
 define tor::daemon::hidden_service(
-  $ports         = [],
-  $single_hop    = false,
-  $v3            = false,
-  $data_dir      = $tor::daemon::data_dir,
+  Array[Stdlib::Port] $ports = [],
+  Boolean $single_hop        = false,
+  Boolean $v3                = false,
+  String $data_dir           = $tor::daemon::data_dir,
 ) {
   info("Using tor::daemon::hidden_service is deprecated, please use tor::daemon::onion_service for ${name}")
   tor::daemon::onion_service{

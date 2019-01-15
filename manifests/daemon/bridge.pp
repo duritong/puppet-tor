@@ -1,9 +1,9 @@
 # Bridge definition
 define tor::daemon::bridge(
-  $ip,
-  $port,
-  $fingerprint = false,
-  $ensure      = 'present',
+  Enum['present', 'absent'] $ensure = 'present',
+  Stdlib::IP::Address $ip,
+  Stdlib::Port $port,
+  Boolean $fingerprint              = false,
 ) {
   if $ensure == 'present' {
     concat::fragment { "11.bridge.${name}":

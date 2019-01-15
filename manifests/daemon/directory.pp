@@ -1,8 +1,8 @@
 # directory advertising
 define tor::daemon::directory (
-  $ensure           = 'present',
-  $port             = 0,
-  $port_front_page  = '/etc/tor/tor-exit-notice.html',
+  Enum['present', 'absent'] $ensure = 'present',
+  Stdlib::Port $port                = 0,
+  String $port_front_page           = '/etc/tor/tor-exit-notice.html',
 ) {
   if $ensure == 'present' {
     concat::fragment { '06.directory':
