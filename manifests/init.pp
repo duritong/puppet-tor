@@ -7,16 +7,11 @@ class tor (
   Boolean $safe_logging             = true,
   Boolean $torsocks                 = false,
   String  $version                  = 'installed',
-  Boolean $use_munin                = false,
   Boolean $use_bridges              = false,
 ) {
 
   include ::tor::install
   include ::tor::daemon::base
-
-  if $use_munin {
-    include ::tor::munin
-  }
 
   service { 'tor':
     ensure     => running,
