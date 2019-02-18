@@ -51,14 +51,20 @@ class tor::daemon::base (
 
   # config file headers
   concat::fragment { '00.header':
-    content => template('tor/torrc/00_header.erb'),
+    content => epp('tor/torrc/00_header.epp'),
     order   => '00',
     target  => $tor::daemon::config_file,
   }
 
   # global configurations
   concat::fragment { '01.global':
-    content => template('tor/torrc/01_global.erb'),
+    content => epp('tor/torrc/01_global.epp', {
+      'automap_hosts_on_resolve' => $tor::automap_hosts_on_resolve,
+      'data_dir'                 => $tor::daemon::data_dir,
+      'log_rules'                => $tor::log_rules,
+      'safe_logging'             => $tor::safe_logging,
+      'use_bridges'              => $tor::use_bridges,
+    }),
     order   => '01',
     target  => $tor::daemon::config_file,
   }

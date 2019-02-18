@@ -1,7 +1,7 @@
 class tor (
   Boolean $arm                      = false,
   Boolean $automap_hosts_on_resolve = false,
-  String  $data_dir                 = '/var/lib/tor',
+  Stdlib::Unixpath $data_dir        = '/var/lib/tor',
   String  $config_file              = '/etc/tor/torrc',
   Array   $log_rules                = [ 'notice file /var/log/tor/notices.log' ],
   Boolean $safe_logging             = true,

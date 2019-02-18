@@ -1,0 +1,23 @@
+# runtime
+RunAsDaemon 1
+<% if $data_dir != Stdlib::Unixpath['/var/lib/tor'] { -%>
+DataDirectory <%= $data_dir %>
+<% } -%>
+
+# log
+<% if $log_rules == undef { -%>
+Log notice syslog
+<% } else { -%>
+<% $log_rules.each |$item| { -%>
+Log <%= item %>
+<% } -%>
+<% unless $safe_logging { -%>
+SafeLogging 0
+<% } -%>
+
+<% if $automap_hosts_on_resolve { -%>
+AutomapHostsOnResolve 1
+<% } -%>
+<% if $use_bridges { -%>
+UseBridges 1
+<% } -%>
