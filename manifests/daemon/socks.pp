@@ -1,8 +1,8 @@
 # socks definition
 define tor::daemon::socks(
   Enum['present', 'absent'] $ensure = 'present',
-  Stdlib::Port $port  = 0,
-  Array[String] $policies,
+  Variant[0, Stdlib::Port] $port    = 0,
+  Optional[Array[String]] $policies = undef,
 ) {
   if $ensure == 'present' {
     concat::fragment { '02.socks':

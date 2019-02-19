@@ -1,13 +1,13 @@
 # onion services definition
 define tor::daemon::onion_service(
-  Enum['present', 'absent'] $ensure              = 'present',
-  Array[Stdlib::Port] $ports                     = [],
-  String $data_dir                               = $tor::daemon::data_dir,
-  Boolean $v3                                    = false,
-  Boolean $single_hop                            = false,
-  Variant[Undef, String] $private_key            = undef,
-  String $private_key_name                       = $name,
-  Variant[Undef, String] $private_key_store_path = undef,
+  Enum['present', 'absent'] $ensure        = 'present',
+  Array[Stdlib::Port] $ports               = [],
+  String $data_dir                         = $tor::daemon::data_dir,
+  Boolean $v3                              = false,
+  Boolean $single_hop                      = false,
+  Optional[String] $private_key            = undef,
+  String $private_key_name                 = $name,
+  Optional[String] $private_key_store_path = undef,
 ) {
 
   $data_dir_path = "${data_dir}/${name}"

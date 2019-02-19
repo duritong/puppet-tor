@@ -1,38 +1,41 @@
 # relay definition
 define tor::daemon::relay(
-  $ensure                  = 'present',
-  $port                    = 0,
-  $outbound_bindaddresses  = [],
-  $portforwarding          = 0,
-  # KB/s, defaulting to using tor's default: 5120KB/s
-  $bandwidth_rate          = '',
-  # KB/s, defaulting to using tor's default: 10240KB/s
-  $bandwidth_burst         = '',
-  # KB/s, 0 for no limit
-  $relay_bandwidth_rate    = 0,
-  # KB/s, 0 for no limit
-  $relay_bandwidth_burst   = 0,
-  # GB, 0 for no limit
-  $accounting_max          = 0,
-  $accounting_start        = 'month 1 0:00',
-  $contact_info            = '',
-  # TODO: autofill with other relays
-  $my_family               = '',
-  $address                 = "tor.${::domain}",
-  $bridge_relay            = 0,
+  Enum['present', 'absent'] $ensure                            = 'present',
+  Stdlib::Port $port                                           = 0,
+  Optional[Array[Stdlib::IP::Address]] $outbound_bindaddresses = undef,
+  Optional[String] $nickname                                   = undef,
+  Stdlib::Fqdn $address                                        = "tor.${::domain}",
+  Stdlib::Port $portforwarding                                 = 0,
+  Optional[Integer] $bandwidth_rate                            = undef,
+  Optional[Integer] $bandwidth_burst                           = undef,
+  Optional[Integer] $relay_bandwidth_rate                      = undef,
+  Optional[Integer] $relay_bandwidth_burst                     = undef,
+  Optional[Integer] $accounting_max                            = undef,
+  String $accounting_start                                     = 'month 1 0:00',
+  Optional[String] $contact_info                               = undef,
+  Optional[String] $my_family                                  = undef,
+  Boolean $bridge_relay                                        = false,
 ) {
 
   if $ensure == 'present' {
-    $nickname = $name
-
-    if $outbound_bindaddresses == [] {
-      $real_outbound_bindaddresses = []
-    } else {
-      $real_outbound_bindaddresses = $outbound_bindaddresses
-    }
 
     concat::fragment { '03.relay':
-      content => template('tor/torrc/03_relay.erb'),
+      content => epp('tor/torrc/03_relay.epp', {
+        'port'                   => $tor::daemon::relay::port,
+        'outbound_bindaddresses' => $tor::daemon::relay::outbound_bindaddresses,
+        'nickname'               => $tor::daemon::relay::nickname,
+        'address'                => $tor::daemon::relay::address,
+        'portforwarding'         => $tor::daemon::relay::portforwarding,
+        'bandwidth_rate'         => $tor::daemon::relay::bandwidth_rate,
+        'bandwidth_burst'        => $tor::daemon::relay::bandwidth_burst,
+        'relay_bandwidth_rate'   => $tor::daemon::relay::relay_bandwidth_rate,
+        'relay_bandwidth_burst'  => $tor::daemon::relay::relay_bandwidth_burst,
+        'accounting_max'         => $tor::daemon::relay::accounting_max,
+        'accounting_start'       => $tor::daemon::relay::accounting_start,
+        'contact_info'           => $tor::daemon::relay::contact_info,
+        'my_family'              => $tor::daemon::relay::my_family
+        'bridge_relay'           => $tor::daemon::relay::bridge_relay,
+      }),
       order   => '03',
       target  => $tor::daemon::config_file,
     }
