@@ -1,0 +1,7 @@
+# socks
+SocksPort <%= $port %>
+<% unless $policies == undef { -%>
+<% $policies.each |$item| { -%>
+SocksPolicy <%= $item %>
+<% } -%>
+<% } -%>

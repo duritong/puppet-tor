@@ -9,7 +9,7 @@ DataDirectory <%= $data_dir %>
 Log notice syslog
 <% } else { -%>
 <% $log_rules.each |$item| { -%>
-Log <%= item %>
+Log <%= $item %>
 <% } -%>
 <% unless $safe_logging { -%>
 SafeLogging 0
