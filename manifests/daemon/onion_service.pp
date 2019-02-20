@@ -13,7 +13,13 @@ define tor::daemon::onion_service(
   $data_dir_path = "${data_dir}/${name}"
   if $ensure == 'present' {
     concat::fragment { "05.onion_service.${name}":
-      content => template('tor/torrc/05_onion_service.erb'),
+      content => epp('tor/torrc/05_onion_service.epp', {
+        'single_hop'    => $tor::daemon::onion_service::single_hop,
+        'name'          => $name,
+        'data_dir_path' => $data_dir_path,
+        'ports'         => $tor::daemon::onion_service::ports,
+        'v3'            => $tor::daemon::onion_service::v3,
+      }),
       order   => '05',
       target  => $tor::daemon::config_file,
     }
