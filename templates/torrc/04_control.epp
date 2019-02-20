@@ -3,10 +3,10 @@
 ControlPort <%= $port %>
 <% if $cookie_authentication { -%>
 CookieAuthentication 1
-<% if defined($cookie_auth_file) { -%>
+<% if $cookie_auth_file { -%>
 CookieAuthFile <%= $cookie_auth_file %>
 <% } -%>
-<% if defined($cookie_auth_file_group_readable) { -%>
+<% if $cookie_auth_file_group_readable { -%>
 CookieAuthFileGroupReadable <%= $cookie_auth_file_group_readable %>
 <% } -%>
 <% } else { -%>

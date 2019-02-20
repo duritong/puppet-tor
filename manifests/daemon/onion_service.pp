@@ -12,14 +12,13 @@ define tor::daemon::onion_service(
 
   $data_dir_path = "${data_dir}/${name}"
   if $ensure == 'present' {
-    include ::tor::daemon::params
     concat::fragment { "05.onion_service.${name}":
       content => template('tor/torrc/05_onion_service.erb'),
       order   => '05',
       target  => $tor::daemon::config_file,
     }
     if $single_hop {
-      file { "${$data_dir_path}/onion_service_non_anonymous":
+      file { "${data_dir_path}/onion_service_non_anonymous":
         ensure => 'present',
         notify => Service['tor'];
       }

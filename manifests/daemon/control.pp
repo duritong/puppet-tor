@@ -9,11 +9,11 @@ define tor::daemon::control(
 ) {
 
   if $ensure == 'present' {
-    unless $cookie_authentication and defined($hashed_control_password) {
+    unless $cookie_authentication and $hashed_control_password {
       fail('You need to define the tor control password')
     }
 
-    if !$cookie_authentication and (defined($cookie_auth_file) or $cookie_auth_file_group_readable) { # lint:ignore:80chars 
+    if !$cookie_authentication and ($cookie_auth_file or $cookie_auth_file_group_readable) { # lint:ignore:80chars 
       notice('You set a tor cookie authentication option, but do not have cookie_authentication on') # lint:ignore:80chars
     }
 

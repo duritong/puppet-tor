@@ -4,19 +4,19 @@ ORPort <%= $port %>
 <% $outbound_bindaddresses.each |$item| { -%>
 OutboundBindAddress <%= $item %>
 <% } -%>
-<% if defined($nickname) { -%>
+<% if $nickname { -%>
 Nickname <%= $nickname %>
 <% } -%>
-<% if defined($address) { -%>
+<% if $address { -%>
 Address <%= $address %>
 <% } -%>
 <% unless $portforwarding == 0 { -%>
 PortForwarding <%= $portforwarding %>
 <% } -%>
-<% if defined($bandwidth_rate) { -%>
+<% if $bandwidth_rate { -%>
 BandwidthRate <%= $bandwidth_rate %> KB
 <% } -%>
-<% if defined($bandwidth_burst) { -%>
+<% if $bandwidth_burst { -%>
 BandwidthBurst <%= $bandwidth_burst %> KB
 <% } -%>
 <% unless $relay_bandwidth_rate == 0 { -%>
@@ -27,15 +27,15 @@ RelayBandwidthBurst <%= $relay_bandwidth_burst %> KB
 <% } -%>
 <% unless $accounting_max == 0 { -%>
 AccountingMax <%= $accounting_max %> GB
-<% if defined($accounting_start) { -%>
+<% if $accounting_start { -%>
 AccountingStart <%= $accounting_start %>
 <% } -%>
 <% } -%>
-<% if defined($contact_info) { -%>
+<% if $contact_info { -%>
 ContactInfo <%= $contact_info %>
 <% } -%>
 <% } -%>
-<% if defined($my_family) { -%>
+<% if $my_family { -%>
 MyFamily <%= $my_family %>
 <% } -%>
 <% unless $bridge_relay == 0 { -%>
