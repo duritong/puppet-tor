@@ -1,0 +1,8 @@
+# directory listing
+<% unless $port == 0 { -%>
+DirPort <%= $port %>
+<% } -%>
+<% if $port_front_page { -%>
+DirPortFrontPage <%= $port_front_page %>
+<%- } -%>
+

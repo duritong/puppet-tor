@@ -42,6 +42,7 @@ define tor::daemon::onion_service(
       $os_hostname = onion_address($private_key)
       $real_private_key = $private_key
     }
+    include ::tor::daemon::params
     file{
       $data_dir_path:
         ensure  => directory,

@@ -1,12 +1,15 @@
 # directory advertising
 define tor::daemon::directory (
   Enum['present', 'absent'] $ensure = 'present',
-  Stdlib::Port $port                = 0,
+  Variant[0, Stdlib::Port] $port    = 0,
   String $port_front_page           = '/etc/tor/tor-exit-notice.html',
 ) {
   if $ensure == 'present' {
     concat::fragment { '06.directory':
-      content => template('tor/torrc/06_directory.erb'),
+      content => epp('tor/torrc/06_directory.epp', {
+        'port'            => $tor::daemon::directory::port,
+        'port_front_page' => $tor::daemon::directory::port_front_page,
+      }),
       order   => '06',
       target  => $tor::daemon::config_file,
     }
