@@ -1,0 +1,15 @@
+# exit policies: <%= $name %>
+<% unless $reject_private { -%>
+ExitPolicyRejectPrivate 0
+<% } -%>
+<% if $accept { -%>
+<% $accept.each |$item| { -%>
+ExitPolicy accept <%= $item %>
+<% } -%>
+<% } -%>
+<% if $reject { -%>
+<% $reject.each |$item| { -%>
+ExitPolicy reject <%= $item %>
+<% } -%>
+<% } -%>
+
