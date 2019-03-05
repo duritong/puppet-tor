@@ -1,0 +1,2 @@
+# DNS
+DNSPort <%= $port %>
