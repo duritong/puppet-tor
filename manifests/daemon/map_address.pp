@@ -6,7 +6,7 @@ define tor::daemon::map_address(
 ) {
   if $ensure == 'present' {
     concat::fragment { "09.map_address.${name}":
-      content => epp('tor/torrc/09_map_address.epp' {
+      content => epp('tor/torrc/09_map_address.epp', {
         'name'       => $name,
         'address'    => $tor::daemon::map_address::address,
         'newaddress' => $tor::daemon::map_address::newaddress,
