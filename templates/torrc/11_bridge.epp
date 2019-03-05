@@ -1,0 +1,3 @@
+# Bridge <%= $name %>
+Bridge <% if $transport { -%><%= $transport%> <% } -%><%= $ip %>:<%= $port %><% if $fingerprint { -%> <%= $fingerprint%><% } -%>
+

@@ -1,13 +1,23 @@
 # Bridge definition
 define tor::daemon::bridge(
   Enum['present', 'absent'] $ensure = 'present',
-  Stdlib::IP::Address $ip,
-  Stdlib::Port $port,
-  Boolean $fingerprint              = false,
+  Optional[Stdlib::IP::Address] $ip = undef,
+  Optional[Stdlib::Port] $port      = undef,
+  Optional[String] $fingerprint     = undef ,
+  Optional[String] $transport       = undef ,
 ) {
+  unless $ip or $port {
+    fail('You need to specify an IP address ($tor::daemon::bridge::ip) AND a port number ($tor::daemon::bridge::port)')
+  }
   if $ensure == 'present' {
     concat::fragment { "11.bridge.${name}":
-      content => template('tor/torrc/11_bridge.erb'),
+      content => epp('tor/torrc/11_bridge.epp', {
+        'name'        => $name,
+        'ip'          => $tor::daemon::bridge::ip,
+        'port'        => $tor::daemon::bridge::port,
+        'fingerprint' => $tor::daemon::bridge::fingerprint,
+        'transport'   => $tor::daemon::bridge::transport,
+      }),
       order   => '11',
       target  => $tor::daemon::config_file,
     }
