@@ -1,7 +1,7 @@
 # Arbitrary torrc snippet definition
-define tor::daemon::snippet(
-  $ensure  = 'present',
-  $content = '',
+define tor::daemon::snippet (
+  Enum['present', 'absent'] $ensure = 'present',
+  Optional[String] $content         = undef,
 ) {
 
   if $ensure == 'present' {
@@ -12,4 +12,3 @@ define tor::daemon::snippet(
     }
   }
 }
-
