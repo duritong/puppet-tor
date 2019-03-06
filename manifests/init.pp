@@ -8,6 +8,8 @@ class tor (
   Boolean $torsocks                 = false,
   String  $version                  = 'installed',
   Boolean $use_bridges              = false,
+  Boolean $use_upstream_repository  = false,
+  String  $upstream_release         = 'stable',
 ) {
 
   include ::tor::install
