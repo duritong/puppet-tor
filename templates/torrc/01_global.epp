@@ -1,6 +1,6 @@
 # runtime
 RunAsDaemon 1
-<% if $data_dir != Stdlib::Unixpath['/var/lib/tor'] { -%>
+<% if $data_dir != '/var/lib/tor' { -%>
 DataDirectory <%= $data_dir %>
 <% } -%>
 
