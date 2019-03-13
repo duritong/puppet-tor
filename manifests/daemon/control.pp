@@ -19,11 +19,11 @@ define tor::daemon::control(
 
     concat::fragment { '04.control':
       content => epp('tor/torrc/04_control.epp', {
-        'port'                           => $tor:daemon::control::port,
-        'cookie_authentication'          => $tor:daemon::control::cookie_authentication,
-        'cookie_auth_file'               => $tor:daemon::control::cookie_auth_file,
-        'cookie_auth_file_group_redable' => $tor:daemon::control::cookie_auth_file_group_redable,
-        'hashed_control_password'        => $tor:daemon::control::hashed_control_password,
+        'port'                           => $tor::daemon::control::port,
+        'cookie_authentication'          => $tor::daemon::control::cookie_authentication,
+        'cookie_auth_file'               => $tor::daemon::control::cookie_auth_file,
+        'cookie_auth_file_group_redable' => $tor::daemon::control::cookie_auth_file_group_redable,
+        'hashed_control_password'        => $tor::daemon::control::hashed_control_password,
       }),
       order   => '04',
       target  => $tor::daemon::config_file,

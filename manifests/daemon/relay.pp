@@ -33,7 +33,7 @@ define tor::daemon::relay(
         'accounting_max'         => $tor::daemon::relay::accounting_max,
         'accounting_start'       => $tor::daemon::relay::accounting_start,
         'contact_info'           => $tor::daemon::relay::contact_info,
-        'my_family'              => $tor::daemon::relay::my_family
+        'my_family'              => $tor::daemon::relay::my_family,
         'bridge_relay'           => $tor::daemon::relay::bridge_relay,
       }),
       order   => '03',

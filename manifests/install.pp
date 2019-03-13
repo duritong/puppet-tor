@@ -36,12 +36,14 @@ class tor::install {
   }
 
   if $tor::arm {
-    'tor-arm':
+    package { 'tor-arm':
       ensure => $tor::version,
+    }
   }
 
   if $tor::torsocks {
-    'torsocks':
+    package{ 'torsocks':
       ensure => $tor::version,
+    }
   }
 }

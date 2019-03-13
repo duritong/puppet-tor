@@ -1,8 +1,8 @@
 # map address definition
 define tor::daemon::map_address(
   Enum['present', 'absent'] $ensure  = 'present',
-  Optional[Stdlib::Host $address]    = undef,
-  Optional[Stdlib::Host $newaddress] = undef,
+  Optional[Stdlib::Host] $address    = undef,
+  Optional[Stdlib::Host] $newaddress = undef,
 ) {
   if $ensure == 'present' {
     concat::fragment { "09.map_address.${name}":
