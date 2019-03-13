@@ -14,7 +14,6 @@ describe 'tor::daemon', :type => 'class' do
 
     it { is_expected.to contain_class('tor') }
     it { is_expected.to contain_class('tor::daemon::base') }
-    it { is_expected.to_not contain_class('tor::munin') }
     context 'on Debian' do
       let(:facts) {
         {
@@ -25,7 +24,6 @@ describe 'tor::daemon', :type => 'class' do
       it { is_expected.to compile.with_all_deps }
       it { is_expected.to contain_class('tor') }
       it { is_expected.to contain_class('tor::daemon::base') }
-      it { is_expected.to_not contain_class('tor::munin') }
     end
   end
 end
