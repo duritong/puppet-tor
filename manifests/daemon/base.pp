@@ -16,7 +16,7 @@ class tor::daemon::base (
       ensure    => present,
       allowdupe => false,
       comment   => 'tor user,,,',
-      home      => $tor::daemon::data_dir,
+      home      => $tor::data_dir,
       shell     => '/bin/false',
       gid       => $tor::daemon::params::group,
       require   => Group[$tor::daemon::params::group],
@@ -24,7 +24,7 @@ class tor::daemon::base (
   }
 
   # directories
-  file { $tor::daemon::data_dir:
+  file { $tor::data_dir:
     ensure  => directory,
     mode    => $tor::daemon::params::data_dir_mode,
     owner   => $tor::daemon::params::user,
@@ -60,7 +60,7 @@ class tor::daemon::base (
   concat::fragment { '01.global':
     content => epp('tor/torrc/01_global.epp', {
       'automap_hosts_on_resolve' => $tor::automap_hosts_on_resolve,
-      'data_dir'                 => $tor::daemon::data_dir,
+      'data_dir'                 => $tor::data_dir,
       'log_rules'                => $tor::log_rules,
       'safe_logging'             => $tor::safe_logging,
       'use_bridges'              => $tor::use_bridges,

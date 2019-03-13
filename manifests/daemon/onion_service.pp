@@ -2,7 +2,7 @@
 define tor::daemon::onion_service(
   Enum['present', 'absent'] $ensure        = 'present',
   Array[Stdlib::Port] $ports               = [],
-  String $data_dir                         = $tor::daemon::data_dir,
+  Stdlib::Unixpath $data_dir               = $tor::data_dir,
   Boolean $v3                              = false,
   Boolean $single_hop                      = false,
   Optional[String] $private_key            = undef,
@@ -10,7 +10,7 @@ define tor::daemon::onion_service(
   Optional[String] $private_key_store_path = undef,
 ) {
 
-  $data_dir_path = "${data_dir}/${name}"
+  $data_dir_path = "${tor::daemon::onion_service::data_dir}/${name}"
   if $ensure == 'present' {
     concat::fragment { "05.onion_service.${name}":
       content => epp('tor/torrc/05_onion_service.epp', {
