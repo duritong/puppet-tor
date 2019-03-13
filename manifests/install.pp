@@ -1,14 +1,14 @@
 class tor::install {
 
-  if $use_upstream_release and $::osfamily == 'Debian' {
+  if $tor::use_upstream_release and $::osfamily == 'Debian' {
     package { 'apt-transport-https':
       ensure => 'present';
     }
 
     apt::key { 'torproject':
-      id      => 'A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89',
-      source  => "https://deb.torproject.org/torproject.org/A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89.asc";
-     }
+      id     => 'A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89',
+      source => 'https://deb.torproject.org/torproject.org/A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89.asc';
+    }
 
     apt::source { 'torproject':
       comment  => 'TorProject',
@@ -25,7 +25,7 @@ class tor::install {
     }
   }
 
-  elsif $use_upstream_release and $::osfamily != 'Debian' {
+  elsif $tor::use_upstream_release and $::osfamily != 'Debian' {
     fail("Unsupported managed repository for osfamily: ${::osfamily}, operatingsystem: ${::operatingsystem}, module ${module_name} currently only supports upstream repository for osfamily Debian and Ubuntu") # lint:ignore:80chars
   }
 
