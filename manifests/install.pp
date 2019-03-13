@@ -1,6 +1,6 @@
 class tor::install {
 
-  if $tor::use_upstream_release and $::osfamily == 'Debian' {
+  if $tor::use_upstream_repository and $::osfamily == 'Debian' {
     package { 'apt-transport-https':
       ensure => 'present';
     }
@@ -25,7 +25,7 @@ class tor::install {
     }
   }
 
-  elsif $tor::use_upstream_release and $::osfamily != 'Debian' {
+  elsif $tor::use_upstream_repository and $::osfamily != 'Debian' {
     fail("Unsupported managed repository for osfamily: ${::osfamily}, operatingsystem: ${::operatingsystem}, module ${module_name} currently only supports upstream repository for osfamily Debian and Ubuntu") # lint:ignore:80chars
   }
 
