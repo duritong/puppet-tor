@@ -11,7 +11,7 @@ define tor::daemon::socks(
         'policies' => $tor::daemon::socks::policies,
       }),
       order   => '02',
-      target  => $tor::daemon::config_file,
+      target  => $tor::config_file,
     }
   }
 }

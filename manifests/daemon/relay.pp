@@ -37,7 +37,7 @@ define tor::daemon::relay(
         'bridge_relay'           => $tor::daemon::relay::bridge_relay,
       }),
       order   => '03',
-      target  => $tor::daemon::config_file,
+      target  => $tor::config_file,
     }
   }
 }

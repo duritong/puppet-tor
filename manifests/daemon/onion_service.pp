@@ -21,7 +21,7 @@ define tor::daemon::onion_service(
         'v3'            => $tor::daemon::onion_service::v3,
       }),
       order   => '05',
-      target  => $tor::daemon::config_file,
+      target  => $tor::config_file,
     }
     if $single_hop {
       file { "${data_dir_path}/onion_service_non_anonymous":

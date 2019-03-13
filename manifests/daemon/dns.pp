@@ -9,7 +9,7 @@ define tor::daemon::dns(
         'port' => $tor::daemon::dns::port,
       }),
       order   => '08',
-      target  => $tor::daemon::config_file,
+      target  => $tor::config_file,
     }
   }
 }

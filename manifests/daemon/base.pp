@@ -41,7 +41,7 @@ class tor::daemon::base (
   }
 
   # tor configuration file
-  concat { $tor::daemon::config_file:
+  concat { $tor::config_file:
     mode    => '0640',
     owner   => 'root',
     group   => $tor::daemon::params::group,
@@ -53,7 +53,7 @@ class tor::daemon::base (
   concat::fragment { '00.header':
     content => epp('tor/torrc/00_header.epp'),
     order   => '00',
-    target  => $tor::daemon::config_file,
+    target  => $tor::config_file,
   }
 
   # global configurations
@@ -66,6 +66,6 @@ class tor::daemon::base (
       'use_bridges'              => $tor::use_bridges,
     }),
     order   => '01',
-    target  => $tor::daemon::config_file,
+    target  => $tor::config_file,
   }
 }

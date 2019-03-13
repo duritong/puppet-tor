@@ -26,7 +26,7 @@ define tor::daemon::control(
         'hashed_control_password'        => $tor::daemon::control::hashed_control_password,
       }),
       order   => '04',
-      target  => $tor::daemon::config_file,
+      target  => $tor::config_file,
     }
   }
 }

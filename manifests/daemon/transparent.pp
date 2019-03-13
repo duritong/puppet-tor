@@ -9,7 +9,7 @@ define tor::daemon::transparent(
         'port' => $tor::daemon::transparent::port,
       }),
       order   => '10',
-      target  => $tor::daemon::config_file,
+      target  => $tor::config_file,
     }
   }
 }

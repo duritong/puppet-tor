@@ -11,7 +11,7 @@ define tor::daemon::directory (
         'port_front_page' => $tor::daemon::directory::port_front_page,
       }),
       order   => '06',
-      target  => $tor::daemon::config_file,
+      target  => $tor::config_file,
     }
   }
 

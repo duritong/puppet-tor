@@ -12,7 +12,7 @@ define tor::daemon::map_address(
         'newaddress' => $tor::daemon::map_address::newaddress,
       }),
       order   => '09',
-      target  => $tor::daemon::config_file,
+      target  => $tor::config_file,
     }
   }
 }

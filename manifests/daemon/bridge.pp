@@ -19,7 +19,7 @@ define tor::daemon::bridge(
         'transport'   => $tor::daemon::bridge::transport,
       }),
       order   => '11',
-      target  => $tor::daemon::config_file,
+      target  => $tor::config_file,
     }
   }
 }

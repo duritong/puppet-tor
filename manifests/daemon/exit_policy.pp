@@ -14,7 +14,7 @@ define tor::daemon::exit_policy(
         'reject_private' => $tor::daemon::exit_policy::reject_private,
       }),
       order   => '07',
-      target  => $tor::daemon::config_file,
+      target  => $tor::config_file,
     }
   }
 }

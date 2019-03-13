@@ -15,7 +15,7 @@ define tor::daemon::transport_plugin(
         'ext_port'                   => $tor::daemon::transport_plugin::ext_port,
       }),
       order   => 12,
-      target  => $tor::daemon::config_file,
+      target  => $tor::config_file,
     }
   }
 }
