@@ -15,5 +15,4 @@ class tor::daemon::params {
     }
     default: { fail("No support for osfamily ${facts['osfamily']}") }
   }
-
 }
