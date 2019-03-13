@@ -11,7 +11,7 @@ describe 'tor::daemon::onion_service', :type => 'define' do
   let(:title){ 'test_os' }
   let(:facts){ default_facts }
   let(:pre_condition){'Exec{path => "/bin"}
-                      include tor::daemon::base' }
+                      include tor' }
   describe 'with standard' do
     it { is_expected.to compile.with_all_deps }
 
