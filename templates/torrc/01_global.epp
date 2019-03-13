@@ -11,6 +11,7 @@ Log notice syslog
 <% $log_rules.each |$item| { -%>
 Log <%= $item %>
 <% } -%>
+<% } -%>
 <% unless $safe_logging { -%>
 SafeLogging 0
 <% } -%>
