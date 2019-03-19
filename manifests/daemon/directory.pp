@@ -1,7 +1,7 @@
 # directory advertising
 define tor::daemon::directory (
   Enum['present', 'absent'] $ensure = 'present',
-  Variant[0, Stdlib::Port] $port    = 0,
+  Optional[Tor::Port] $port         = undef,
   String $port_front_page           = '/etc/tor/tor-exit-notice.html',
 ) {
   if $ensure == 'present' {

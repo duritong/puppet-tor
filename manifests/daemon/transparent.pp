@@ -1,7 +1,7 @@
 # Transparent proxy definition
 define tor::daemon::transparent(
   Enum['present', 'absent'] $ensure = 'present',
-  Variant[0, Stdlib::Port] $port    = 0,
+  Tor::Port $port                   = undef,
 ){
   if $ensure == 'present' {
     concat::fragment { "10.transparent.${name}":

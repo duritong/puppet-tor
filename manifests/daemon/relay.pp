@@ -1,11 +1,11 @@
 # relay definition
 define tor::daemon::relay(
   Enum['present', 'absent'] $ensure                            = 'present',
-  Variant[0, Stdlib::Port] $port                               = 0,
+  Optional[Tor::Port] $port                                    = undef,
   Optional[Array[Stdlib::IP::Address]] $outbound_bindaddresses = undef,
   Optional[String] $nickname                                   = undef,
   Stdlib::Fqdn $address                                        = "tor.${::domain}",
-  Stdlib::Port $portforwarding                                 = 0,
+  Boolean $portforwarding                                      = false,
   Optional[Integer] $bandwidth_rate                            = undef,
   Optional[Integer] $bandwidth_burst                           = undef,
   Optional[Integer] $relay_bandwidth_rate                      = undef,

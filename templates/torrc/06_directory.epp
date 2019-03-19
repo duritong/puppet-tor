@@ -1,5 +1,5 @@
 # directory listing
-<% unless $port == 0 { -%>
+<% if $port { -%>
 DirPort <%= $port %>
 <% } -%>
 <% if $port_front_page { -%>

@@ -1,5 +1,5 @@
 # tor controller
-<% unless $port == 0 { -%>
+<% if $port { -%>
 ControlPort <%= $port %>
 <% if $cookie_authentication { -%>
 CookieAuthentication 1

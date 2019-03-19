@@ -1,7 +1,7 @@
 # socks definition
 define tor::daemon::socks(
   Enum['present', 'absent'] $ensure = 'present',
-  Variant[0, Stdlib::Port] $port    = 0,
+  Tor::Port $port                   = undef,
   Optional[Array[String]] $policies = undef,
 ) {
   if $ensure == 'present' {

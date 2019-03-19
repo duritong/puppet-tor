@@ -1,7 +1,7 @@
 # control definition
 define tor::daemon::control(
   Enum['present', 'absent'] $ensure            = 'present',
-  Variant[0, Stdlib::Port] $port               = 0,
+  Optional[Stdlib::Port] $port                 = undef,
   Boolean $cookie_authentication               = false,
   Optional[Stdlib::Unixpath] $cookie_auth_file = undef,
   Boolean $cookie_auth_file_group_readable     = false,

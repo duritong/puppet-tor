@@ -1,5 +1,5 @@
 # relay
-<% unless $port == 0 { -%>
+<% if $port { -%>
 ORPort <%= $port %>
 <% $outbound_bindaddresses.each |$item| { -%>
 OutboundBindAddress <%= $item %>
@@ -10,8 +10,8 @@ Nickname <%= $nickname %>
 <% if $address { -%>
 Address <%= $address %>
 <% } -%>
-<% unless $portforwarding == 0 { -%>
-PortForwarding <%= $portforwarding %>
+<% if $portforwarding { -%>
+PortForwarding 1
 <% } -%>
 <% if $bandwidth_rate { -%>
 BandwidthRate <%= $bandwidth_rate %> KB

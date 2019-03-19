@@ -1,7 +1,7 @@
 # DNS definition
 define tor::daemon::dns(
   Enum['present', 'absent'] $ensure = 'present',
-  Variant[0, Stdlib::Port] $port    = 0,
+  Tor::Port $port                   = undef,
 ){
   if $ensure == 'present' {
     concat::fragment { "08.dns.${name}":
