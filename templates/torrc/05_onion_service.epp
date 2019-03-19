@@ -6,8 +6,10 @@ SOCKSPort 0
 <% } -%>
 # hidden service <%= $name %>
 HiddenServiceDir <%= $data_dir_path %>
+<% if $ports { -%>
 <% $ports.each |$item| { -%>
 HiddenServicePort <%= $item %>=~ /^\d+$/ ? "#{<%= $item %>} 127.0.0.1:#{<%= $item %>}" : <%= $item %>
+<% } -%>
 <% } -%>
 
 <% if $v3 { -%>

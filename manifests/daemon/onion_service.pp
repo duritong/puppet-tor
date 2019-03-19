@@ -1,7 +1,7 @@
 # onion services definition
 define tor::daemon::onion_service(
   Enum['present', 'absent'] $ensure        = 'present',
-  Array[Stdlib::Port] $ports               = [],
+  Optional[Array[Stdlib::Port]] $ports     = undef,
   Stdlib::Unixpath $data_dir               = $tor::data_dir,
   Boolean $v3                              = false,
   Boolean $single_hop                      = false,
