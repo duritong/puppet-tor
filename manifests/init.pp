@@ -20,6 +20,7 @@ class tor (
     enable     => true,
     hasrestart => true,
     hasstatus  => true,
+    provider   => 'systemd',
     require    => Package['tor'],
   }
 }
