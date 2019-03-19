@@ -10,7 +10,7 @@ define tor::daemon::onion_service(
   Optional[String] $private_key_store_path = undef,
 ) {
 
-  $data_dir_path = "${tor::daemon::onion_service::data_dir}/${name}"
+  $data_dir_path = "${data_dir}/${name}"
   if $ensure == 'present' {
     concat::fragment { "05.onion_service.${name}":
       content => epp('tor/torrc/05_onion_service.epp', {
