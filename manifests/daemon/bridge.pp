@@ -13,10 +13,10 @@ define tor::daemon::bridge(
     concat::fragment { "11.bridge.${name}":
       content => epp('tor/torrc/11_bridge.epp', {
         'name'        => $name,
-        'ip'          => $tor::daemon::bridge::ip,
-        'port'        => $tor::daemon::bridge::port,
-        'fingerprint' => $tor::daemon::bridge::fingerprint,
-        'transport'   => $tor::daemon::bridge::transport,
+        'ip'          => $ip,
+        'port'        => $port,
+        'fingerprint' => $fingerprint,
+        'transport'   => $transport,
       }),
       order   => '11',
       target  => $tor::config_file,
