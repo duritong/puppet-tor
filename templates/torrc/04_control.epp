@@ -13,3 +13,4 @@ CookieAuthFileGroupReadable <%= $cookie_auth_file_group_readable %>
 HashedControlPassword <%= $hashed_control_password %>
 <% } -%>
 <% } -%>
+

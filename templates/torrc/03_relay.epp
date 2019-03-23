@@ -41,3 +41,4 @@ MyFamily <%= $my_family %>
 <% unless $bridge_relay == 0 { -%>
 BridgeRelay <%= $bridge_relay %>
 <% } -%>
+
