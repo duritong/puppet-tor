@@ -19,17 +19,13 @@ describe 'tor::daemon::control', :type => 'define' do
       }
     }
     it { is_expected.to compile.with_all_deps }
-
-    it { is_expected.to contain_concat__fragment('04.control.test_os').with(
-      :order   => '04',
-      :target  => '/etc/tor/torrc',
-    )}
     context 'with cookie auth file' do
       let(:params){
         {
-          :cookie_authentication => true,
-          :cookie_auth_file      => '/etc/tor/foobar',
-          :port                  => 443,
+          :hashed_control_password => undef,
+          :cookie_authentication   => true,
+          :cookie_auth_file        => '/etc/tor/foobar',
+          :port                    => 443,
         }
       }
       it { is_expected.to compile.with_all_deps }
@@ -37,6 +33,7 @@ describe 'tor::daemon::control', :type => 'define' do
     context 'with cookie auth file world redable' do
       let(:params){
         {
+          :hashed_control_password         => undef,
           :cookie_authentication           => true,
           :cookie_auth_file_group_readable => true,
           :cookie_auth_file                => '/etc/tor/foobar',
