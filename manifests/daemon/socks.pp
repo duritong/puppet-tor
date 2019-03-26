@@ -7,8 +7,8 @@ define tor::daemon::socks(
   if $ensure == 'present' {
     concat::fragment { '02.socks':
       content => epp('tor/torrc/02_socks.epp', {
-        'port'     => $tor::daemon::socks::port,
-        'policies' => $tor::daemon::socks::policies,
+        'port'     => $port,
+        'policies' => $policies,
       }),
       order   => '02',
       target  => $tor::config_file,
