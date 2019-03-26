@@ -7,8 +7,8 @@ define tor::daemon::directory (
   if $ensure == 'present' {
     concat::fragment { '06.directory':
       content => epp('tor/torrc/06_directory.epp', {
-        'port'            => $tor::daemon::directory::port,
-        'port_front_page' => $tor::daemon::directory::port_front_page,
+        'port'            => $port,
+        'port_front_page' => $port_front_page,
       }),
       order   => '06',
       target  => $tor::config_file,
