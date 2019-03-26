@@ -9,9 +9,9 @@ define tor::daemon::exit_policy(
     concat::fragment { "07.exit_policy.${name}":
       content => epp('tor/torrc/07_exit_policy.epp', {
         'name'           => $name,
-        'accept'         => $tor::daemon::exit_policy::accept,
-        'reject'         => $tor::daemon::exit_policy::reject,
-        'reject_private' => $tor::daemon::exit_policy::reject_private,
+        'accept'         => $accept,
+        'reject'         => $reject,
+        'reject_private' => $reject_private,
       }),
       order   => '07',
       target  => $tor::config_file,
