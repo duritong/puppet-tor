@@ -9,7 +9,7 @@ define tor::daemon::control(
 ) {
 
   if $ensure == 'present' {
-    unless $cookie_authentication and $hashed_control_password {
+    if $cookie_authentication == false and $hashed_control_password == undef {
       fail('You need to define the tor control password')
     }
 
@@ -19,11 +19,11 @@ define tor::daemon::control(
 
     concat::fragment { '04.control':
       content => epp('tor/torrc/04_control.epp', {
-        'port'                           => $tor::daemon::control::port,
-        'cookie_authentication'          => $tor::daemon::control::cookie_authentication,
-        'cookie_auth_file'               => $tor::daemon::control::cookie_auth_file,
-        'cookie_auth_file_group_redable' => $tor::daemon::control::cookie_auth_file_group_redable,
-        'hashed_control_password'        => $tor::daemon::control::hashed_control_password,
+        'port'                           => $port,
+        'cookie_authentication'          => $cookie_authentication,
+        'cookie_auth_file'               => $cookie_auth_file,
+        'cookie_auth_file_group_redable' => $cookie_auth_file_group_readable,
+        'hashed_control_password'        => $hashed_control_password,
       }),
       order   => '04',
       target  => $tor::config_file,
