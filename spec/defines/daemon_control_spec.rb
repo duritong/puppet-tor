@@ -22,7 +22,7 @@ describe 'tor::daemon::control', :type => 'define' do
     context 'with cookie auth file' do
       let(:params){
         {
-          :hashed_control_password => undef,
+          :hashed_control_password => :undef,
           :cookie_authentication   => true,
           :cookie_auth_file        => '/etc/tor/foobar',
           :port                    => 443,
@@ -33,7 +33,7 @@ describe 'tor::daemon::control', :type => 'define' do
     context 'with cookie auth file world redable' do
       let(:params){
         {
-          :hashed_control_password         => undef,
+          :hashed_control_password         => :undef,
           :cookie_authentication           => true,
           :cookie_auth_file_group_readable => true,
           :cookie_auth_file                => '/etc/tor/foobar',
