@@ -4,7 +4,7 @@ define tor::daemon::transport_plugin(
   Optional[String] $servertransport_plugin     = undef,
   Optional[String] $servertransport_listenaddr = undef,
   Optional[String] $servertransport_options    = undef,
-  Optional[Enum['auto', Tor::Port]] $ext_port  = undef,
+  Optional[Tor::Port] $ext_port                = undef,
 ) {
   if $ensure == 'present' {
     concat::fragment { '12.transport_plugin':
