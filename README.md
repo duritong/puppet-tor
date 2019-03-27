@@ -15,59 +15,42 @@
   * [Configuring directories](#configuring-directories)
   * [Configuring exit policies](#configuring-exit-policies)
   * [Configuring transport plugins](#configuring-transport-plugins)
+* [Reference](#reference)
 * [Functions](#functions)
-* [Munin](#munin)
 
 # Overview<a name="overview"></a>
 
-This module tries to manage tor, making sure it is installed, running, has
-munin graphs if desired and allows for configuration of relays, onion services,
-exit policies, etc.
+This module manages tor and is mainly geared towards people running it on
+servers. With this module, you should be able to manage most, if not all of
+the functionalities provided by tor, such as:
+
+* relays
+* bridges and exit nodes
+* onion services
+* exit policies
+* transport plugins
 
 ## Upgrade Notice<a name="upgrade-notice"></a>
 
- * All of the `listen_address` variables have been deprecated, since they have
-   been deprecated in tor since 0.2.3.x-alpha. Please read the new tor man page
-   if you were using those variables.
-
- * Previously, if you did not set the `$outbound_bindaddress` variable, it was
-   being automatically set to the `$listen_address variable`. Now this is not
-   being done and instead you will need to set the `$outbound_bindaddress`
-   explicitly for it to be set.
-
- * The `tor::relay{}` variables `$bandwidth_rate` and `$bandwidth_burst` were
-   previously used for the tor configuration variables `RelayBandwidthRate` and
-   `RelayBandwidthBurst`, these have been renamed to `$relay_bandwidth_rate`
-   and `$relay_bandwidth_burst`. If you were using these, please rename your
-   variables in your configuration.
-
- * The variables `$bandwidth_rate` and `$bandwidth_burst` are now used for the
-   tor configuration variables `BandwidthRate` and `BandwidthBurst`. If you
-   used `$bandwidth_rate` or `$bandwidth_burst` please be aware that these
-   values have changed and adjust your configuration as necessary.
-
- * The `$tor_ensure_version` was converted to a parameter for the tor and
-   `tor::daemon` classes.
-
- * The `$torsocks_ensure_version` was converted to a parameter for the
-   `tor::torsocks` class.
-
- * The options that used to be settable with the `tor::daemon::global_opts`
-   define now are parameters for the `tor::daemon class`, and
-   `tor::daemon::global_opts` was removed accordingly.
-
+This module has been extensively re-written for the 2.0 version. Even though
+most things should work as they did before, we urge you to read the
+new documentation and treat this as a new module.
 
 # Dependencies<a name="dependencies"></a>
 
 This module needs:
 
  * the [concat module](https://github.com/puppetlabs/puppetlabs-concat.git)
+ * the [stdlib module](https://github.com/puppetlabs/puppetlabs-stdlib.git)
+ * the [apt module](https://github.com/puppetlabs/puppetlabs-apt.git)
+
+Explicit dependencies can be found in the project's [metadata.json][] file.
 
 # Usage<a name="usage"></a>
 
 ## Installing tor<a name="installing-tor"></a>
 
-To install tor, simply include the 'tor' class in your manifests:
+To install tor, include the 'tor' class in your manifests:
 
     class { 'tor': }
 
@@ -231,6 +214,18 @@ default:
     $servertransport_listenaddr  #Set a different address for the transport plugin mechanism
     $servertransport_options     #Pass a k=v parameters to the transport proxy
 
+# Reference<a name="reference"></a>
+
+The full reference documentation for this module may be found at on
+[GitLab Pages][pages].
+
+Alternatively, you may build yourself the documentation using the
+`puppet strings generate` command. See the documentation for
+[Puppet Strings][strings] for more information.
+
+[pages]: https://shared-puppet-modules-group.gitlab.io/tor
+[strings]: https://puppet.com/blog/using-puppet-strings-generate-great-documentation-puppet-modules
+
 # Functions<a name="functions"></a>
 
 This module comes with 2 functions specific to tor support. They require the base32 gem to be installed on the master or wherever they are executed.
@@ -242,9 +237,3 @@ This function takes a 1024bit RSA private key as an argument and returns the oni
 ## generate_onion_key
 
 This function takes a path (on the puppetmaster!) and an identifier for a key and returns an array containing the matching onion address and the private key. The private key either exists under the supplied `path/key_identifier` or is being generated on the fly and stored under that path for the next execution.
-
-# Munin<a name="munin"></a>
-
-If you are using `munin`, and have the puppet munin module installed, you can
-set the `use_munin` parameter to `true` when defining the `tor::daemon` class
-to have graphs setup for you.
