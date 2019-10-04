@@ -73,7 +73,6 @@ describe 'tor::daemon::relay', :type => 'define' do
         {
           :nickname              => 'johnny',
           :address               => 'example.com',
-          :portforwarding        => true,
           :bandwidth_rate        => 1000,
           :bandwidth_burst       => 1000,
           :relay_bandwidth_rate  => 1000,

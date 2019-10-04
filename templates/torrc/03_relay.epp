@@ -12,9 +12,6 @@ Nickname <%= $nickname %>
 <% if $address { -%>
 Address <%= $address %>
 <% } -%>
-<% if $portforwarding { -%>
-PortForwarding 1
-<% } -%>
 <% if $bandwidth_rate { -%>
 BandwidthRate <%= $bandwidth_rate %> KB
 <% } -%>
