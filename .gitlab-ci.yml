@@ -27,3 +27,14 @@ test:puppet5.5:
 test:puppetlatest:
   image: ruby:latest
   <<: *test_definition
+
+# Build and deploy docs on GitLab Pages
+pages:
+  image: debian:stable
+  stage: deploy
+  script:
+    - apt-get update && apt-get install -y puppet-strings puppet
+    - puppet strings generate
+  artifacts:
+    paths:
+      - doc

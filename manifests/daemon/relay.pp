@@ -26,16 +26,16 @@
 # @param address
 #   The relay's IP address.
 #
-# @param bandwith_rate
+# @param bandwidth_rate
 #   Maximum bandwidth rate in KB/s for the relay.
 #
-# @param bandwith_burst
+# @param bandwidth_burst
 #   Maximum bandwidth burst rate in KB/s for the relay.
 #
-# @param relay_bandwith_rate
+# @param relay_bandwidth_rate
 #   Maximum relayed bandwidth rate in KB/s.
 #
-# @param relay_bandwith_burst
+# @param relay_bandwidth_burst
 #   Maximum relayed bandwidth burst rate in KB/s.
 #
 # @param accounting_max

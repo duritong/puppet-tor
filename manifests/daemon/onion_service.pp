@@ -9,7 +9,7 @@
 # @param ensure
 #   Whether this module should be used or not.
 #
-# @params ports
+# @param ports
 #   The onion service port.
 #
 # @param data_dir
