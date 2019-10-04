@@ -1,4 +1,18 @@
-# extend basic tor things with a snippet based daemon configuration
+# @summary Extend basic Tor configuration with a snippet based configuration.
+#          Base module.
+#
+# @param user
+#   Unix user for the tor process.
+#
+# @param group
+#   Unix group for the tor process.
+#
+# @param manage_user
+#   If Puppet should manage the tor process unix user and group
+#
+# @param data_dir_mode
+#   Unix mode for the tor data directory.
+#
 class tor::daemon::base (
   String $user                    = $tor::daemon::params::user,
   String $group                   = $tor::daemon::params::group,

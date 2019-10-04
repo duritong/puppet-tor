@@ -1,3 +1,40 @@
+# @summary Main class, includes all other classes.
+#
+# @param arm
+#   Install tor-arm.
+#
+# @param automap_hosts_on_resolve
+#   Enables AutomapOnResolve.
+#
+# @param data_dir
+#   Tor's main data directory.
+#
+# @param config_file
+#   Tor's main config file (torrc).
+#
+# @param log_rules
+#   Tor logging rules.
+#
+# @param safe_logging
+#   Scrub potentially sensitive strings from log messages.
+#
+# @param torsocks
+#   Install torsocks.
+#
+# @param version
+#   The specific version of Tor that should be installed.
+#
+# @param use_bridges
+#   Use Bridges as your entry node.
+#
+# @param use_upstream_repository
+#   Install Tor and related packages from the upstream repository instead of
+#   using your distribution's.
+#
+# @param upstream_release
+#   What release from the upstream repository should be used to install Tor and
+#   related packages.
+#
 class tor (
   Boolean $arm                      = false,
   Boolean $automap_hosts_on_resolve = false,

@@ -1,4 +1,15 @@
-# map address definition
+# @summary Extend basic Tor configuration with a snippet based configuration.
+#          Map address module.
+#
+# @param ensure
+#   Whether this module should be used or not.
+#
+# @param address
+#   Incoming address to pass through the Map Address.
+#
+# @param newaddress
+#   Outcoming address to pass through the Map Address.
+#
 define tor::daemon::map_address(
   Enum['present', 'absent'] $ensure  = 'present',
   Optional[Stdlib::Host] $address    = undef,
@@ -16,4 +27,3 @@ define tor::daemon::map_address(
     }
   }
 }
-

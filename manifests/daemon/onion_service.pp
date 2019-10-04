@@ -1,4 +1,36 @@
-# onion services definition
+# @summary Extend basic Tor configuration with a snippet based configuration.
+#          Onion Service module.
+#
+# @example Make SSH available as a Tor service
+#   tor::daemon::onion_service { 'onion-ssh':
+#     ports => '22',
+#   }
+#
+# @param ensure
+#   Whether this module should be used or not.
+#
+# @params ports
+#   The onion service port.
+#
+# @param data_dir
+#   The hidden service data directory.
+#
+# @param v3
+#   Whether the onion service should be a v3 hidden service.
+#
+# @param single_hop
+#   Whether the onion service should be single-hop.
+#
+# @param private_key
+#   The onion address private key for the hidden service. Either specify this or
+#   $private_key_name and $private_key_store_path
+#
+# @param private_key_name
+#   The name of the onion address private key file for the hidden service.
+#
+# @param private_key_store_path
+#   The path to directory where the onion address private key file is stored.
+#
 define tor::daemon::onion_service(
   Enum['present', 'absent'] $ensure        = 'present',
   Optional[Array[String]] $ports           = undef,

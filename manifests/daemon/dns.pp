@@ -1,4 +1,13 @@
-# DNS definition
+# @summary Extend basic Tor configuration with a snippet based configuration.
+#          DNS module.
+#
+# @param ensure
+#   Whether this module should be used or not.
+#
+# @param port
+#   Port to open in order to listen for UDP DNS requests and resolve them
+#   anonymously.
+#
 define tor::daemon::dns(
   Enum['present', 'absent'] $ensure = 'present',
   Tor::Port $port                   = undef,

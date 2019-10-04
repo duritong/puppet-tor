@@ -1,3 +1,5 @@
+# @summary Manages package installation.
+#
 class tor::install {
 
   if $tor::use_upstream_repository and $::osfamily == 'Debian' {

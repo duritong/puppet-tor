@@ -1,4 +1,21 @@
-# directory advertising
+# @summary Extend basic Tor configuration with a snippet based configuration.
+#          Directory module.
+#
+# @example Advertise your Tor directory service on port 80.
+#   tor::daemon::directory { 'ssh_directory':
+#     port            => '80',
+#     port_front_page => '/etc/tor/tor.html';
+#   }
+#
+# @param ensure
+#   Whether this module should be used or not.
+#
+# @param port
+#   Advertise the directory service on this port.
+#
+# @param port_front_page
+#   Path to the HTML front page for the directory service.
+#
 define tor::daemon::directory (
   Enum['present', 'absent'] $ensure = 'present',
   Optional[Tor::Port] $port         = undef,

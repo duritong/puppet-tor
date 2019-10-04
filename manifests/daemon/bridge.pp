@@ -1,4 +1,22 @@
-# Bridge definition
+# @summary Extend basic Tor configuration with a snippet based configuration.
+#          Use a Tor Bridge to connect to Tor.
+#
+# @param ensure
+#   Whether this module should be used or not.
+#
+# @param ip
+#   The IP address of the bridge that will be used.
+#
+# @param port
+#   The IP port of the bridge that will be used.
+#
+# @param fingerprint
+#   Fingerprint of the Tor Bridge to verify that the relay running at that
+#   location has the right fingerprint.
+#
+# @param transport
+#   What pluggable transport’s proxy to use to transfer data to the bridge.
+#
 define tor::daemon::bridge(
   Enum['present', 'absent'] $ensure = 'present',
   Optional[Stdlib::IP::Address] $ip = undef,

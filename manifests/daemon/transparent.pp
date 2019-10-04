@@ -1,4 +1,12 @@
-# Transparent proxy definition
+# @summary Extend basic Tor configuration with a snippet based configuration.
+#          Transparent Proxy module.
+#
+# @param ensure
+#   Whether this module should be used or not.
+#
+# @param port
+#   The TransPort.
+#
 define tor::daemon::transparent(
   Enum['present', 'absent'] $ensure = 'present',
   Tor::Port $port                   = undef,
