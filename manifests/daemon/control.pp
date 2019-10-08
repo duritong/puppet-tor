@@ -4,7 +4,7 @@
 # @example Use port 80 as the Tor Control port and authenticate to it using
 #          a hashed password.
 #   tor::daemon::control { 'foo-control':
-#     port                    => '80',
+#     port                    => 80,
 #     hashed_control_password => '<somehash>',
 #     ensure                  => present;
 #   }

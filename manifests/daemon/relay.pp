@@ -3,10 +3,10 @@
 #
 # @example A simple relay example
 #   tor::daemon::relay { 'foobar':
-#     port             => '9001',
+#     port             => 9001,
 #     address          => '192.168.0.1',
-#     bandwidth_rate   => '256',
-#     bandwidth_burst  => '256',
+#     bandwidth_rate   => 256,
+#     bandwidth_burst  => 256,
 #     contact_info     => "Foo <collective at example dot com>",
 #     my_family        => '<long family string here>';
 #   }
@@ -39,7 +39,7 @@
 #   Maximum relayed bandwidth burst rate in KB/s.
 #
 # @param accounting_max
-#   Limits the max number of bytes sent and received within a set time period.
+#   Max number of GBs sent and received within a set time period.
 #
 # @param accounting_start
 #   Specify how long accounting periods last.

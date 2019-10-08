@@ -3,14 +3,14 @@
 #
 # @example Make SSH available as a Tor service
 #   tor::daemon::onion_service { 'onion-ssh':
-#     ports => '22',
+#     ports => [ 22 ],
 #   }
 #
 # @param ensure
 #   Whether this module should be used or not.
 #
 # @param ports
-#   The onion service port.
+#   The onion service ports.
 #
 # @param data_dir
 #   The hidden service data directory.
@@ -33,7 +33,7 @@
 #
 define tor::daemon::onion_service(
   Enum['present', 'absent'] $ensure        = 'present',
-  Optional[Array[String]] $ports           = undef,
+  Optional[Array[Tor::Port]] $ports        = undef,
   Stdlib::Unixpath $data_dir               = $tor::data_dir,
   Boolean $v3                              = false,
   Boolean $single_hop                      = false,

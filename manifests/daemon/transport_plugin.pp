@@ -3,7 +3,7 @@
 #
 # @example Create an obfs4 transport plugin
 #   tor::daemon::transport_plugins { "obfs4":
-#     ext_port               => '80',
+#     ext_port               => 80,
 #     servertransport_plugin => 'obfs4 exec /usr/bin/obfs4proxy',
 #   }
 #

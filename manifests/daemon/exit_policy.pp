@@ -3,8 +3,8 @@
 #
 # @example Reject everything but traffic on port 22 to 192.168.0.1.
 #   tor::daemon::exit_policy { 'ssh_exit_policy':
-#     accept => '192.168.0.1:22',
-#     reject => '*:*';
+#     accept => [ '192.168.0.1:22' ],
+#     reject => [ '*:*' ];
 #   }
 #
 # @param ensure

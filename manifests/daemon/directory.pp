@@ -3,7 +3,7 @@
 #
 # @example Advertise your Tor directory service on port 80.
 #   tor::daemon::directory { 'ssh_directory':
-#     port            => '80',
+#     port            => 80,
 #     port_front_page => '/etc/tor/tor.html';
 #   }
 #
