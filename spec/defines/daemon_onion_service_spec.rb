@@ -41,7 +41,7 @@ describe 'tor::daemon::onion_service', :type => 'define' do
     context 'with differt port params' do
       let(:params){
         {
-          :ports => [25, 443 192.168.0.1:8443]
+          :ports => ['25', '443 192.168.0.1:8443']
         }
       }
       it { is_expected.to compile.with_all_deps }
@@ -85,7 +85,7 @@ describe 'tor::daemon::onion_service', :type => 'define' do
     context 'with private key to generate' do
       let(:params){
         {
-          :ports                  => [80],
+          :ports                  => ['80'],
           :private_key_name       => 'test_os',
           :private_key_store_path => File.expand_path(File.join(File.dirname(__FILE__),'..','tmp')),
         }
