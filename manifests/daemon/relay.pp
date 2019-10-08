@@ -58,7 +58,7 @@ define tor::daemon::relay(
   Enum['present', 'absent'] $ensure                            = 'present',
   Optional[Tor::Port] $port                                    = undef,
   Optional[Array[Stdlib::IP::Address]] $outbound_bindaddresses = undef,
-  Optional[String] $nickname                                   = undef,
+  Optional[String] $nickname                                   = $name,
   Stdlib::Fqdn $address                                        = "tor.${::domain}",
   Optional[Integer] $bandwidth_rate                            = undef,
   Optional[Integer] $bandwidth_burst                           = undef,
