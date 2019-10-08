@@ -35,6 +35,7 @@ pages:
   script:
     - apt-get update && apt-get install -y puppet-strings puppet
     - puppet strings generate
+    - mv doc public
   artifacts:
     paths:
-      - doc
+      - public
