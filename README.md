@@ -70,12 +70,16 @@ base32 gem to be installed on the master or wherever they are executed.
 This function takes a 1024bit RSA private key as an argument and returns the
 onion address for an onion service for that key.
 
+At the moment, this function does not support v3 onions.
+
 ## generate_onion_key
 
 This function takes a path (on the puppet master!) and an identifier for a key
 and returns an array containing the matching onion address and the private key.
 The private key either exists under the supplied `path/key_identifier` or is
 being generated on the fly and stored under that path for the next execution.
+
+At the moment, this function does not support v3 onions.
 
 # Reference
 
