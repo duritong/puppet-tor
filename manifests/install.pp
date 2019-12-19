@@ -5,18 +5,30 @@ class tor::install {
   if $tor::use_upstream_repository and $::osfamily == 'Debian' {
     ensure_packages('apt-transport-https')
 
-    apt::key { 'torproject':
-      id     => 'A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89',
-      source => 'https://deb.torproject.org/torproject.org/A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89.asc';
+    apt::source {
+      'torproject':
+        comment  => 'TorProject',
+        location => '[signed-by=/usr/share/keyrings/torproject.gpg] https://deb.torproject.org/torproject.org',
+        repos    => 'main',
+        release  => $tor::upstream_release,
+        require  => [ Package['apt-transport-https'] ];
     }
 
-    apt::source { 'torproject':
-      comment  => 'TorProject',
-      pin      => 999,
-      location => 'https://deb.torproject.org/torproject.org/',
-      repos    => 'main',
-      release  => $tor::upstream_release,
-      require  => [ Apt::Key['torproject'], Package['apt-transport-https'] ];
+    apt::pin {
+      'torproject':
+        packages   => [ 'tor', 'tor-geoipdb' ],
+        priority   => 1000,
+        originator => 'TorProject',
+        component  => 'main',
+    }
+
+    file {
+      '/usr/share/keyrings/torproject.gpg':
+        ensure => present,
+        source => 'puppet:///modules/tor/torproject.gpg',
+        owner  => 'root',
+        group  => 0,
+        mode   => '0644';
     }
 
     package { 'tor':
