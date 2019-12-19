@@ -3,9 +3,7 @@
 class tor::install {
 
   if $tor::use_upstream_repository and $::osfamily == 'Debian' {
-    package { 'apt-transport-https':
-      ensure => 'present';
-    }
+    ensure_packages('apt-transport-https')
 
     apt::key { 'torproject':
       id     => 'A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89',
