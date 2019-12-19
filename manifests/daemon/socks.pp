@@ -16,16 +16,20 @@
 # @param policies
 #   Set policies to limit who can connect to the SocksPort.
 #
+# @param flags
+#   SocksPort flags and isolation flags.
 define tor::daemon::socks(
   Enum['present', 'absent'] $ensure = 'present',
   Tor::Port $port                   = undef,
   Optional[Array[String]] $policies = undef,
+  Optional[Array[String]] $flags    = undef,
 ) {
   if $ensure == 'present' {
     concat::fragment { '02.socks':
       content => epp('tor/torrc/02_socks.epp', {
         'port'     => $port,
         'policies' => $policies,
+        'flags'    => $flags,
       }),
       order   => '02',
       target  => $tor::config_file,
