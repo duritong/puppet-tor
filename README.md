@@ -9,8 +9,10 @@
 3. [Functions](#reference)
     * [onion_address](#onion_address)
     * [generate_onion_key](#generate_onion_key)
-4. [Reference](#reference)
-5. [Development](#development)
+4. [Facts](#reference)
+    * [tor_hidden_services](#tor_hidden_services)
+5. [Reference](#reference)
+6. [Development](#development)
 
 ## Description
 
@@ -80,6 +82,12 @@ The private key either exists under the supplied `path/key_identifier` or is
 being generated on the fly and stored under that path for the next execution.
 
 At the moment, this function does not support v3 onions.
+
+# Facts
+
+## tor_hidden_services
+
+This fact gives you a list of the hidden services you are running.
 
 # Reference
 
