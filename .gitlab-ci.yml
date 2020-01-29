@@ -23,11 +23,6 @@ test:puppet5.5:
     FACTER_VERSION: '~> 3.11.0'
   <<: *test_definition
 
-# Test with latest Puppet release
-test:puppetlatest:
-  image: ruby:latest
-  <<: *test_definition
-
 # Build and deploy docs on GitLab Pages
 pages:
   image: debian:stable
