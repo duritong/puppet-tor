@@ -3,6 +3,9 @@
 # @param arm
 #   Install tor-arm.
 #
+# @param arm_version
+#   The specific version of tor-arm that should be installed.
+#
 # @param automap_hosts_on_resolve
 #   Enables AutomapOnResolve.
 #
@@ -21,6 +24,9 @@
 # @param torsocks
 #   Install torsocks.
 #
+# @param torsocks_version
+#   The specific version of torsocks that should be installed.
+#
 # @param version
 #   The specific version of Tor that should be installed.
 #
@@ -37,12 +43,14 @@
 #
 class tor (
   Boolean $arm                      = false,
+  String  $arm_version              = 'installed',
   Boolean $automap_hosts_on_resolve = false,
   Stdlib::Unixpath $data_dir        = '/var/lib/tor',
   String  $config_file              = '/etc/tor/torrc',
   Array   $log_rules                = [ 'notice file /var/log/tor/notices.log' ],
   Boolean $safe_logging             = true,
   Boolean $torsocks                 = false,
+  String  $torsocks_version         = 'installed',
   String  $version                  = 'installed',
   Boolean $use_bridges              = false,
   Boolean $use_upstream_repository  = false,
