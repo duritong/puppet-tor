@@ -2,6 +2,6 @@
 <% if $flags == undef { -%>
 TransPort <%= $port %>
 <% } else { -%>
-TransportPort <%= $port %><% $flags.each |$item| { %> <%= $item %><% } -%>
+TransPort <%= $port %><% $flags.each |$item| { %> <%= $item %><% } -%>
 <% } -%>
 
