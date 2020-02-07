@@ -1,7 +1,24 @@
-# extend basic tor things with a snippet based daemon configuration
-class tor::daemon::base inherits tor::base {
-
-  include ::tor::daemon::params
+# @summary Extend basic Tor configuration with a snippet based configuration.
+#          Base module.
+#
+# @param user
+#   Unix user for the tor process.
+#
+# @param group
+#   Unix group for the tor process.
+#
+# @param manage_user
+#   If Puppet should manage the tor process unix user and group
+#
+# @param data_dir_mode
+#   Unix mode for the tor data directory.
+#
+class tor::daemon::base (
+  String $user                    = $tor::daemon::params::user,
+  String $group                   = $tor::daemon::params::group,
+  Boolean $manage_user            = $tor::daemon::params::manage_user,
+  Stdlib::Filemode $data_dir_mode = $tor::daemon::params::data_dir_mode
+) inherits tor::daemon::params {
 
   if $tor::daemon::params::manage_user {
     group { $tor::daemon::params::group:
@@ -13,7 +30,7 @@ class tor::daemon::base inherits tor::base {
       ensure    => present,
       allowdupe => false,
       comment   => 'tor user,,,',
-      home      => $tor::daemon::data_dir,
+      home      => $tor::data_dir,
       shell     => '/bin/false',
       gid       => $tor::daemon::params::group,
       require   => Group[$tor::daemon::params::group],
@@ -21,7 +38,7 @@ class tor::daemon::base inherits tor::base {
   }
 
   # directories
-  file { $tor::daemon::data_dir:
+  file { $tor::data_dir:
     ensure  => directory,
     mode    => $tor::daemon::params::data_dir_mode,
     owner   => $tor::daemon::params::user,
@@ -38,7 +55,7 @@ class tor::daemon::base inherits tor::base {
   }
 
   # tor configuration file
-  concat { $tor::daemon::config_file:
+  concat { $tor::config_file:
     mode    => '0640',
     owner   => 'root',
     group   => $tor::daemon::params::group,
@@ -48,15 +65,21 @@ class tor::daemon::base inherits tor::base {
 
   # config file headers
   concat::fragment { '00.header':
-    content => template('tor/torrc.header.erb'),
+    content => epp('tor/torrc/00_header.epp'),
     order   => '00',
-    target  => $tor::daemon::config_file,
+    target  => $tor::config_file,
   }
 
   # global configurations
   concat::fragment { '01.global':
-    content => template('tor/torrc.global.erb'),
+    content => epp('tor/torrc/01_global.epp', {
+      'automap_hosts_on_resolve' => $tor::automap_hosts_on_resolve,
+      'data_dir'                 => $tor::data_dir,
+      'log_rules'                => $tor::log_rules,
+      'safe_logging'             => $tor::safe_logging,
+      'use_bridges'              => $tor::use_bridges,
+    }),
     order   => '01',
-    target  => $tor::daemon::config_file,
+    target  => $tor::config_file,
   }
 }

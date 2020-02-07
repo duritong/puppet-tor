@@ -1,4 +1,5 @@
-# setup variables for different distributions
+# @summary Distribution dependent parameters
+#
 class tor::daemon::params {
   case $facts['osfamily'] {
     'RedHat': {
@@ -15,5 +16,4 @@ class tor::daemon::params {
     }
     default: { fail("No support for osfamily ${facts['osfamily']}") }
   }
-
 }

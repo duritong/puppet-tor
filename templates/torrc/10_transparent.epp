@@ -1,0 +1,7 @@
+# Transparent proxy
+<% if $flags == undef { -%>
+TransPort <%= $port %>
+<% } else { -%>
+TransPort <%= $port %><% $flags.each |$item| { %> <%= $item %><% } -%>
+<% } -%>
+

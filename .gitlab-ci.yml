@@ -1,5 +1,3 @@
-image: ruby:2.3
-
 # Test job template
 .test_template: &test_definition
   stage: test
@@ -8,14 +6,31 @@ image: ruby:2.3
     - bundle exec rake tests
     - bundle exec rake spec
 
-# Test with version present on Debian stable
-test:puppet48:
+# Test with version present on Debian Stretch
+test:puppet4.8:
+  image: ruby:2.3
   variables:
     PUPPET_VERSION: "~> 4.8.2"
     FACTER_VERSION: '~> 2.4.6'
     HIERA_VERSION: '~> 3.2.0'
   <<: *test_definition
 
-# Test with latest Puppet release
-test:puppetlatest:
+# Test with version present on Debian Buster
+test:puppet5.5:
+  image: ruby:2.5
+  variables:
+    PUPPET_VERSION: "~> 5.5.10"
+    FACTER_VERSION: '~> 3.11.0'
   <<: *test_definition
+
+# Build and deploy docs on GitLab Pages
+pages:
+  image: debian:stable
+  stage: deploy
+  script:
+    - apt-get update && apt-get install -y puppet-strings puppet
+    - puppet strings generate
+    - mv doc public
+  artifacts:
+    paths:
+      - public

@@ -11,7 +11,7 @@ describe 'tor::daemon::onion_service', :type => 'define' do
   let(:title){ 'test_os' }
   let(:facts){ default_facts }
   let(:pre_condition){'Exec{path => "/bin"}
-                      include tor::daemon' }
+                      include ::tor' }
   describe 'with standard' do
     it { is_expected.to compile.with_all_deps }
 
@@ -41,11 +41,11 @@ describe 'tor::daemon::onion_service', :type => 'define' do
     context 'with differt port params' do
       let(:params){
         {
-          :ports => ['25','443 192.168.0.1:8443']
+          :ports => ['25', '443 192.168.0.1:8443']
         }
       }
       it { is_expected.to compile.with_all_deps }
-      it { is_expected.to contain_concat__fragment('05.onion_service.test_os').with_content(/^HiddenServicePort 25 127.0.0.1:25/) }
+      it { is_expected.to contain_concat__fragment('05.onion_service.test_os').with_content(/^HiddenServicePort 25/) }
       it { is_expected.to contain_concat__fragment('05.onion_service.test_os').with_content(/^HiddenServicePort 443 192.168.0.1:8443/) }
       it { is_expected.to_not contain_file('/var/lib/tor/test_os') }
     end
@@ -57,7 +57,7 @@ describe 'tor::daemon::onion_service', :type => 'define' do
         }
       }
       it { is_expected.to compile.with_all_deps }
-      it { is_expected.to contain_concat__fragment('05.onion_service.test_os').with_content(/^HiddenServicePort 80 127.0.0.1:80/) }
+      it { is_expected.to contain_concat__fragment('05.onion_service.test_os').with_content(/^HiddenServicePort 80/) }
       it { is_expected.to contain_file('/var/lib/tor/test_os').with(
         :ensure  => 'directory',
         :purge   => true,
@@ -91,7 +91,7 @@ describe 'tor::daemon::onion_service', :type => 'define' do
         }
       }
       it { is_expected.to compile.with_all_deps }
-      it { is_expected.to contain_concat__fragment('05.onion_service.test_os').with_content(/^HiddenServicePort 80 127.0.0.1:80/) }
+      it { is_expected.to contain_concat__fragment('05.onion_service.test_os').with_content(/^HiddenServicePort 80/) }
       it { is_expected.to contain_file('/var/lib/tor/test_os').with(
         :ensure  => 'directory',
         :purge   => true,
