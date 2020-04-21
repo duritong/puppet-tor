@@ -19,7 +19,13 @@ class tor::install {
         packages   => [ 'tor', 'tor-geoipdb' ],
         priority   => 1000,
         originator => 'TorProject',
-        component  => 'main',
+        component  => 'main';
+
+      'torproject-negative':
+        packages   => '*',
+        priority   => 200,
+        originator => 'TorProject',
+        component  => 'main';
     }
 
     file {
