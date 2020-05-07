@@ -10,6 +10,8 @@ project adheres to [Semantic Versioning](http://semver.org).
 
 - Fix upstream apt pinning by adding a negative pin
 
+[Full Changelog](https://gitlab.com/shared-puppet-modules-group/tor/-/compare/2.0.0...2.0.1)
+
 ## [2.0.0](https://gitlab.com/shared-puppet-modules-group/tor/-/tags/2.0.0) (2020-04-27)
 
 This module has been extensively re-written for the 2.0.0 version. Even though
