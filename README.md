@@ -38,10 +38,6 @@ This module needs:
 
 Explicit dependencies can be found in the project's metadata.json file.
 
-This module has been extensively re-written for the 2.0 version. Even though
-most things should work as they did before, we urge you to read the new
-documentation and treat this as a new module.
-
 ### Getting started
 
 `class { 'tor': }` will install tor with a default configuration. Chances are
