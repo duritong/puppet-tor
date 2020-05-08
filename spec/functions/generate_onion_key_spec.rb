@@ -44,7 +44,7 @@ znq+qT/KbJlwy/27X/auCAzD5rJ9VVzyWiu8nnwICS8=
       FileUtils.rm_rf(@tmp_path) if File.exists?(@tmp_path)
     end
     let(:return_value) {
-      scope.function_generate_onion_key([@tmp_path,'test'])
+      call_function('tor::generate_onion_key', @tmp_path, 'test')
     }
     context 'without an existing key' do
       it 'returns an onion address and a key ' do
@@ -54,13 +54,13 @@ znq+qT/KbJlwy/27X/auCAzD5rJ9VVzyWiu8nnwICS8=
         expect(return_value.last).to be_eql(File.read(File.join(@tmp_path,'test.key')))
       end
       it 'returns a proper onion address' do
-        expect(return_value.first).to be_eql(scope.function_onion_address([File.read(File.join(@tmp_path,'test.key'))]))
+        expect(return_value.first).to be_eql(call_function('tor::onion_address', File.read(File.join(@tmp_path,'test.key'))))
       end
       it 'does not recreate a key once created' do
-        expect(scope.function_generate_onion_key([@tmp_path,'test'])).to be_eql(scope.function_generate_onion_key([@tmp_path,'test']))
+        expect(call_function('tor::generate_onion_key', @tmp_path, 'test')).to be_eql(call_function('tor::generate_onion_key', @tmp_path, 'test'))
       end
       it 'creates to different keys for different names' do
-        expect(scope.function_generate_onion_key([@tmp_path,'test']).first).to_not be_eql(scope.function_generate_onion_key([@tmp_path,'test2']))
+        expect(call_function('tor::generate_onion_key', @tmp_path, 'test').first).to_not be_eql(call_function('tor::generate_onion_key', @tmp_path, 'test2'))
       end
     end
     context 'with an existing key' do

@@ -10,7 +10,7 @@
 #   execution.
 #
 # @example
-#    res = generate_onion_key('/tmp','my_secret_key')
+#    res = tor::generate_onion_key('/tmp','my_secret_key')
 #    notice "Onion Address: ${res[0]}"
 #    notice "Private Key: ${res[1]}"
 #
@@ -35,14 +35,14 @@ Puppet::Functions.create_function(:'tor::generate_onion_key') do
     location = args.shift
     identifier = args.shift
 
-    raise(Puppet::ParseError, "generate_onion_key(): requires 2 arguments") unless [location,identifier].all?{|i| !i.nil? }
+    raise(Puppet::ParseError, "tor::generate_onion_key(): requires 2 arguments") unless [location,identifier].all?{|i| !i.nil? }
 
-    raise(Puppet::ParseError, "generate_onion_key(): requires location (#{location}) to be a directory") unless File.directory?(location)
+    raise(Puppet::ParseError, "tor::generate_onion_key(): requires location (#{location}) to be a directory") unless File.directory?(location)
     path = File.join(location,identifier)
 
     private_key = if File.exists?(kf="#{path}.key")
       pk = OpenSSL::PKey::RSA.new(File.read(kf))
-      raise(Puppet::ParseError, "generate_onion_key(): key in path #{kf} must have a length of 1024bit") unless (pk.n.num_bytes * 8) == 1024
+      raise(Puppet::ParseError, "tor::generate_onion_key(): key in path #{kf} must have a length of 1024bit") unless (pk.n.num_bytes * 8) == 1024
       pk
     else
       # 1024 is hardcoded by tor
@@ -53,7 +53,7 @@ Puppet::Functions.create_function(:'tor::generate_onion_key') do
     onion_address = if File.exists?(hf="#{path}.hostname")
       File.read(hf)
     else
-      oa = tor::onion_address([private_key])
+      oa = call_function('tor::onion_address', private_key)
       File.open(hf,'w'){|f| f << oa.to_s }
       oa
     end
