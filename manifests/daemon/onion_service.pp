@@ -71,7 +71,7 @@ define tor::daemon::onion_service(
       $os_hostname = $tmp[0]
       $real_private_key = $tmp[1]
     } else {
-      $os_hostname = onion_address($private_key)
+      $os_hostname = tor::onion_address($private_key)
       $real_private_key = $private_key
     }
     include ::tor::daemon::params

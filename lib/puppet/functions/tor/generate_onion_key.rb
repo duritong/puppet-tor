@@ -65,7 +65,7 @@ Puppet::Functions.create_function(:'tor::generate_onion_key') do
     onion_address = if File.exists?(hf="#{path}.hostname")
       File.read(hf)
     else
-      oa = function_onion_address([private_key])
+      oa = tor::onion_address([private_key])
       File.open(hf,'w'){|f| f << oa.to_s }
       oa
     end
