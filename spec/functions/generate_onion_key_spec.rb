@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'fileutils'
 
-describe 'generate_onion_key' do
+describe 'tor::generate_onion_key' do
   before(:all) do
     @tmp_path = File.expand_path(File.join(File.dirname(__FILE__),'..','fixtures','tmp'))
     @test_path = File.join(@tmp_path,'test.key')
