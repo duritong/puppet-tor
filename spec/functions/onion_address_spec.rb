@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'onion_address' do
+describe 'tor::onion_address' do
   describe 'signature validation' do
     it { is_expected.not_to eq(nil) }
     it { is_expected.to run.with_params().and_raise_error(Puppet::ParseError, /requires 1 argument/) }
