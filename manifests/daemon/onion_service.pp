@@ -67,7 +67,7 @@ define tor::daemon::onion_service(
       fail('Either private_key OR (private_key_name AND private_key_store_path) must be set, but not all three of them')
     }
     if $private_key_store_path and $private_key_name {
-      $tmp = generate_onion_key($private_key_store_path,$private_key_name)
+      $tmp = tor::generate_onion_key($private_key_store_path,$private_key_name)
       $os_hostname = $tmp[0]
       $real_private_key = $tmp[1]
     } else {
