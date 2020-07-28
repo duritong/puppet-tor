@@ -33,7 +33,7 @@
 #
 define tor::daemon::onion_service(
   Enum['present', 'absent'] $ensure        = 'present',
-  Optional[Array[String]] $ports           = undef,
+  Array[String] $ports                     = [],
   Stdlib::Unixpath $data_dir               = $tor::data_dir,
   Boolean $v3                              = false,
   Boolean $single_hop                      = false,
@@ -81,24 +81,26 @@ define tor::daemon::onion_service(
         mode    => '0600',
         require => Package['tor'],
       }
-      if $private_key_store_path and $private_key_name {
-        $tmp = tor::generate_onion_key($private_key_store_path,$private_key_name)
-        $os_hostname = $tmp[0]
-        $real_private_key = $tmp[1]
-      } else {
-        $os_hostname = tor::onion_address($private_key)
-        $real_private_key = $private_key
-      }
-      file{
-        default:
-          owner   => $tor::daemon::params::user,
-          group   => $tor::daemon::params::group,
-          mode    => '0600',
-          notify  => Service['tor'];
-        "${data_dir_path}/private_key":
-          content => $real_private_key;
-        "${data_dir_path}/hostname":
-          content => "${os_hostname}.onion\n";
+      unless $v3 {
+        if $private_key_store_path and $private_key_name {
+          $tmp = tor::generate_onion_key($private_key_store_path,$private_key_name)
+          $os_hostname = $tmp[0]
+          $real_private_key = $tmp[1]
+        } else {
+          $os_hostname = tor::onion_address($private_key)
+          $real_private_key = $private_key
+        }
+        file{
+          default:
+            owner   => $tor::daemon::params::user,
+            group   => $tor::daemon::params::group,
+            mode    => '0600',
+            notify  => Service['tor'];
+          "${data_dir_path}/private_key":
+            content => $real_private_key;
+          "${data_dir_path}/hostname":
+            content => "${os_hostname}.onion\n";
+        }
       }
     } else {
       File[$data_dir_path]{

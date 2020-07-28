@@ -6,18 +6,12 @@ SOCKSPort 0
 <% } -%>
 # hidden service <%= $name %>
 HiddenServiceDir <%= $data_dir_path %>
-<% if $ports { -%>
-<% $ports.each |$item| { -%>
-HiddenServicePort <%= $item %>
-<% } -%>
-<% } -%>
-
 <% if $v3 { -%>
-# hidden service v3 static
-HiddenServiceDir <%= $data_dir_path %>3
 HiddenServiceVersion 3
+<% } else { -%>
+HiddenServiceVersion 2
+<% } -%>
 <% $ports.each |$item| { -%>
 HiddenServicePort <%= $item %>
-<% } -%>
 <% } -%>
 

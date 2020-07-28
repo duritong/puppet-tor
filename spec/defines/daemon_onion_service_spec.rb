@@ -35,6 +35,7 @@ describe 'tor::daemon::onion_service', :type => 'define' do
         :order   => '05',
         :target  => '/etc/tor/torrc',
       )}
+      it { is_expected.to contain_concat__fragment('05.onion_service.test_os').with_content(/^HiddenServiceVersion 2/) }
       it { is_expected.to_not contain_concat__fragment('05.onion_service.test_os').with_content(/^HiddenServicePort/) }
       it { is_expected.to_not contain_file('/var/lib/tor/test_os') }
     end
@@ -45,6 +46,7 @@ describe 'tor::daemon::onion_service', :type => 'define' do
         }
       }
       it { is_expected.to compile.with_all_deps }
+      it { is_expected.to contain_concat__fragment('05.onion_service.test_os').with_content(/^HiddenServiceVersion 2/) }
       it { is_expected.to contain_concat__fragment('05.onion_service.test_os').with_content(/^HiddenServicePort 25/) }
       it { is_expected.to contain_concat__fragment('05.onion_service.test_os').with_content(/^HiddenServicePort 443 192.168.0.1:8443/) }
       it { is_expected.to_not contain_file('/var/lib/tor/test_os') }
@@ -57,6 +59,7 @@ describe 'tor::daemon::onion_service', :type => 'define' do
         }
       }
       it { is_expected.to compile.with_all_deps }
+      it { is_expected.to contain_concat__fragment('05.onion_service.test_os').with_content(/^HiddenServiceVersion 2/) }
       it { is_expected.to contain_concat__fragment('05.onion_service.test_os').with_content(/^HiddenServicePort 80/) }
       it { is_expected.to contain_file('/var/lib/tor/test_os').with(
         :ensure  => 'directory',
@@ -91,6 +94,7 @@ describe 'tor::daemon::onion_service', :type => 'define' do
         }
       }
       it { is_expected.to compile.with_all_deps }
+      it { is_expected.to contain_concat__fragment('05.onion_service.test_os').with_content(/^HiddenServiceVersion 2/) }
       it { is_expected.to contain_concat__fragment('05.onion_service.test_os').with_content(/^HiddenServicePort 80/) }
       it { is_expected.to contain_file('/var/lib/tor/test_os').with(
         :ensure  => 'directory',
