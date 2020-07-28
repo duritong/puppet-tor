@@ -4,6 +4,9 @@ source 'https://rubygems.org'
 gem 'rake'
 gem 'puppet', ENV['PUPPET_VERSION'] || '>= 6.0'
 
+gem 'ed25519'
+gem 'sha3', platform: :mri
+gem 'sha3-pure-ruby', platform: :jruby
 gem 'base32'
 
 group :tests do

@@ -38,6 +38,11 @@ define tor::daemon::onion_service(
   Boolean $v3                              = false,
   Boolean $single_hop                      = false,
   Optional[String] $private_key            = undef,
+  Optional[Struct[{
+    'hs_ed25519_secret_key' => String[1],
+    'hs_ed25519_public_key' => String[1],
+    'hostname' => String[1],
+  }]] $v3_data                             = undef,
   String $private_key_name                 = $name,
   Optional[String] $private_key_store_path = undef,
 ) {
@@ -62,10 +67,7 @@ define tor::daemon::onion_service(
       }
     }
   }
-  if $private_key or ($private_key_name and $private_key_store_path) {
-    if $private_key and ($private_key_name and $private_key_store_path) {
-      fail('Either private_key OR (private_key_name AND private_key_store_path) must be set, but not all three of them')
-    }
+  if ($private_key or $v3_data) or ($private_key_name and $private_key_store_path) {
     file{
       $data_dir_path:
         purge   => true,
@@ -81,7 +83,32 @@ define tor::daemon::onion_service(
         mode    => '0600',
         require => Package['tor'],
       }
-      unless $v3 {
+      if $v3 {
+        if $v3_data and ($private_key_name and $private_key_store_path) {
+          fail('Either v3_data OR (private_key_name AND private_key_store_path) must be set, but not all three of them')
+        }
+        if $private_key_store_path and $private_key_name {
+          $real_v3_data = tor::onionv3_key($private_key_store_path,$private_key_name)
+        } else {
+          $real_v3_data = $v3_data
+        }
+        file{
+          default:
+            owner   => $tor::daemon::params::user,
+            group   => $tor::daemon::params::group,
+            mode    => '0600',
+            notify  => Service['tor'];
+          "${data_dir_path}/hs_ed25519_secret_key":
+            content => $real_v3_data['hs_ed25519_secret_key'];
+          "${data_dir_path}/hs_ed25519_public_key":
+            content => $real_v3_data['hs_ed25519_public_key'];
+          "${data_dir_path}/hostname":
+            content => "${real_v3_data['hostname']}\n";
+        }
+      } else {
+        if $private_key and ($private_key_name and $private_key_store_path) {
+          fail('Either private_key OR (private_key_name AND private_key_store_path) must be set, but not all three of them')
+        }
         if $private_key_store_path and $private_key_name {
           $tmp = tor::generate_onion_key($private_key_store_path,$private_key_name)
           $os_hostname = $tmp[0]
