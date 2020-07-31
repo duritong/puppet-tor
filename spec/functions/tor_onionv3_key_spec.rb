@@ -32,13 +32,13 @@ describe 'tor::onionv3_key' do
         end
       end
       it 'does not recreate a key once created' do
-        res1 = unwrap_all(call_function('tor::onionv3_key',@tmp_path,'test'))
-        res2 = unwrap_all(call_function('tor::onionv3_key',@tmp_path,'test'))
+        res1 = unwrap_all(call_function('tor::onionv3_key',@tmp_path,'test2'))
+        res2 = unwrap_all(call_function('tor::onionv3_key',@tmp_path,'test2'))
         expect(res1).to be_eql(res2)
       end
       it 'creates to different keys for different names' do
-        res1 = unwrap_all(call_function('tor::onionv3_key',@tmp_path,'test'))
-        res2 = unwrap_all(call_function('tor::onionv3_key',@tmp_path,'test2'))
+        res1 = unwrap_all(call_function('tor::onionv3_key',@tmp_path,'test3'))
+        res2 = unwrap_all(call_function('tor::onionv3_key',@tmp_path,'test4'))
         expect(res1).not_to be_eql(res2)
       end
     end

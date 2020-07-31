@@ -22,11 +22,11 @@ Puppet::Functions.create_function(:'tor::onionv3_key') do
       FileUtils.mkdir_p(path)
     end
 
-    res = if all_files_exist?(path)
-      read_data(path)
-    else
+    unless all_files_exist?(path)
       generate_data(path)
     end
+
+    res = read_data(path)
     res['hs_ed25519_secret_key'] = Puppet::Pops::Types::PSensitiveType::Sensitive.new(res['hs_ed25519_secret_key'])
     res
   end
@@ -49,22 +49,15 @@ Puppet::Functions.create_function(:'tor::onionv3_key') do
   end
 
   def generate_data(path)
-    data = {}
     key = Ed25519::SigningKey.generate
     pubkey = key.keypair[32...64]
     onionname = onion_address(pubkey)
     seckey = key.keypair[0...32]
-    extkey = extend_sk(key.keypair[0...32])
+    extkey = extend_sk(seckey)
 
     write_tagged_file("#{path}/hs_ed25519_secret_key", 'ed25519v1-secret', extkey)
     write_tagged_file("#{path}/hs_ed25519_public_key", 'ed25519v1-public', pubkey)
     File.open("#{path}/hostname", 'w') {|f| f.write "#{onionname}\n" }
-
-    {
-      'hs_ed25519_public_key' => pubkey,
-      'hs_ed25519_secret_key' => extkey,
-      'hostname' => onionname,
-    }
   end
 
   def onion_address(pk, vers=3.chr)
