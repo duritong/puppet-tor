@@ -62,7 +62,7 @@ define tor::daemon::onion_service(
     }
     if $single_hop {
       file { "${data_dir_path}/onion_service_non_anonymous":
-        ensure => 'present',
+        ensure => file,
         notify => Service['tor'];
       }
     }
@@ -75,7 +75,7 @@ define tor::daemon::onion_service(
         recurse => true;
     }
     if $ensure == 'present' {
-      include ::tor::daemon::params
+      include tor::daemon::params
       File[$data_dir_path]{
         ensure  => directory,
         owner   => $tor::daemon::params::user,
@@ -94,12 +94,12 @@ define tor::daemon::onion_service(
         }
         file{
           default:
-            owner   => $tor::daemon::params::user,
-            group   => $tor::daemon::params::group,
-            mode    => '0600',
-            notify  => Service['tor'];
+            owner  => $tor::daemon::params::user,
+            group  => $tor::daemon::params::group,
+            mode   => '0600',
+            notify => Service['tor'];
           "${data_dir_path}/hs_ed25519_secret_key":
-            content => $real_v3_data['hs_ed25519_secret_key'].unwrap;
+            content => $real_v3_data['hs_ed25519_secret_key'];
           "${data_dir_path}/hs_ed25519_public_key":
             content => $real_v3_data['hs_ed25519_public_key'];
           "${data_dir_path}/hostname":
@@ -119,12 +119,12 @@ define tor::daemon::onion_service(
         }
         file{
           default:
-            owner   => $tor::daemon::params::user,
-            group   => $tor::daemon::params::group,
-            mode    => '0600',
-            notify  => Service['tor'];
+            owner  => $tor::daemon::params::user,
+            group  => $tor::daemon::params::group,
+            mode   => '0600',
+            notify => Service['tor'];
           "${data_dir_path}/private_key":
-            content => $real_private_key.unwrap;
+            content => $real_private_key;
           "${data_dir_path}/hostname":
             content => "${os_hostname}.onion\n";
         }
