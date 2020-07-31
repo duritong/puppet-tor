@@ -98,6 +98,8 @@ define tor::daemon::onion_service(
             group  => $tor::daemon::params::group,
             mode   => '0600',
             notify => Service['tor'];
+          "${data_dir_path}/authorized_clients":
+            ensure => directory;
           "${data_dir_path}/hs_ed25519_secret_key":
             content => $real_v3_data['hs_ed25519_secret_key'];
           "${data_dir_path}/hs_ed25519_public_key":
