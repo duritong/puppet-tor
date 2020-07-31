@@ -20,7 +20,7 @@ describe 'tor::onionv3_key' do
       FileUtils.rm_rf(@tmp_path) if File.exists?(@tmp_path)
     end
     let(:return_value) {
-      call_function('tor::onionv3_key',@tmp_path,'test')
+      unwrap_all(call_function('tor::onionv3_key',@tmp_path,'test'))
     }
     context 'without an existing key' do
       it 'returns an onion address, public and a secret key' do
@@ -32,10 +32,14 @@ describe 'tor::onionv3_key' do
         end
       end
       it 'does not recreate a key once created' do
-        expect(call_function('tor::onionv3_key',@tmp_path,'test')).to be_eql(call_function('tor::onionv3_key',@tmp_path,'test'))
+        res1 = unwrap_all(call_function('tor::onionv3_key',@tmp_path,'test'))
+        res2 = unwrap_all(call_function('tor::onionv3_key',@tmp_path,'test'))
+        expect(res1).to be_eql(res2)
       end
       it 'creates to different keys for different names' do
-        expect(call_function('tor::onionv3_key',@tmp_path,'test')).to_not be_eql(call_function('tor::onionv3_key',@tmp_path,'test2'))
+        res1 = unwrap_all(call_function('tor::onionv3_key',@tmp_path,'test'))
+        res2 = unwrap_all(call_function('tor::onionv3_key',@tmp_path,'test2'))
+        expect(res1).not_to be_eql(res2)
       end
     end
   end

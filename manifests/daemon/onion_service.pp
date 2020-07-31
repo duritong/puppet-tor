@@ -32,19 +32,19 @@
 #   The path to directory where the onion address private key file is stored.
 #
 define tor::daemon::onion_service(
-  Enum['present', 'absent'] $ensure        = 'present',
-  Array[String] $ports                     = [],
-  Stdlib::Unixpath $data_dir               = $tor::data_dir,
-  Boolean $v3                              = false,
-  Boolean $single_hop                      = false,
-  Optional[String] $private_key            = undef,
+  Enum['present', 'absent'] $ensure           = 'present',
+  Array[String] $ports                        = [],
+  Stdlib::Unixpath $data_dir                  = $tor::data_dir,
+  Boolean $v3                                 = false,
+  Boolean $single_hop                         = false,
+  Optional[Sensitive[String[1]]] $private_key = undef,
   Optional[Struct[{
-    'hs_ed25519_secret_key' => String[1],
+    'hs_ed25519_secret_key' => Sensitive[String[1]],
     'hs_ed25519_public_key' => String[1],
     'hostname' => String[1],
-  }]] $v3_data                             = undef,
-  String $private_key_name                 = $name,
-  Optional[String] $private_key_store_path = undef,
+  }]] $v3_data                                = undef,
+  String $private_key_name                    = $name,
+  Optional[String] $private_key_store_path    = undef,
 ) {
 
   $data_dir_path = "${data_dir}/${name}"
@@ -99,7 +99,7 @@ define tor::daemon::onion_service(
             mode    => '0600',
             notify  => Service['tor'];
           "${data_dir_path}/hs_ed25519_secret_key":
-            content => $real_v3_data['hs_ed25519_secret_key'];
+            content => $real_v3_data['hs_ed25519_secret_key'].unwrap;
           "${data_dir_path}/hs_ed25519_public_key":
             content => $real_v3_data['hs_ed25519_public_key'];
           "${data_dir_path}/hostname":
@@ -124,7 +124,7 @@ define tor::daemon::onion_service(
             mode    => '0600',
             notify  => Service['tor'];
           "${data_dir_path}/private_key":
-            content => $real_private_key;
+            content => $real_private_key.unwrap;
           "${data_dir_path}/hostname":
             content => "${os_hostname}.onion\n";
         }

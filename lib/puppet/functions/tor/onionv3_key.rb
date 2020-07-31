@@ -22,11 +22,13 @@ Puppet::Functions.create_function(:'tor::onionv3_key') do
       FileUtils.mkdir_p(path)
     end
 
-    if all_files_exist?(path)
+    res = if all_files_exist?(path)
       read_data(path)
     else
       generate_data(path)
     end
+    res['hs_ed25519_secret_key'] = Puppet::Pops::Types::PSensitiveType::Sensitive.new(res['hs_ed25519_secret_key'])
+    res
   end
 
   def all_files_exist?(path)

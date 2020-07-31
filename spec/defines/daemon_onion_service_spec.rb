@@ -51,11 +51,13 @@ describe 'tor::daemon::onion_service', :type => 'define' do
       it { is_expected.to contain_concat__fragment('05.onion_service.test_os').with_content(/^HiddenServicePort 443 192.168.0.1:8443/) }
       it { is_expected.to_not contain_file('/var/lib/tor/test_os') }
     end
-    context 'with private_key' do
+    # rspec-puppet does not yet support testing with sensitive data
+    # See https://github.com/rodjek/rspec-puppet/milestone/8 for upcoming support
+    context 'with private_key', :skip => Gem.loaded_specs['rspec-puppet'].version < Gem::Version.new('2.8') do
       let(:params){
         {
           :ports       => ['80'],
-          :private_key => OpenSSL::PKey::RSA.generate(1024).to_s,
+          :private_key => RSpec::Puppet::Sensitive.new(OpenSSL::PKey::RSA.generate(1024).to_s),
         }
       }
       it { is_expected.to compile.with_all_deps }

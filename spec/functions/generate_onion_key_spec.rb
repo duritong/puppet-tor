@@ -51,23 +51,30 @@ znq+qT/KbJlwy/27X/auCAzD5rJ9VVzyWiu8nnwICS8=
         expect(return_value.size).to be(2)
       end
       it 'creates and stores the key' do
-        expect(return_value.last).to be_eql(File.read(File.join(@tmp_path,'test.key')))
+        expect(return_value.last.unwrap).to be_eql(File.read(File.join(@tmp_path,'test.key')))
       end
       it 'returns a proper onion address' do
         expect(return_value.first).to be_eql(call_function('tor::onion_address', File.read(File.join(@tmp_path,'test.key'))))
       end
       it 'does not recreate a key once created' do
-        expect(call_function('tor::generate_onion_key', @tmp_path, 'test')).to be_eql(call_function('tor::generate_onion_key', @tmp_path, 'test'))
+        res1 = unwrap_all(call_function('tor::generate_onion_key', @tmp_path, 'test'))
+        res2 = unwrap_all(call_function('tor::generate_onion_key', @tmp_path, 'test'))
+        expect(res1).to be_eql(res2)
       end
       it 'creates to different keys for different names' do
-        expect(call_function('tor::generate_onion_key', @tmp_path, 'test').first).to_not be_eql(call_function('tor::generate_onion_key', @tmp_path, 'test2'))
+        res1 = unwrap_all(call_function('tor::generate_onion_key', @tmp_path, 'test'))
+        res2 = unwrap_all(call_function('tor::generate_onion_key', @tmp_path, 'test2'))
+        expect(res1).not_to be_eql(res2)
       end
     end
     context 'with an existing key' do
       before(:all) do
         File.open(File.join(@tmp_path,'test3.key'),'w'){|f| f << @drpsyff5srkctr7h_str }
       end
-      it { is_expected.to run.with_params(@tmp_path,'test3').and_return(['drpsyff5srkctr7h',@drpsyff5srkctr7h_str]) }
+      it 'uses the existing key' do
+        res = unwrap_all(call_function('tor::generate_onion_key', @tmp_path,'test3'))
+        expect(res).to be_eql(['drpsyff5srkctr7h', @drpsyff5srkctr7h_str])
+      end
     end
   end
 end
