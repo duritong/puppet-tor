@@ -84,13 +84,10 @@ define tor::daemon::onion_service(
         require => Package['tor'],
       }
       if $v3 {
-        if $v3_data and ($private_key_name and $private_key_store_path) {
-          fail('Either v3_data OR (private_key_name AND private_key_store_path) must be set, but not all three of them')
-        }
-        if $private_key_store_path and $private_key_name {
-          $real_v3_data = tor::onionv3_key($private_key_store_path,$private_key_name)
-        } else {
+        if $v3_data {
           $real_v3_data = $v3_data
+        } else {
+          $real_v3_data = tor::onionv3_key($private_key_store_path,$private_key_name)
         }
         file{
           default:
@@ -108,16 +105,13 @@ define tor::daemon::onion_service(
             content => "${real_v3_data['hostname']}\n";
         }
       } else {
-        if $private_key and ($private_key_name and $private_key_store_path) {
-          fail('Either private_key OR (private_key_name AND private_key_store_path) must be set, but not all three of them')
-        }
-        if $private_key_store_path and $private_key_name {
+        if $private_key {
+          $os_hostname = tor::onion_address($private_key)
+          $real_private_key = $private_key
+        } else {
           $tmp = tor::generate_onion_key($private_key_store_path,$private_key_name)
           $os_hostname = $tmp[0]
           $real_private_key = $tmp[1]
-        } else {
-          $os_hostname = tor::onion_address($private_key)
-          $real_private_key = $private_key
         }
         file{
           default:
