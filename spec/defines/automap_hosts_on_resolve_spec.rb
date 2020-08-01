@@ -1,6 +1,6 @@
 require File.expand_path(File.join(File.dirname(__FILE__),'../spec_helper'))
 
-describe 'tor::daemon::automaphostsonresolve', :type => 'define' do
+describe 'tor::daemon::automap_hosts_on_resolve', :type => 'define' do
   let(:default_facts) {
     {
       :osfamily        => 'Debian',

@@ -1,5 +1,5 @@
 # AutomapHostsOnResolve definition
-define tor::daemon::automaphostsonresolve(
+define tor::daemon::automap_hosts_on_resolve(
   Enum['present','absent'] $ensure  = 'present',
   Boolean $automap_hosts_on_resolve = false,
 ){
