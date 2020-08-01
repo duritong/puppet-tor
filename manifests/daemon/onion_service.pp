@@ -106,7 +106,7 @@ define tor::daemon::onion_service(
         }
       } else {
         if $private_key {
-          $os_hostname = tor::onion_address($private_key)
+          $os_hostname = tor::onion_address($private_key.unwrap)
           $real_private_key = $private_key
         } else {
           $tmp = tor::generate_onion_key($private_key_store_path,$private_key_name)
