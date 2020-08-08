@@ -4,6 +4,18 @@
 # @example Make SSH available as a Tor service
 #   tor::daemon::onion_service { 'onion-ssh':
 #     ports => [ '22' ],
+#     v3    => true,
+#   }
+#
+# @example Make SSH available as a Tor service, using an existing key
+#   tor::daemon::onion_service { 'onion-ssh':
+#     ports   => [ '22' ],
+#     v3      => true,
+#     v3_data => {
+#      'hs_ed25519_secret_key' => 'your onion v3 private key',
+#      'hs_ed25519_public_key' => 'your onion v3 public key',
+#      'hostname'              => 'vww7ybal4bd8szmgncyruucpgfkqahzddi38ktceo3ah8ngmcopnpyyd.onion',
+#     }
 #   }
 #
 # @param ensure
@@ -24,6 +36,20 @@
 # @param private_key
 #   The onion address private key for the hidden service. Either specify this or
 #   $private_key_name and $private_key_store_path
+#
+# @param v3_data
+#   Use this parameter to specify an existing key pair and hostname for a
+#   v3 Hidden Service. Leave it undefined if you want puppet to generate them
+#   for you.
+#
+# @option v3_data [String] :hs_ed25519_secret_key
+#   ed25519 private key for the v3 Hidden Service.
+#
+# @option v3_data [String] :hs_ed25519_public_key
+#   ed25519 public key for the v3 Hidden Service.
+#
+# @option v3_data [String] :hostname
+#   Full onion hostname for the Hidden Service.
 #
 # @param private_key_name
 #   The name of the onion address private key file for the hidden service.
