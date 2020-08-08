@@ -6,21 +6,16 @@
     - bundle exec rake tests
     - bundle exec rake spec
 
-# Test with version present on Debian Stretch
-test:puppet4.8:
-  image: ruby:2.3
-  variables:
-    PUPPET_VERSION: "~> 4.8.2"
-    FACTER_VERSION: '~> 2.4.6'
-    HIERA_VERSION: '~> 3.2.0'
-  <<: *test_definition
-
 # Test with version present on Debian Buster
 test:puppet5.5:
   image: ruby:2.5
   variables:
     PUPPET_VERSION: "~> 5.5.10"
     FACTER_VERSION: '~> 3.11.0'
+  <<: *test_definition
+
+# Test with the latest Puppet release
+test:puppetlatest:
   <<: *test_definition
 
 # Build and deploy docs on GitLab Pages
