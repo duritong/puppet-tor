@@ -131,6 +131,9 @@ define tor::daemon::onion_service(
             content => "${real_v3_data['hostname']}\n";
         }
       } else {
+        notify {
+          '[tor] *** DEPRECATION WARNING***: onionV2 will soon be deprecated in Tor and in this module. You should upgrade to onionV3 as soon as possible.':
+        }
         if $private_key {
           $os_hostname = tor::onion_address($private_key.unwrap)
           $real_private_key = $private_key
