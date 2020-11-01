@@ -35,7 +35,7 @@ describe 'tor::daemon::onion_service', :type => 'define' do
         :order   => '05',
         :target  => '/etc/tor/torrc',
       )}
-      it { is_expected.to contain_concat__fragment('05.onion_service.test_os').with_content(/^HiddenServiceVersion 2/) }
+      it { is_expected.to contain_concat__fragment('05.onion_service.test_os').with_content(/^HiddenServiceVersion 3/) }
       it { is_expected.to_not contain_concat__fragment('05.onion_service.test_os').with_content(/^HiddenServicePort/) }
       it { is_expected.to_not contain_file('/var/lib/tor/test_os') }
     end
@@ -46,17 +46,18 @@ describe 'tor::daemon::onion_service', :type => 'define' do
         }
       }
       it { is_expected.to compile.with_all_deps }
-      it { is_expected.to contain_concat__fragment('05.onion_service.test_os').with_content(/^HiddenServiceVersion 2/) }
+      it { is_expected.to contain_concat__fragment('05.onion_service.test_os').with_content(/^HiddenServiceVersion 3/) }
       it { is_expected.to contain_concat__fragment('05.onion_service.test_os').with_content(/^HiddenServicePort 25/) }
       it { is_expected.to contain_concat__fragment('05.onion_service.test_os').with_content(/^HiddenServicePort 443 192.168.0.1:8443/) }
       it { is_expected.to_not contain_file('/var/lib/tor/test_os') }
     end
     # rspec-puppet does not yet support testing with sensitive data
     # See https://github.com/rodjek/rspec-puppet/milestone/8 for upcoming support
-    context 'with private_key', :skip => Gem.loaded_specs['rspec-puppet'].version < Gem::Version.new('2.8') do
+    context 'with v2 private_key', :skip => Gem.loaded_specs['rspec-puppet'].version < Gem::Version.new('2.8') do
       let(:params){
         {
           :ports       => ['80'],
+          :v3          => false,
           :private_key => RSpec::Puppet::Sensitive.new(OpenSSL::PKey::RSA.generate(1024).to_s),
         }
       }
@@ -91,6 +92,7 @@ describe 'tor::daemon::onion_service', :type => 'define' do
       let(:params){
         {
           :ports                  => ['80'],
+          :v3                     => false,
           :private_key_name       => 'test_os',
           :private_key_store_path => File.expand_path(File.join(File.dirname(__FILE__),'..','tmp')),
         }
@@ -125,7 +127,6 @@ describe 'tor::daemon::onion_service', :type => 'define' do
     context 'with v3 private key to generate' do
       let(:params){
         {
-          :v3                     => true,
           :ports                  => ['80'],
           :private_key_name       => 'test_os',
           :private_key_store_path => File.expand_path(File.join(File.dirname(__FILE__),'..','tmp')),
