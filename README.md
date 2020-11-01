@@ -60,24 +60,35 @@ For example, this will configure a tor bridge relay running on port 8080:
 
 # Functions
 
-This module comes with 2 functions specific to tor support. They require the
-base32 gem to be installed on the master or wherever they are executed.
+This module comes with 3 functions specific to tor support. They require the
+base32, ed25519 and sha3 gem to be installed on the master or wherever they are
+executed. For JRuby based installations such as puppetserver environments you
+can use the sha3-pure-ruby instead of the C based library.
+
+## onionv3_key
+
+This functions generates an onion v3 key pair if not already existing. As
+arguments, you need to pass a base directory and an indentifier (name) of the key.
+The key pair will be looked up in a directory under <base_dir>/<name>.
+
+As a result you will get a hash containing they secret key (hs_ed25519_secret_key),
+the public key (hs_ed25519_public_key) and the onion hostname (hostname). The
+latter will be without the `.onion` suffix.
+
+If a key has already been created and exists under that directory, the content
+of these files will be returned.
 
 ## onion_address
 
 This function takes a 1024bit RSA private key as an argument and returns the
-onion address for an onion service for that key.
-
-At the moment, this function does not support v3 onions.
+onion v2 address for an onion service for that key.
 
 ## generate_onion_key
 
 This function takes a path (on the puppet master!) and an identifier for a key
-and returns an array containing the matching onion address and the private key.
+and returns an array containing the matching onion v2 address and the private key.
 The private key either exists under the supplied `path/key_identifier` or is
 being generated on the fly and stored under that path for the next execution.
-
-At the moment, this function does not support v3 onions.
 
 # Facts
 
