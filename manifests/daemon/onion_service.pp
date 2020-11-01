@@ -61,7 +61,7 @@ define tor::daemon::onion_service(
   Enum['present', 'absent'] $ensure           = 'present',
   Array[String] $ports                        = [],
   Stdlib::Unixpath $data_dir                  = $tor::data_dir,
-  Boolean $v3                                 = false,
+  Boolean $v3                                 = true,
   Boolean $single_hop                         = false,
   Optional[Sensitive[String[1]]] $private_key = undef,
   Optional[Struct[{
