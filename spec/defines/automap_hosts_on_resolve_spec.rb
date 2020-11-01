@@ -14,7 +14,7 @@ describe 'tor::daemon::automap_hosts_on_resolve', :type => 'define' do
   context 'with standard' do
     it { is_expected.to compile.with_all_deps }
   end
-  context 'with set to true' do
+  context 'with set to false' do
     let(:params){
       {
         :automap_hosts_on_resolve => false,

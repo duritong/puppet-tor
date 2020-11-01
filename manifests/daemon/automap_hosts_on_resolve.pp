@@ -6,10 +6,11 @@
 #
 # @param automap_hosts_on_resolve
 #   Whether AutomapHostsOnResolve should be enabled or not.
+#   Default: true
 #
 define tor::daemon::automap_hosts_on_resolve(
   Enum['present','absent'] $ensure  = 'present',
-  Boolean $automap_hosts_on_resolve = false,
+  Boolean $automap_hosts_on_resolve = true,
 ){
   if $ensure == 'present' {
     concat::fragment { "13.automaphostsonresolve.${name}":
