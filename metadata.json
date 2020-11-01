@@ -1,6 +1,6 @@
 {
   "name": "smash-tor",
-  "version": "2.3.0",
+  "version": "3.0.0",
   "author": "SMASH",
   "summary": "Installs, configures and manages Tor",
   "license": "GPL-3.0",
