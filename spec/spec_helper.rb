@@ -44,3 +44,18 @@ RSpec::Mocks::Syntax.enable_expect(RSpec::Puppet::ManifestMatchers)
 # Helper class to test handling of arguments which are derived from string
 class AlsoString < String
 end
+
+def unwrap_all(v)
+  if v.respond_to?(:unwrap)
+    v.unwrap
+  elsif v.is_a?(Array)
+    v.map{|s| unwrap_all(s) }
+  elsif v.is_a?(Hash)
+    v.inject({}) do |res,(a,b)|
+      res[a] = unwrap_all(b)
+      res
+    end
+  else
+    v
+  end
+end

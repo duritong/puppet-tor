@@ -7,3 +7,5 @@ spec/fixtures/manifests
 spec/tmp
 !spec/tmp/.keep
 *.lock
+.bundle/
+vendor/

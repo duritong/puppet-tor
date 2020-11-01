@@ -31,7 +31,6 @@ Puppet::Functions.create_function(:'tor::generate_onion_key') do
 
 
   def default_impl(*args)
-    
     location = args.shift
     identifier = args.shift
 
@@ -58,7 +57,7 @@ Puppet::Functions.create_function(:'tor::generate_onion_key') do
       oa
     end
 
-    [ onion_address, private_key.to_s ]
-  
+    [ onion_address,
+      Puppet::Pops::Types::PSensitiveType::Sensitive.new(private_key.to_s) ]
   end
 end
