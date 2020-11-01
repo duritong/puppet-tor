@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file. The format
 is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this
 project adheres to [Semantic Versioning](http://semver.org).
 
+## [2.3.0](https://gitlab.com/shared-puppet-modules-group/tor/-/tags/2.3.0) (2020-11-01)
+
+### Added
+
+- Added support for Onion Service version 3 (thanks to ng!)
+
+[Full Changelog](https://gitlab.com/shared-puppet-modules-group/tor/-/compare/2.2.0...2.3.0)
+
 ## [2.2.0](https://gitlab.com/shared-puppet-modules-group/tor/-/tags/2.2.0) (2020-10-26)
 
 ### Added
