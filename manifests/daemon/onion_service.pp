@@ -51,6 +51,9 @@
 # @option v3_data [String] :hostname
 #   Full onion hostname for the Hidden Service.
 #
+# @param v2_warn
+#   Enable the Onionv2 deprecation warning.
+#
 # @param private_key_name
 #   The name of the onion address private key file for the hidden service.
 #
@@ -71,6 +74,7 @@ define tor::daemon::onion_service(
   }]] $v3_data                                = undef,
   String $private_key_name                    = $name,
   Optional[String] $private_key_store_path    = undef,
+  Boolean $v2_warn                            = true,
 ) {
 
   $data_dir_path = "${data_dir}/${name}"
@@ -131,8 +135,10 @@ define tor::daemon::onion_service(
             content => "${real_v3_data['hostname']}\n";
         }
       } else {
-        notify {
-          '[tor] *** DEPRECATION WARNING***: onionV2 will soon be deprecated in Tor and in this module. You should upgrade to onionV3 as soon as possible.':
+        unless $v2_warn {
+          notify {
+            '[tor] *** DEPRECATION WARNING***: onionV2 will soon be deprecated in Tor and in this module. You should upgrade to onionV3 as soon as possible.':
+          }
         }
         if $private_key {
           $os_hostname = tor::onion_address($private_key.unwrap)
