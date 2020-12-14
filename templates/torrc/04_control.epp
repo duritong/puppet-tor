@@ -1,0 +1,16 @@
+# tor controller
+<% if $port { -%>
+ControlPort <%= $port %>
+<% if $cookie_authentication { -%>
+CookieAuthentication 1
+<% if $cookie_auth_file { -%>
+CookieAuthFile <%= $cookie_auth_file %>
+<% } -%>
+<% if $cookie_auth_file_group_readable { -%>
+CookieAuthFileGroupReadable <%= $cookie_auth_file_group_readable %>
+<% } -%>
+<% } else { -%>
+HashedControlPassword <%= $hashed_control_password %>
+<% } -%>
+<% } -%>
+

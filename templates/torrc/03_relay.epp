@@ -1,0 +1,43 @@
+# relay
+<% if $port { -%>
+ORPort <%= $port %>
+<% if $outbound_bindaddresses { -%>
+<% $outbound_bindaddresses.each |$item| { -%>
+OutboundBindAddress <%= $item %>
+<% } -%>
+<% } -%>
+<% if $nickname { -%>
+Nickname <%= $nickname %>
+<% } -%>
+<% if $address { -%>
+Address <%= $address %>
+<% } -%>
+<% if $bandwidth_rate { -%>
+BandwidthRate <%= $bandwidth_rate %> KB
+<% } -%>
+<% if $bandwidth_burst { -%>
+BandwidthBurst <%= $bandwidth_burst %> KB
+<% } -%>
+<% unless $relay_bandwidth_rate == 0 { -%>
+RelayBandwidthRate <%= $relay_bandwidth_rate %> KB
+<% } -%>
+<% unless $relay_bandwidth_burst == 0 { -%>
+RelayBandwidthBurst <%= $relay_bandwidth_burst %> KB
+<% } -%>
+<% unless $accounting_max == 0 { -%>
+AccountingMax <%= $accounting_max %> GB
+<% if $accounting_start { -%>
+AccountingStart <%= $accounting_start %>
+<% } -%>
+<% } -%>
+<% if $contact_info { -%>
+ContactInfo <%= $contact_info %>
+<% } -%>
+<% } -%>
+<% if $my_family { -%>
+MyFamily <%= $my_family %>
+<% } -%>
+<% if $bridge_relay { -%>
+BridgeRelay 1
+<% } -%>
+

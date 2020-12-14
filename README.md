@@ -2,244 +2,115 @@
 
 #### Table of Contents
 
-* [Overview](#overview)
-  * [Upgrade Notice](#upgrade-notice)
-* [Dependencies](#dependencies)
-* [Usage](#usage)
-  * [Installing tor](#installing-tor)
-  * [Configuring SOCKS](#configuring-socks)
-  * [Installing torsocks](#installing-torsocks)
-  * [Configuring relays](#configuring-relays)
-  * [Configuring the control](#configuring-control)
-  * [Configuring hidden services](#configuring-hidden-services)
-  * [Configuring directories](#configuring-directories)
-  * [Configuring exit policies](#configuring-exit-policies)
-  * [Configuring transport plugins](#configuring-transport-plugins)
-* [Polipo](#polipo)
-* [Munin](#munin)
+1. [Description](#description)
+2. [Setup](#setup)
+    * [Setup requirements](#setup-requirements)
+    * [Getting started](#getting-started)
+3. [Functions](#reference)
+    * [onion_address](#onion_address)
+    * [generate_onion_key](#generate_onion_key)
+4. [Facts](#reference)
+    * [tor_hidden_services](#tor_hidden_services)
+5. [Reference](#reference)
+6. [Development](#development)
 
-# Overview<a name="overview"></a>
+## Description
 
-This module tries to manage tor, making sure it is installed, running, has
-munin graphs if desired and allows for configuration of relays, hidden services,
-exit policies, etc.
+This module manages tor and is mainly geared towards people running it on
+servers. With this module, you should be able to manage most, if not all of
+the functionalities provided by tor, such as:
 
-## Upgrade Notice<a name="upgrade-notice"></a>
+* relays
+* bridges and exit nodes
+* onion services
+* exit policies
+* transport plugins
 
- * All of the `listen_address` variables have been deprecated, since they have
-   been deprecated in tor since 0.2.3.x-alpha. Please read the new tor man page
-   if you were using those variables.
+## Setup
 
- * Previously, if you did not set the `$outbound_bindaddress` variable, it was
-   being automatically set to the `$listen_address variable`. Now this is not
-   being done and instead you will need to set the `$outbound_bindaddress`
-   explicitly for it to be set.
-
- * The `tor::relay{}` variables `$bandwidth_rate` and `$bandwidth_burst` were
-   previously used for the tor configuration variables `RelayBandwidthRate` and
-   `RelayBandwidthBurst`, these have been renamed to `$relay_bandwidth_rate`
-   and `$relay_bandwidth_burst`. If you were using these, please rename your
-   variables in your configuration.
-
- * The variables `$bandwidth_rate` and `$bandwidth_burst` are now used for the
-   tor configuration variables `BandwidthRate` and `BandwidthBurst`. If you
-   used `$bandwidth_rate` or `$bandwidth_burst` please be aware that these
-   values have changed and adjust your configuration as necessary.
-
- * The `$tor_ensure_version` was converted to a parameter for the tor and
-   `tor::daemon` classes.
-
- * The `$torsocks_ensure_version` was converted to a parameter for the
-   `tor::torsocks` class.
-
- * The options that used to be settable with the `tor::daemon::global_opts`
-   define now are parameters for the `tor::daemon class`, and
-   `tor::daemon::global_opts` was removed accordingly.
-
-
-# Dependencies<a name="dependencies"></a>
+### Setup Requirements
 
 This module needs:
 
  * the [concat module](https://github.com/puppetlabs/puppetlabs-concat.git)
+ * the [stdlib module](https://github.com/puppetlabs/puppetlabs-stdlib.git)
+ * the [apt module](https://github.com/puppetlabs/puppetlabs-apt.git)
 
-# Usage<a name="usage"></a>
+Explicit dependencies can be found in the project's metadata.json file.
 
-## Installing tor<a name="installing-tor"></a>
+### Getting started
 
-To install tor, simply include the 'tor' class in your manifests:
+`class { 'tor': }` will install tor with a default configuration. Chances are
+you will want to configure Tor in a certain way. This is accomplished declaring
+one or more of the `tor::daemon` defined types.
 
-    class { 'tor': }
+For example, this will configure a tor bridge relay running on port 8080:
 
-You can specify the `$ensure_version` class parameter to get a specific
-version installed.
+``` puppet
+  tor::daemon::relay {
+    'MyNickname':
+      bridge_relay     => true,
+      port             => 8080,
+      address          => '1.1.1.1',
+      bandwidth_rate   => 12500,
+      bandwidth_burst  => 12500,
+      contact_info     => 'Foo Bar <foo@bar.com>',
+  }
+```
 
-However, if you want to make configuration changes to your tor daemon, you will
-want to instead include the `tor::daemon` class in your manifests, which will
-inherit the `tor` class from above:
+# Functions
 
-    class { '::tor::daemon': }
+This module comes with 3 functions specific to tor support. They require the
+base32, ed25519 and sha3 gem to be installed on the master or wherever they are
+executed. For JRuby based installations such as puppetserver environments you
+can use the sha3-pure-ruby instead of the C based library.
 
-You have the following class parameters that you can specify:
+## onionv3_key
 
-    data_dir    (default: '/var/lib/tor')
-    config_file (default: '/etc/tor/torrc')
-    use_bridges (default: 0)
-    automap_hosts_on_resolve (default: 0)
-    log_rules   (default: ['notice file /var/log/tor/notices.log'])
+This functions generates an onion v3 key pair if not already existing. As
+arguments, you need to pass a base directory and an indentifier (name) of the key.
+The key pair will be looked up in a directory under <base_dir>/<name>.
 
-The `data_dir` will be used for the tor user's `$HOME`, and the tor
-`DataDirectory` value.
+As a result you will get a hash containing they secret key (hs_ed25519_secret_key),
+the public key (hs_ed25519_public_key) and the onion hostname (hostname). The
+latter will be without the `.onion` suffix.
 
-The `config_file` will be managed and the daemon restarted when it changed.
+If a key has already been created and exists under that directory, the content
+of these files will be returned.
 
-`use_bridges` and `automap_hosts_on_resolve` are used to set the `UseBridges`
-and `AutomapHostsOnResolve` torrc settings.
+## onion_address
 
-The `log_rules` can be an array of different Log lines, each will be added to
-the config, for example the following will use syslog:
+This function takes a 1024bit RSA private key as an argument and returns the
+onion v2 address for an onion service for that key.
 
-    class { '::tor::daemon':
-        log_rules => [ 'notice syslog' ],
-    }
+## generate_onion_key
 
-If you want to set specific options for the tor class, you may pass them
-directly to the tor::daemon in your manifests, e.g.:
+This function takes a path (on the puppet master!) and an identifier for a key
+and returns an array containing the matching onion v2 address and the private key.
+The private key either exists under the supplied `path/key_identifier` or is
+being generated on the fly and stored under that path for the next execution.
 
-    class { '::tor::daemon':
-      use_munin                 => true,
-      automap_hosts_on_resolve  => 1,
-    }
+# Facts
 
-## Configuring SOCKS<a name="configuring-socks"></a>
+## tor_hidden_services
 
-To configure tor socks support, you can do the following:
+This fact gives you a list of the hidden services you are running.
 
-    tor::daemon::socks { "listen_locally":
-      port     => 0,
-      policies => 'your super policy';
-    }
+# Reference
 
-## Installing torsocks<a name="installing-torsocks"></a>
+The full reference documentation for this module may be found at on
+[GitLab Pages][pages].
 
-To install torsocks, simply include the `torsocks` class in your manifests:
+Alternatively, you may build yourself the documentation using the
+`puppet strings generate` command. See the documentation for
+[Puppet Strings][strings] for more information.
 
-    class { 'tor::torsocks': }
+[pages]: https://shared-puppet-modules-group.gitlab.io/tor
+[strings]: https://puppet.com/blog/using-puppet-strings-generate-great-documentation-puppet-modules
 
-You can specify the `$ensure_version` class parameter to get a specific
-version installed.
+## Development
 
-# Configuring relays<a name="configuring-relays"></a>
+This module's development is tracked on GitLab. Please submit issues and merge
+requests on the [shared-puppet-modules-group/tor][smash] project page.
 
-An example relay configuration:
-
-    tor::daemon::relay { "foobar":
-      port             => '9001',
-      address          => '192.168.0.1',
-      bandwidth_rate   => '256',
-      bandwidth_burst  => '256',
-      contact_info     => "Foo <collective at example dot com>",
-      my_family        => '<long family string here>';
-    }
-
-You have the following options that can be passed to a relay, with the defaults
-shown:
- 
-    $port                    = 0,
-    $portforwarding          = 0,     # PortForwarding 0|1, set for opening ports at the router via UPnP.
-                                      # Requires 'tor-fw-helper' binary present.
-    $bandwidth_rate          = '',    # KB/s, defaulting to using tor's default: 5120KB/s
-    $bandwidth_burst         = '',    # KB/s, defaulting to using tor's default: 10240KB/s
-    $relay_bandwidth_rate    = 0,     # KB/s, 0 for no limit.
-    $relay_bandwidth_burst   = 0,     # KB/s, 0 for no limit.
-    $accounting_max          = 0,     # GB, 0 for no limit.
-    $accounting_start        = [],
-    $contact_info            = '',
-    $my_family               = '', # TODO: autofill with other relays
-    $address                 = "tor.${domain}",
-    $bridge_relay            = 0,
-    $ensure                  = present
-    $nickname                = $name
-
-## Configuring the control<a name="configuring-control"></a>
-
-To pass parameters to configure the `ControlPort` and the
-`HashedControlPassword`, you would do something like this:
-
-    tor::daemon::control { "foo-control": 
-      port                    => '80',
-      hashed_control_password => '<somehash>',
-      ensure                  => present;
-    }
-
-Note: you must pass a hashed password to the control port, if you are going to
-use it.
-
-## Configuring hidden services<a name="configuring-hidden-services"></a>
-
-To configure a tor hidden service you can do something like the following:
-
-    tor::daemon::hidden_service { "hidden_ssh":
-      ports => 22;
-    }
-
-The `HiddenServiceDir` is set to the `${data_dir}/${name}`, but you can override
-it with the parameter `datadir`.
-
-If you wish to enable v3-style hidden services to correspond with the v2-style
-hidden services (the same configuration will be applied to both), you can pass
-the parameter `v3 => true`. The default is `false`.
-
-If you wish to enable single-hop onion addresses, you can enable them by
-passing `single_hop => true`. The default is `false`.
-
-## Configuring directories<a name="configuring-directories"></a>
-
-An example directory configuration:
-
-    tor::daemon::directory { 'ssh_directory':
-      port             => '80',
-      port_front_page  => '/etc/tor/tor.html';
-    }
-  
-## Configuring exit policies<a name="configuring-exit-policies"></a>
-
-To configure exit policies, you can do the following:
- 
-    tor::daemon::exit_policy { "ssh_exit_policy":
-      accept => "192.168.0.1:22",
-      reject => "*:*";
-    }
-
-## Configuring transport plugins<a name="configuring-transport-plugins"></a>
-
-To configure transport plugins, you can do the following:
-
-    tor::daemon::transport_plugins { "obfs4":
-      ext_port                => '80',
-      servertransport_plugin  => 'obfs4 exec /usr/bin/obfs4proxy',
-    }
-
-If you wish to use `obfs4proxy`, you will also need to install the required
-Debian package, as the puppet module will not do it for you.
-
-Other options for transport plugins are also available but not defined by
-default:
-
-    $servertransport_listenaddr  #Set a different address for the transport plugin mechanism
-    $servertransport_options     #Pass a k=v parameters to the transport proxy
-
-# Polipo<a name="polipo"></a>
-
-Polipo support can be enabled by doing:
-
-    include tor::polipo
-
-This will inherit the `tor` class by default, remove `privoxy` if it's
-installed, and install `polipo`, making sure it is running.
-  
-# Munin<a name="munin"></a>
-
-If you are using `munin`, and have the puppet munin module installed, you can
-set the `use_munin` parameter to `true` when defining the `tor::daemon` class
-to have graphs setup for you.
+[smash]: https://gitlab.com/shared-puppet-modules-group/tor/

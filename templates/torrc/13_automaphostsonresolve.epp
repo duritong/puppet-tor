@@ -1,0 +1,4 @@
+# AutomapHostsOnResolve
+<% if $automap_hosts_on_resolve { -%>
+AutomapHostsOnResolve 1
+<% } -%>

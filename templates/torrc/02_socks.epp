@@ -1,0 +1,12 @@
+# socks
+<% if $flags == undef { -%>
+SocksPort <%= $port %>
+<% } else { -%>
+SocksPort <%= $port %><% $flags.each |$item| { %> <%= $item %><% } -%>
+<% } -%>
+<% unless $policies == undef { -%>
+<% $policies.each |$item| { -%>
+SocksPolicy <%= $item %>
+<% } -%>
+<% } -%>
+

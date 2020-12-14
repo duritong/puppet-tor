@@ -1,0 +1,17 @@
+<% if $single_hop { -%>
+HiddenServiceSingleHopMode 1
+HiddenServiceNonAnonymousMode 1
+SOCKSPort 0
+
+<% } -%>
+# hidden service <%= $name %>
+HiddenServiceDir <%= $data_dir_path %>
+<% if $v3 { -%>
+HiddenServiceVersion 3
+<% } else { -%>
+HiddenServiceVersion 2
+<% } -%>
+<% $ports.each |$item| { -%>
+HiddenServicePort <%= $item %>
+<% } -%>
+

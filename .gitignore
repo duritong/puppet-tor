@@ -1,1 +1,11 @@
+.tmp_*~
 *.swp
+.librarian
+.tmp
+spec/fixtures/modules
+spec/fixtures/manifests
+spec/tmp
+!spec/tmp/.keep
+*.lock
+.bundle/
+vendor/
