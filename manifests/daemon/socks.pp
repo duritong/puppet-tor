@@ -25,7 +25,7 @@ define tor::daemon::socks(
   Optional[Array[String]] $flags    = undef,
 ) {
   if $ensure == 'present' {
-    concat::fragment { '02.socks':
+    concat::fragment { "02.socks.${name}":
       content => epp('tor/torrc/02_socks.epp', {
         'port'     => $port,
         'policies' => $policies,
