@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file. The format
 is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this
 project adheres to [Semantic Versioning](http://semver.org).
 
+## [3.2.0](https://gitlab.com/shared-puppet-modules-group/tor/-/tags/3.1.1) (2021-04-17)
+
+### Added
+
+- Tor SOCKS snippets can now be called multiple times.
+
+[Full Changelog](https://gitlab.com/shared-puppet-modules-group/tor/-/compare/3.1.1...3.2.0)
+
 ## [3.1.1](https://gitlab.com/shared-puppet-modules-group/tor/-/tags/3.1.1) (2020-12-17)
 
 ### Changed
@@ -11,7 +19,6 @@ project adheres to [Semantic Versioning](http://semver.org).
 - Refresh Tor Project's GPG key due to expiration.
 
 [Full Changelog](https://gitlab.com/shared-puppet-modules-group/tor/-/compare/3.1.0...3.1.1)
-
 
 ## [3.1.0](https://gitlab.com/shared-puppet-modules-group/tor/-/tags/3.1.0) (2020-11-24)
 
