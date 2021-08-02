@@ -4,13 +4,11 @@
 # @example Make SSH available as a Tor service
 #   tor::daemon::onion_service { 'onion-ssh':
 #     ports => [ '22' ],
-#     v3    => true,
 #   }
 #
 # @example Make SSH available as a Tor service, using an existing key
 #   tor::daemon::onion_service { 'onion-ssh':
 #     ports   => [ '22' ],
-#     v3      => true,
 #     v3_data => {
 #      'hs_ed25519_secret_key' => 'your onion v3 private key',
 #      'hs_ed25519_public_key' => 'your onion v3 public key',
@@ -26,9 +24,6 @@
 #
 # @param data_dir
 #   The hidden service data directory.
-#
-# @param v3
-#   Whether the onion service should be a v3 hidden service.
 #
 # @param single_hop
 #   Whether the onion service should be single-hop.
@@ -48,9 +43,6 @@
 # @option v3_data [String] :hostname
 #   Full onion hostname for the Hidden Service.
 #
-# @param v2_warn
-#   Enable the Onionv2 deprecation warning.
-#
 # @param private_key_name
 #   The name of the onion address private key file for the hidden service.
 #
@@ -61,7 +53,6 @@ define tor::daemon::onion_service(
   Enum['present', 'absent'] $ensure           = 'present',
   Array[String] $ports                        = [],
   Stdlib::Unixpath $data_dir                  = $tor::data_dir,
-  Boolean $v3                                 = true,
   Boolean $single_hop                         = false,
   Optional[Sensitive[String[1]]] $private_key = undef,
   Optional[Struct[{
@@ -71,7 +62,6 @@ define tor::daemon::onion_service(
   }]] $v3_data                                = undef,
   String $private_key_name                    = $name,
   Optional[String] $private_key_store_path    = undef,
-  Boolean $v2_warn                            = true,
 ) {
 
   $data_dir_path = "${data_dir}/${name}"
@@ -82,7 +72,6 @@ define tor::daemon::onion_service(
         'name'          => $name,
         'data_dir_path' => $data_dir_path,
         'ports'         => $ports,
-        'v3'            => $v3,
       }),
       order   => '05',
       target  => $tor::config_file,
@@ -110,52 +99,25 @@ define tor::daemon::onion_service(
         mode    => '0600',
         require => Package['tor'],
       }
-      if $v3 {
-        if $v3_data {
-          $real_v3_data = $v3_data
-        } else {
-          $real_v3_data = tor::onionv3_key($private_key_store_path,$private_key_name)
-        }
-        file{
-          default:
-            owner  => $tor::daemon::params::user,
-            group  => $tor::daemon::params::group,
-            mode   => '0600',
-            notify => Service['tor'];
-          "${data_dir_path}/authorized_clients":
-            ensure => directory;
-          "${data_dir_path}/hs_ed25519_secret_key":
-            content => $real_v3_data['hs_ed25519_secret_key'];
-          "${data_dir_path}/hs_ed25519_public_key":
-            content => $real_v3_data['hs_ed25519_public_key'];
-          "${data_dir_path}/hostname":
-            content => "${real_v3_data['hostname']}\n";
-        }
+      if $v3_data {
+        $real_v3_data = $v3_data
       } else {
-        unless $v2_warn {
-          notify {
-            '[tor] *** DEPRECATION WARNING***: onionV2 will soon be deprecated in Tor and in this module. You should upgrade to onionV3 as soon as possible.':
-          }
-        }
-        if $private_key {
-          $os_hostname = tor::onion_address($private_key.unwrap)
-          $real_private_key = $private_key
-        } else {
-          $tmp = tor::generate_onion_key($private_key_store_path,$private_key_name)
-          $os_hostname = $tmp[0]
-          $real_private_key = $tmp[1]
-        }
-        file{
-          default:
-            owner  => $tor::daemon::params::user,
-            group  => $tor::daemon::params::group,
-            mode   => '0600',
-            notify => Service['tor'];
-          "${data_dir_path}/private_key":
-            content => $real_private_key;
-          "${data_dir_path}/hostname":
-            content => "${os_hostname}.onion\n";
-        }
+        $real_v3_data = tor::onionv3_key($private_key_store_path,$private_key_name)
+      }
+      file{
+        default:
+          owner  => $tor::daemon::params::user,
+          group  => $tor::daemon::params::group,
+          mode   => '0600',
+          notify => Service['tor'];
+        "${data_dir_path}/authorized_clients":
+          ensure => directory;
+        "${data_dir_path}/hs_ed25519_secret_key":
+          content => $real_v3_data['hs_ed25519_secret_key'];
+        "${data_dir_path}/hs_ed25519_public_key":
+          content => $real_v3_data['hs_ed25519_public_key'];
+        "${data_dir_path}/hostname":
+          content => "${real_v3_data['hostname']}\n";
       }
     } else {
       File[$data_dir_path]{

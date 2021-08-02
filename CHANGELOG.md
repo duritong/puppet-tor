@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file. The format
 is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this
 project adheres to [Semantic Versioning](http://semver.org).
 
+## [4.0.0](https://gitlab.com/shared-puppet-modules-group/tor/-/tags/4.0.0) (2021-08-01)
+
+### Changed
+
+- Onion Service version 2 are now deprecated. The following parameters can be
+  safely removed from your configuration:
+
+  * `tor::daemon::onion_service::v2_warn`
+  * `tor::daemon::onion_service::v3`
+
+[Full Changelog](https://gitlab.com/shared-puppet-modules-group/tor/-/compare/3.2.0...4.0.0)
+
 ## [3.2.0](https://gitlab.com/shared-puppet-modules-group/tor/-/tags/3.1.1) (2021-04-17)
 
 ### Added
