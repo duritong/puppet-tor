@@ -45,9 +45,6 @@
 # @option v3_data [String] :hs_ed25519_secret_key
 #   ed25519 private key for the v3 Hidden Service.
 #
-# @option v3_data [String] :hs_ed25519_public_key
-#   ed25519 public key for the v3 Hidden Service.
-#
 # @option v3_data [String] :hostname
 #   Full onion hostname for the Hidden Service.
 #
