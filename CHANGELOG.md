@@ -14,6 +14,8 @@ project adheres to [Semantic Versioning](http://semver.org).
   * `tor::daemon::onion_service::v2_warn`
   * `tor::daemon::onion_service::v3`
 
+- Refresh Tor Project's GPG key due to expiration.
+
 [Full Changelog](https://gitlab.com/shared-puppet-modules-group/tor/-/compare/3.2.0...4.0.0)
 
 ## [3.2.0](https://gitlab.com/shared-puppet-modules-group/tor/-/tags/3.1.1) (2021-04-17)
