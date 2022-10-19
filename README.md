@@ -36,7 +36,7 @@ This module needs:
  * the [stdlib module](https://github.com/puppetlabs/puppetlabs-stdlib.git)
  * the [apt module](https://github.com/puppetlabs/puppetlabs-apt.git)
 
-Explicit dependencies can be found in the project's metadata.json file.
+Explicit dependencies can be found in the project's `metadata.json` file.
 
 ### Getting started
 
@@ -58,6 +58,17 @@ For example, this will configure a tor bridge relay running on port 8080:
   }
 ```
 
+There are many more such snippets available in `tor::daemon`, for
+example, this will create a hidden service for the SSH daemon:
+
+``` puppet
+tor::daemon::onion_service { 'onion-ssh':
+    ports => [ '22' ],
+}
+```
+
+See the `manifests/daemon` directory for more examples.
+
 # Functions
 
 This module comes with functions specific to tor support. They require the
@@ -68,15 +79,19 @@ can use the sha3-pure-ruby instead of the C based library.
 ## onionv3_key
 
 This functions generates an onion v3 key pair if not already existing. As
-arguments, you need to pass a base directory and an indentifier (name) of the key.
-The key pair will be looked up in a directory under <base_dir>/<name>.
+arguments, you need to pass a base directory and an identifier (name) of the key.
+The key pair will be looked up in a directory under `<base_dir>/<name>`.
 
-As a result you will get a hash containing they secret key (hs_ed25519_secret_key),
-the public key (hs_ed25519_public_key) and the onion hostname (hostname). The
+As a result you will get a hash containing they secret key (`hs_ed25519_secret_key`),
+the public key (`hs_ed25519_public_key`) and the onion hostname (`hostname`). The
 latter will be without the `.onion` suffix.
 
 If a key has already been created and exists under that directory, the content
 of these files will be returned.
+
+Note that an easier way to use this function is to call
+`tor::daemon::onion_service` instead, as that will also take care of
+adding configuration to the Tor daemon.
 
 # Facts
 
