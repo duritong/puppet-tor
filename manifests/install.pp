@@ -54,8 +54,27 @@ class tor::install {
   }
 
   if $tor::arm {
-    package { 'tor-arm':
-      ensure => $tor::arm_version,
+    package {
+      'nyx':
+        ensure => $tor::arm_version;
+
+      'tor-arm':
+        ensure => purged;
+    }
+    notify {
+      '[tor] *** DEPRECATION WARNING***: the "tor::arm" variable has been renamed "tor::nyx". The old variable will eventually be removed.':
+    }
+    notify {
+      '[tor] *** DEPRECATION WARNING***: the "tor::arm_version" variable has been renamed "tor::nyx_version". The old variable will eventually be removed.':
+    }
+  }
+  elsif $tor::nyx {
+    package {
+      'nyx':
+        ensure => $tor::nyx_version;
+
+      'tor-arm':
+        ensure => purged;
     }
   }
 
