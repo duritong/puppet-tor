@@ -36,7 +36,7 @@ This module needs:
  * the [stdlib module](https://github.com/puppetlabs/puppetlabs-stdlib.git)
  * the [apt module](https://github.com/puppetlabs/puppetlabs-apt.git)
 
-Explicit dependencies can be found in the project's metadata.json file.
+Explicit dependencies can be found in the project's `metadata.json` file.
 
 ### Getting started
 
@@ -79,11 +79,11 @@ can use the sha3-pure-ruby instead of the C based library.
 ## onionv3_key
 
 This functions generates an onion v3 key pair if not already existing. As
-arguments, you need to pass a base directory and an indentifier (name) of the key.
-The key pair will be looked up in a directory under <base_dir>/<name>.
+arguments, you need to pass a base directory and an identifier (name) of the key.
+The key pair will be looked up in a directory under `<base_dir>/<name>`.
 
-As a result you will get a hash containing they secret key (hs_ed25519_secret_key),
-the public key (hs_ed25519_public_key) and the onion hostname (hostname). The
+As a result you will get a hash containing they secret key (`hs_ed25519_secret_key`),
+the public key (`hs_ed25519_public_key`) and the onion hostname (`hostname`). The
 latter will be without the `.onion` suffix.
 
 If a key has already been created and exists under that directory, the content
