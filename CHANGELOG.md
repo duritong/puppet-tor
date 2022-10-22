@@ -16,6 +16,8 @@ project adheres to [Semantic Versioning](http://semver.org).
   The old parameters still work for now, but will be deprecated in the next
   release.
 
+- Migrate to structured facts, as it's a requirement for Puppet 8 support.
+
 [Full Changelog](https://gitlab.com/shared-puppet-modules-group/tor/-/compare/4.0.0...4.1.0)
 
 ## [4.0.0](https://gitlab.com/shared-puppet-modules-group/tor/-/tags/4.0.0) (2021-08-01)
