@@ -4,6 +4,20 @@ All notable changes to this project will be documented in this file. The format
 is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this
 project adheres to [Semantic Versioning](http://semver.org).
 
+## [4.1.0](https://gitlab.com/shared-puppet-modules-group/tor/-/tags/4.1.0) (TBA)
+
+### Changed
+
+- `tor-arm` has been renamed to `nyx` a while ago. This version:
+
+  * renames `tor::arm` to `tor::nyx`
+  * renames `tor::arm_version` to `tor::nyx_version`
+
+  The old parameters still work for now, but will be deprecated in the next
+  release.
+
+[Full Changelog](https://gitlab.com/shared-puppet-modules-group/tor/-/compare/4.0.0...4.1.0)
+
 ## [4.0.0](https://gitlab.com/shared-puppet-modules-group/tor/-/tags/4.0.0) (2021-08-01)
 
 ### Changed
