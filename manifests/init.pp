@@ -1,10 +1,10 @@
 # @summary Main class, includes all other classes.
 #
 # @param arm
-#   Install tor-arm.
+#   This parameter has been deprecated. Please use "tor::nyx" instead.
 #
 # @param arm_version
-#   The specific version of tor-arm that should be installed.
+#   This parameter has been deprecated. Please use "tor::nyx_version" instead.
 #
 # @param automap_hosts_on_resolve
 #   Enables AutomapOnResolve.
@@ -17,6 +17,12 @@
 #
 # @param log_rules
 #   Tor logging rules.
+#
+# @param nyx
+#   Install nyx, a terminal status monitor for Tor.
+#
+# @param nyx_version
+#   The specific version of nyx that should be installed.
 #
 # @param safe_logging
 #   Scrub potentially sensitive strings from log messages.
@@ -48,6 +54,8 @@ class tor (
   Stdlib::Unixpath $data_dir        = '/var/lib/tor',
   String  $config_file              = '/etc/tor/torrc',
   Array   $log_rules                = [ 'notice file /var/log/tor/notices.log' ],
+  Boolean $nyx                      = false,
+  String  $nyx_version              = 'installed',
   Boolean $safe_logging             = true,
   Boolean $torsocks                 = false,
   String  $torsocks_version         = 'installed',
