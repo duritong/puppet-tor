@@ -3,8 +3,10 @@ require File.expand_path(File.join(File.dirname(__FILE__),'../spec_helper'))
 describe 'tor::daemon::control', :type => 'define' do
   let(:default_facts) {
     {
-      :osfamily        => 'Debian',
-      :operatingsystem => 'Debian',
+      :os => {
+        :family => 'Debian',
+        :name   => 'Debian',
+      }
     }
   }
   let(:title){ 'test_os' }

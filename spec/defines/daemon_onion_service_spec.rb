@@ -4,8 +4,10 @@ require 'openssl'
 describe 'tor::daemon::onion_service', :type => 'define' do
   let(:default_facts) {
     {
-      :osfamily        => 'RedHat',
-      :operatingsystem => 'CentOS',
+      :os => {
+        :family => 'RedHat',
+        :name   => 'CentOS',
+      }
     }
   }
   let(:title){ 'test_os' }
@@ -25,8 +27,10 @@ describe 'tor::daemon::onion_service', :type => 'define' do
     context 'on Debian' do
       let(:facts) {
         {
-          :osfamily        => 'Debian',
-          :operatingsystem => 'Debian',
+          :os => {
+            :family => 'Debian',
+            :name   => 'Debian',
+          }
         }
       }
       it { is_expected.to compile.with_all_deps }

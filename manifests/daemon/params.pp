@@ -1,7 +1,7 @@
 # @summary Distribution dependent parameters
 #
 class tor::daemon::params {
-  case $facts['osfamily'] {
+  case $facts['os']['family'] {
     'RedHat': {
       $user          = 'toranon'
       $group         = 'toranon'
@@ -14,6 +14,6 @@ class tor::daemon::params {
       $manage_user   = true
       $data_dir_mode = '0700'
     }
-    default: { fail("No support for osfamily ${facts['osfamily']}") }
+    default: { fail("No support for osfamily ${facts['os']['family']}") }
   }
 }

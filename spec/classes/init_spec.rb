@@ -3,8 +3,10 @@ require File.expand_path(File.join(File.dirname(__FILE__),'../spec_helper'))
 describe 'tor', :type => 'class' do
   let(:default_facts) {
     {
-      :osfamily        => 'RedHat',
-      :operatingsystem => 'CentOS',
+      :os => {
+        :family => 'RedHat',
+        :name   => 'CentOS',
+      }
     }
   }
   let(:facts){ default_facts }
@@ -24,8 +26,10 @@ describe 'tor', :type => 'class' do
     context 'on Debian' do
       let(:facts) {
         {
-          :osfamily        => 'Debian',
-          :operatingsystem => 'Debian',
+          :os => {
+            :family => 'Debian',
+            :name   => 'Debian',
+          }
         }
       }
       it { is_expected.to compile.with_all_deps }
